@@ -1,0 +1,42 @@
+    .btn {
+      @apply px-4 py-2 rounded;
+    }
+    .btn-primary {
+      @apply bg-black text-white hover:bg-black;
+    }
+    .btn-secondary {
+      @apply bg-black text-white hover:bg-black;
+    }
+    .btn-danger {
+      @apply bg-black text-white hover:bg-black;
+    }
+    .btn-info {
+      @apply bg-black text-white hover:bg-black;
+    }
+    .btn-success {
+      @apply bg-black text-white hover:bg-black;
+    }
+    .badge {
+      @apply px-2 py-1 rounded text-sm;
+    }
+    .badge-info {
+      @apply bg-blue-100 text-blue-800;
+    }
+    .message {
+      @apply px-4 py-2 rounded mt-4;
+    }
+    .success {
+      @apply bg-green-100 text-green-800;
+    }
+    .error {
+      @apply bg-red-100 text-red-800;
+    }
+
+    .custom-scrollbar {
+        scrollbar-width: none;  /* For Firefox */
+        -ms-overflow-style: none;  /* For Internet Explorer and Edge */
+      }
+      
+      .custom-scrollbar::-webkit-scrollbar {
+        display: none;  /* For Chrome, Safari, and Opera */
+      }

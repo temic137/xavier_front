@@ -1,0 +1,72 @@
+<div class="dashboard-container p-4">
+    <!-- Summary Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div class="stat-card bg-white p-4 rounded-lg shadow">
+        <h3 class="text-lg font-semibold mb-2">Total Questions</h3>
+        <p class="text-3xl font-bold text-blue-600">{{dashboardData?.common_questions?.total_questions || 0}}</p>
+      </div>
+      <div class="stat-card bg-white p-4 rounded-lg shadow">
+        <h3 class="text-lg font-semibold mb-2">Active Topics</h3>
+        <p class="text-3xl font-bold text-green-600">{{dashboardData?.topic_clusters?.clusters?.length || 0}}</p>
+      </div>
+      <div class="stat-card bg-white p-4 rounded-lg shadow">
+        <h3 class="text-lg font-semibold mb-2">Peak Hour Activity</h3>
+        <p class="text-3xl font-bold text-purple-600">{{getPeakHour()}}:00</p>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      <div class="chart-card bg-white p-4 rounded-lg shadow">
+        <h3 class="text-lg font-semibold mb-4">Daily Question Trends</h3>
+        <canvas id="dailyTrendsChart"></canvas>
+      </div>
+      <div class="chart-card bg-white p-4 rounded-lg shadow">
+        <h3 class="text-lg font-semibold mb-4">Hourly Distribution</h3>
+        <canvas id="hourlyDistributionChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Common Questions Table -->
+    <div class="bg-white p-4 rounded-lg shadow mb-6">
+      <h3 class="text-lg font-semibold mb-4">Most Common Questions</h3>
+      <div class="overflow-x-auto">
+        <table class="min-w-full table-auto">
+          <thead>
+            <tr class="bg-gray-50">
+              <th class="px-4 py-2 text-left">Question</th>
+              <th class="px-4 py-2 text-left">Count</th>
+              <th class="px-4 py-2 text-left">Last Asked</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let q of dashboardData?.common_questions?.top_questions" class="border-b">
+              <td class="px-4 py-2">{{q.question}}</td>
+              <td class="px-4 py-2">{{q.count}}</td>
+              <td class="px-4 py-2">{{formatDate(q.last_asked)}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Topic Clusters -->
+    <div class="bg-white p-4 rounded-lg shadow">
+      <h3 class="text-lg font-semibold mb-4">Topic Clusters</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div *ngFor="let cluster of dashboardData?.topic_clusters?.clusters" class="border rounded p-4">
+          <h4 class="font-semibold mb-2">Cluster {{cluster.cluster_id + 1}}</h4>
+          <div class="mb-2">
+            <span class="text-sm font-medium">Top Terms: </span>
+            <span class="text-sm" *ngFor="let term of cluster.topic_terms; let last = last">
+              {{term}}{{!last ? ', ' : ''}}
+            </span>
+          </div>
+          <div class="text-sm text-gray-600">
+            {{cluster.question_count}} questions in this cluster
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>

@@ -1,0 +1,300 @@
+<!-- Navbar -->
+<nav class="fixed top-0 w-full z-50 bg-black border-b border-gray-800">
+  <div class="container mx-auto flex justify-between items-center px-6 py-4">
+    <div class="flex items-center gap-2">
+      <i class="fas fa-comment-dots w-6 h-6 text-white"></i>
+      <span class="text-xl font-light text-white">Xavier AI </span>
+    </div>
+    
+    <div class="hidden md:flex space-x-8">
+      <a routerLink="/features" class="text-sm text-gray-400 hover:text-white transition-colors">Features</a>
+      <a routerLink="/pricing" class="text-sm text-gray-400 hover:text-white transition-colors">Pricing</a>
+      <a routerLink="/contact" class="text-sm text-gray-400 hover:text-white transition-colors">Contact</a>
+    </div>
+    <div class="inline-flex"> 
+      <button><h3 class=" text-white mr-3" routerLink="login">Login</h3></button>
+      <a routerLink="register"> <button class="bg-white text-black px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
+        Get Started
+      </button></a></div>
+    
+    
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="pt-32 pb-20 px-4 bg-black text-white">
+  <div class="container mx-auto max-w-6xl">
+    <div class="text-center mb-20">
+      <div class="inline-block px-4 py-2 bg-gray-800 rounded-full mb-6">
+        <span class="text-sm text-gray-400">Gain a massive edge in the game</span>
+      </div>
+      <h1 class="text-5xl md:text-7xl font-light mb-6 leading-tight">
+        Transform Support with
+        <span class="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent"> AI</span>
+      </h1>
+      <p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+        Deliver exceptional customer experiences with our intelligent chatbot platform. Available 24/7, powered by cutting-edge AI.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button class="px-8 py-4 bg-white text-black rounded-lg font-medium hover:bg-gray-200 transition-colors flex items-center justify-center gap-2">
+          Start Free Trial 
+          <i class="fas fa-chevron-right w-4 h-4"></i>
+        </button>
+        <button class="px-8 py-4 bg-gray-800 text-white rounded-lg font-medium hover:bg-gray-700 transition-colors">
+          Watch Demo
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-20 bg-gray-900 text-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-light mb-4">Why Choose Our Platform</h2>
+      <!-- <p class="text-gray-400">Powerful features to revolutionize your customer support</p> -->
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <!-- Feature 1 -->
+      <div class="p-6 rounded-xl   transition-colors">
+        <div class="bg-black p-8 rounded-xl shadow-lg text-center hover:scale-105 transition">
+          <div class="w-16 h-16 mx-auto bg-black rounded-full flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-extralight mb-4">24/7 Availability</h3>
+          <p class="text-gray-400 font-extralight">
+            Never miss a customer query with round-the-clock AI support.
+          </p>
+        </div>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="p-6 rounded-xl   transition-colors">
+        <div class="bg-black p-8 rounded-xl shadow-lg text-center hover:scale-105 transition">
+          <div class="w-16 h-16 mx-auto bg-black rounded-full flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-extralight mb-4">Smart Responses</h3>
+          <p class="text-gray-400 font-extralight">AI-powered responses that understand context and provide accurate solutions.</p>
+        </div>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="p-6 rounded-xl   transition-colors">
+        <div class="bg-black p-8 rounded-xl shadow-lg text-center hover:scale-105 transition">
+          <div class="w-16 h-16 mx-auto bg-black rounded-full flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-extralight mb-4">Analytics & Insights</h3>
+          <p class="text-gray-400 font-extralight">Detailed analytics to help you understand customer needs better.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Features Section with Images -->
+<section class="py-20 bg-black text-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-light mb-4">Powerful Features</h2>
+      <p class="text-gray-400">Explore what makes our platform unique</p>
+    </div>
+
+    <div class="space-y-24 max-w-6xl mx-auto">
+      <!-- Feature 1: Multiple Chatbots -->
+      <div class="flex flex-col md:flex-row items-center gap-12">
+        <div class="flex-1">
+          <div class=" rounded-lg p-4 h-64 flex items-center justify-center">
+            <img src="./assets/multiple.png" alt="Multiple Chatbots" class="rounded-lg object-cover">
+          </div>
+        </div>
+        <div class="flex-1 space-y-4">
+          <h3 class="text-2xl font-light">Create Multiple Chatbots</h3>
+          <p class="text-gray-400 leading-relaxed">
+            Build and manage multiple AI chatbots for different purposes. Create specialized bots for customer service, sales, technical support, or any other use case. Each bot can be individually customized and trained for optimal performance.
+          </p>
+          <button class="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-2">
+            Learn more
+            <i class="fas fa-chevron-right w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Feature 2: Versatile Training Sources -->
+      <div class="flex flex-col md:flex-row-reverse items-center gap-12">
+        <div class="flex-1">
+          <div class=" rounded-lg p-4 h-64 flex items-center justify-center">
+            <img src="./assets/train.png" alt="Training Sources" class="rounded-lg object-cover">
+          </div>
+        </div>
+        <div class="flex-1 space-y-4">
+          <h3 class="text-2xl font-light">Comprehensive Knowledge Training</h3>
+          <p class="text-gray-400 leading-relaxed">
+            Train your chatbots using multiple data sources including PDF documents, web knowledge bases, text documents, API URLs, and local knowledge bases. Our flexible training system ensures your chatbots have access to all the information they need.
+          </p>
+          <button class="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-2">
+            Learn more
+            <i class="fas fa-chevron-right w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Feature 3: Knowledge Base Management -->
+      <div class="flex flex-col md:flex-row items-center gap-12">
+        <div class="flex-1">
+          <div class=" rounded-lg p-4 h-64 flex items-center justify-center">
+            <img src="./assets/edit.png" alt="Knowledge Base Management" class="rounded-lg object-cover">
+          </div>
+        </div>
+        <div class="flex-1 space-y-4">
+          <h3 class="text-2xl font-light">Easy Knowledge Base Management</h3>
+          <p class="text-gray-400 leading-relaxed">
+            Edit and update your chatbot's knowledge base in real-time. Our intuitive interface allows you to add, modify, or remove information instantly, ensuring your chatbots always have the most up-to-date information.
+          </p>
+          <button class="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-2">
+            Learn more
+            <i class="fas fa-chevron-right w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Feature 4: Website Integration -->
+      <div class="flex flex-col md:flex-row-reverse items-center gap-12">
+        <div class="flex-1">
+          <div class=" rounded-lg p-4 h-64 flex items-center justify-center">
+            <img src="./assets/integration.png" alt="Website Integration" class="rounded-lg object-cover">
+          </div>
+        </div>
+        <div class="flex-1 space-y-4">
+          <h3 class="text-2xl font-light">Seamless Website Integration</h3>
+          <p class="text-gray-400 leading-relaxed">
+            Integrate your chatbots into any website with our simple embed code. Our chatbots appear as a professional live chat widget, providing instant support to your visitors while maintaining your website's look and feel.
+          </p>
+          <button class="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-2">
+            Learn more
+            <i class="fas fa-chevron-right w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Feature 5: Analytics & Testing -->
+      <div class="flex flex-col md:flex-row items-center gap-12">
+        <div class="flex-1">
+          <div class=" rounded-lg p-4 h-64 flex items-center justify-center">
+            <img src="./assets/analytics.png" alt="Analytics and Testing" class="rounded-lg object-cover">
+          </div>
+        </div>
+        <div class="flex-1 space-y-4">
+          <h3 class="text-2xl font-light">Real-time Analytics & Testing</h3>
+          <p class="text-gray-400 leading-relaxed">
+            Monitor your chatbots' performance with comprehensive analytics. Test conversations, track user satisfaction, and gather insights about user interactions. Make data-driven decisions to improve your chatbots' effectiveness.
+          </p>
+          <button class="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-2">
+            Learn more
+            <i class="fas fa-chevron-right w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing Section -->
+<section class="py-20 bg-gray-900 text-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-light mb-4">Simple, Transparent Pricing</h2>
+      <p class="text-gray-400">Choose the plan that's right for you</p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <div class="p-8 rounded-xl bg-black border border-gray-800 hover:border-gray-700 transition-all">
+        <h3 class="text-xl font-light mb-4">Get an edge in the game</h3>
+        <div class="mb-6">
+          <span class="text-4xl font-light">$42</span>
+          <span class="text-gray-400">/month</span>
+        </div>
+        <ul class="space-y-4 mb-8">
+          <li class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span>multiple chatbots</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span>Real-time analytics</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span>integration into websites</span>
+          </li>
+        </ul>
+        <button class="w-full py-3 rounded-lg border border-gray-700 hover:bg-gray-800 transition-colors">
+          Get Started
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- CTA Section -->
+<section class="py-20 bg-gray-900 text-white">
+  <div class="container mx-auto px-4 max-w-4xl">
+    <div class="text-center p-8 rounded-2xl bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm">
+      <h2 class="text-3xl md:text-4xl font-light mb-4">Ready to Transform Your Support?</h2>
+      <p class="text-gray-300 mb-8">Join thousands of companies already using our AI solution</p>
+      <button routerLink="register" class="px-8 py-4 bg-white text-black rounded-lg font-medium hover:bg-gray-200 transition-colors flex items-center gap-2 mx-auto">
+        Get Started Now 
+        <i class="fas fa-arrow-right w-4 h-4"></i>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="py-12 border-t border-gray-800 bg-black text-gray-400">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <i class="fas fa-comment-dots w-6 h-6 text-white"></i>
+          <span class="text-xl font-light text-white">Xavier AI</span>
+        </div>
+        <!-- <p>Revolutionizing customer support with AI</p> -->
+      </div>
+<!--       
+      <div *ngFor="let column of footerColumns">
+        <h3 class="font-medium text-white mb-4">{{ column.title }}</h3>
+        <ul class="space-y-2">
+          <li *ngFor="let link of column.links">
+            <a [routerLink]="link.route" class="hover:text-white transition-colors">
+              {{ link.text }}
+            </a>
+          </li>
+        </ul>
+      </div> -->
+    </div>
+    
+    <!-- <div class="mt-12 pt-8 border-t border-gray-800 text-center">
+      <p>© AI Chatbots. All rights reserved.</p>
+    </div> -->
+    <a  class="mt-12 pt-8 border-t border-gray-800 text-center" routerLink="admin/dashboard"> admin</a>
+  </div>
+</footer>

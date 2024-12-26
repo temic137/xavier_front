@@ -1,0 +1,9 @@
+.dashboard-container {
+    @apply max-w-7xl mx-auto;
+  }
+  .stat-card {
+    @apply transition-transform duration-200 hover:scale-105;
+  }
+  .chart-card {
+    @apply h-[300px];
+  }

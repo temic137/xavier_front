@@ -1,0 +1,96 @@
+<div class="container mx-auto p-6">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold mb-2">Feedback Dashboard</h1>
+      <p class="text-gray-600">Monitor and analyze chatbot feedback</p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <div class="bg-white rounded-lg shadow p-6">
+        <h3 class="text-lg font-semibold mb-2">Total Feedback</h3>
+        <div class="flex items-center space-x-2">
+          <span class="text-2xl font-bold">{{feedbackStats.total}}</span>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow p-6">
+        <h3 class="text-lg font-semibold mb-2">Active Chatbots</h3>
+        <div class="flex items-center space-x-2">
+          <span class="text-2xl font-bold">{{feedbackStats.activeChatbots}}</span>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow p-6">
+        <h3 class="text-lg font-semibold mb-2">Recent Feedback</h3>
+        <div class="flex items-center space-x-2">
+          <span class="text-2xl font-bold">{{feedbackStats.recentFeedback}}</span>
+          <span class="text-sm text-gray-500">last 24h</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="mb-6 flex flex-col md:flex-row gap-4">
+      <div class="relative flex-1">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="applyFilters()"
+          placeholder="Search feedback..."
+          class="pl-10 pr-4 py-2 w-full border rounded-lg"
+        >
+        <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-3 top-3 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </div>
+      
+      <select
+        [(ngModel)]="selectedChatbot"
+        (ngModelChange)="applyFilters()"
+        class="px-4 py-2 border rounded-lg bg-white"
+      >
+        <option value="all">All Chatbots</option>
+        <option *ngFor="let bot of chatbots" [value]="bot.chatbot_id">
+          {{bot.chatbot_name}}
+        </option>
+      </select>
+
+      <select
+        [(ngModel)]="timeFilter"
+        (ngModelChange)="applyFilters()"
+        class="px-4 py-2 border rounded-lg bg-white"
+      >
+        <option value="all">All Time</option>
+        <option value="today">Today</option>
+        <option value="week">This Week</option>
+        <option value="month">This Month</option>
+      </select>
+    </div>
+
+    <!-- Feedback List -->
+    <div class="space-y-4">
+      <div *ngFor="let feedback of filteredFeedback" 
+           class="bg-white rounded-lg shadow p-6">
+        <div class="flex items-start justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center space-x-2">
+              <span class="font-medium text-blue-600">{{feedback.chatbotName}}</span>
+              <span class="text-sm text-gray-500">User: {{feedback.userId}}</span>
+            </div>
+            <p class="text-gray-800">{{feedback.message}}</p>
+            <div class="text-sm text-gray-500">
+              {{feedback.createdAt | date:'medium'}}
+            </div>
+          </div>
+          <div class="text-sm text-gray-400">
+            ID: {{feedback.id}}
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="filteredFeedback.length === 0" class="text-center py-8">
+        <p class="text-gray-500">No feedback found matching your filters</p>
+      </div>
+    </div>
+  </div>

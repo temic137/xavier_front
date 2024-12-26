@@ -1,0 +1,87 @@
+<div class="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold text-gray-900">Create Account</h2>
+        <p class="mt-2 text-sm text-gray-600">Join us by creating your account</p>
+      </div>
+  
+      <!-- Form -->
+      <form (ngSubmit)="onSubmit()" class="space-y-6">
+        <!-- Username Field -->
+        <div>
+          <label for="username" class="block text-sm font-medium text-gray-700 mb-1">
+            Username
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="text-gray-400"></i> <!-- Add your icon here -->
+            </div>
+            <input
+              type="text"
+              id="username"
+              [(ngModel)]="username"
+              name="username"
+              class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors"
+              placeholder="Choose your username"
+              required
+            >
+          </div>
+        </div>
+  
+        <!-- Password Field -->
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+            Password
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="text-gray-400"></i> <!-- Add your icon here -->
+            </div>
+            <input
+              type="password"
+              id="password"
+              [(ngModel)]="password"
+              name="password"
+              class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors"
+              placeholder="Create a strong password"
+              required
+            >
+          </div>
+          <p class="mt-1 text-xs text-gray-500">Must be at least 8 characters long</p>
+        </div>
+  
+        <!-- Register Button -->
+        <button
+          type="submit"
+          class="w-full flex items-center justify-center px-4 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
+        >
+          <i class="mr-2"></i> <!-- Add your icon here -->
+          Create Account
+        </button>
+  
+        <!-- Divider -->
+        <div class="relative my-6">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-gray-300"></div>
+          </div>
+          <div class="relative flex justify-center text-sm">
+            <span class="px-2 bg-white text-gray-500">Or</span>
+          </div>
+        </div>
+  
+        <!-- Login Link -->
+        <div class="text-center">
+          <p class="text-sm text-gray-600 mb-4">Already have an account?</p>
+          <button
+            type="button"
+            (click)="login()"
+            class="w-full flex items-center justify-center px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+          >
+            <i class="mr-2"></i> <!-- Add your icon here -->
+            Sign in to your account
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>

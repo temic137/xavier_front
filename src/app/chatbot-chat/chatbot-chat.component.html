@@ -1,0 +1,78 @@
+<div class="min-h-screen bg-gray-50 ">
+  <div class="max-w-full mx-auto ">
+    <div class="bg-white rounded-lg shadow-sm">
+      <!-- Header -->
+      <div class="border-b p-4">
+        <h2 class="text-xl font-semibold text-gray-800">Test {{ chatbotName }}</h2>
+      </div>
+
+      <!-- Chat Messages -->
+      <div class="h-[32rem] overflow-y-auto p-4 bg-gray-50">
+        <div class="space-y-4">
+          <div *ngFor="let message of messages" class="flex items-start space-x-2"
+               [ngClass]="{'justify-end': message.sender === 'user'}">
+            
+            <!-- Bot Avatar -->
+            <div *ngIf="message.sender === 'bot'" 
+                 class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+              <i class="text-blue-600">Bot</i>
+            </div>
+
+            <div class="flex-1" [ngClass]="{'flex justify-end': message.sender === 'user'}">
+              <div class="inline-block rounded-lg shadow-sm p-3 max-w-[80%]"
+                   [ngClass]="{
+                     'bg-white': message.sender === 'bot',
+                     'bg-blue-600 text-white': message.sender === 'user'
+                   }">
+                <p>{{ message.text }}</p>
+              </div>
+            </div>
+
+            <!-- User Avatar -->
+            <div *ngIf="message.sender === 'user'"
+                 class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+              <span class="text-sm font-medium text-gray-600">You</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input Area -->
+      <div class="border-t p-4 space-y-4 max-h-screen ">
+        <form (ngSubmit)="sendMessage()" class="flex space-x-2">
+          <input
+            type="text"
+            [(ngModel)]="currentMessage"
+            name="message"
+            class="flex-1 px-4 py-2 border border-gray-300 max-h-screen rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Type your message...">
+          <button type="submit" 
+                  class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center">
+            <i class="mr-2"></i> Send
+          </button>
+        </form>
+
+
+        <!-- Feedback Section -->
+        <div class="space-y-2">
+          <button (click)="toggleFeedback()" 
+                  class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
+            {{ showFeedback ? 'Hide Feedback' : 'Give Feedback' }}
+          </button>
+          <div *ngIf="showFeedback">
+            <textarea [(ngModel)]="feedbackText" 
+                      name="feedback" 
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-24 resize-none"
+                      placeholder="Enter your feedback here..."></textarea>
+            <button (click)="submitFeedback()" 
+                    class="mt-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors">
+              Submit Feedback
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+  </div>
+</div>
