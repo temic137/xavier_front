@@ -42,6 +42,12 @@ export class LandingComponent {
 
   companyCount = 1000;
   currentYear = new Date().getFullYear();
+  isMobileMenuOpen = false;
+
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+  
 
   features: Feature[] = [
     {
