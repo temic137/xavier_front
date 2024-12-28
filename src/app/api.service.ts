@@ -53,6 +53,7 @@ export interface DashboardData {
 export class ApiService {
   private apiUrl = 'https://xavier-ai-backend.onrender.com';  // Update this to your Flask backend URL
 
+  
   // private apiUrl = 'http://127.0.0.1:8000';
    
   constructor(private http: HttpClient) { }
