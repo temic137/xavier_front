@@ -123,16 +123,30 @@ export class ApiService {
   getIntegration_code(chatbotId: string): Observable<any>{
     return this.http.get(`${this.apiUrl}/get_chatbot_script/${chatbotId}`,{ withCredentials: true });
   }
-  submitFeedback(chatbotId: string, feedback: string,): Observable<any> {
+  // submitFeedback(chatbotId: string, feedback: string,): Observable<any> {
+  //   const url = `${this.apiUrl}/chatbot/${chatbotId}/feedback`;
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     'User-ID': "temi2"
+  //   });
+  //   const body = { feedback };
+
+  //   return this.http.post(url, body, { headers });
+  // }
+
+  submitFeedback(chatbotId: string, feedback: string): Observable<any> {
     const url = `${this.apiUrl}/chatbot/${chatbotId}/feedback`;
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'User-ID': "temi2"
+        'Content-Type': 'application/json',
+        'User-ID': "temi2"
     });
     const body = { feedback };
-
-    return this.http.post(url, body, { headers });
-  }
+    return this.http.post(url, body, { 
+        headers, 
+        withCredentials: true  // Add this line
+    });
+}
+  
   viewFeedback(): Observable<any>{
     return this.http.get(`${this.apiUrl}/chatbot/all-feedback`,{ withCredentials: true });
    
