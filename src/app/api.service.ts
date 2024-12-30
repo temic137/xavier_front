@@ -138,7 +138,7 @@ export class ApiService {
     const url = `${this.apiUrl}/chatbot/${chatbotId}/feedback`;
     const headers = new HttpHeaders({
         'Content-Type': 'application/json',
-        'User-ID': "temi1"
+        // 'User-ID': "temi1"
     });
     const body = { feedback };
     return this.http.post(url, body, { 
