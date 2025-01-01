@@ -140,6 +140,9 @@ export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy 
       case 'integration' :
         this.router.navigate(['/chatbot', this.chatbotId, 'integration', this.chatbotId]);
         break;
+      case 'ticket' :
+        this.router.navigate(['/chatbot', this.chatbotId, 'tickets', this.chatbotId]);
+        break;
       
     }
   }

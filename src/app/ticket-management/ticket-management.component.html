@@ -1,0 +1,145 @@
+<div class="min-h-screen bg-gray-50 p-8">
+    <div class="max-w-6xl mx-auto bg-white rounded-lg shadow">
+      <div class="p-6 border-b border-gray-200">
+        <h2 class="text-2xl font-bold text-gray-800">Ticket Management</h2>
+      </div>
+  
+      <!-- Error Alert -->
+      <div *ngIf="errorMessage" class="mx-6 mt-6 bg-red-50 border-l-4 border-red-500 p-4 flex items-start">
+        <svg class="w-5 h-5 text-red-500 mr-3 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"/>
+        </svg>
+        <p class="flex-1 text-red-800">{{errorMessage}}</p>
+        <button (click)="clearError()" class="text-red-500 hover:text-red-700">
+          <span class="text-2xl">&times;</span>
+        </button>
+      </div>
+  
+      <!-- Loading State -->
+      <div *ngIf="loading" class="flex justify-center items-center py-12">
+        <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div>
+      </div>
+  
+      <!-- Tickets Table -->
+      <div *ngIf="!loading" class="p-6">
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="bg-gray-50 border-b border-gray-200">
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Priority</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+              <tr *ngFor="let ticket of tickets" class="hover:bg-gray-50 transition-colors duration-150">
+                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{{ticket.id}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-gray-700">{{ticket.subject}}</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <select 
+                    [(ngModel)]="ticket.status"
+                    (change)="updateStatus(ticket.id, ticket.status)"
+                    class="px-3 py-1 rounded-full text-xs font-semibold"
+                    [ngClass]="{
+                      'bg-blue-100 text-blue-800': ticket.status === 'open',
+                      'bg-purple-100 text-purple-800': ticket.status === 'in_progress',
+                      'bg-green-100 text-green-800': ticket.status === 'resolved',
+                      'bg-gray-100 text-gray-800': ticket.status === 'closed'
+                    }">
+                    <option value="open">OPEN</option>
+                    <option value="in_progress">IN PROGRESS</option>
+                    <option value="resolved">RESOLVED</option>
+                    <option value="closed">CLOSED</option>
+                  </select>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 py-1 rounded-full text-xs font-semibold"
+                    [ngClass]="{
+                      'bg-red-100 text-red-800': ticket.priority === 'high',
+                      'bg-yellow-100 text-yellow-800': ticket.priority === 'medium',
+                      'bg-green-100 text-green-800': ticket.priority === 'low'
+                    }">
+                    {{ticket.priority | uppercase}}
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-gray-700">
+                  {{ticket.created_at | date:'short'}}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex space-x-3">
+                    <button (click)="viewDetails(ticket.id)" 
+                      class="text-blue-600 hover:text-blue-800 transition-colors">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                      </svg> view
+                    </button>
+                    <button (click)="deleteTicket(ticket.id)" 
+                      class="text-red-600 hover:text-red-800 transition-colors">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                      </svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Ticket Details Modal -->
+    <div *ngIf="selectedTicket" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
+      <div class="bg-white rounded-lg shadow-xl p-8 m-4 max-w-2xl w-full">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-xl font-bold text-gray-900">Ticket Details</h3>
+          <button (click)="closeDetails()" class="text-gray-500 hover:text-gray-700">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+  
+        <div class="grid grid-cols-2 gap-4">
+          
+          <div>
+            <label class="text-sm font-medium text-gray-500">Created</label>
+            <p class="mt-1">{{selectedTicket.ticket.created_at | date:'medium'}}</p>
+          </div>
+          <div class="col-span-2">
+            <label class="text-sm font-medium text-gray-500">Subject</label>
+            <p class="mt-1">{{selectedTicket.ticket.subject}}</p>
+          </div>
+          <div class="col-span-2">
+            <label class="text-sm font-medium text-gray-500">Description</label>
+            <p class="mt-1"> {{selectedTicket.ticket.description}}</p>
+          </div>
+          <div>
+            <label class="text-sm font-medium text-gray-500">Status</label>
+            <p class="mt-1">{{selectedTicket.ticket.status}}</p>
+          </div>
+          <div>
+            <label class="text-sm font-medium text-gray-500">Priority</label>
+            <p class="mt-1">{{selectedTicket.ticket.priority}}</p>
+          </div>
+          <div class="col-span-2">
+            <label class="text-sm font-medium text-gray-500">Account Details</label>
+            <p class="mt-1"> {{selectedTicket.ticket.account_details}}</p>
+          </div>
+        </div>
+  
+        <div class="mt-8 flex justify-end">
+          <button (click)="closeDetails()" 
+            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+

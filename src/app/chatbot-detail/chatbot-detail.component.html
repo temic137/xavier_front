@@ -117,6 +117,37 @@
             </svg>
             Integration
           </a>
+
+          <br/>
+          <!-- Integration -->
+          <a (click)="setActiveTab('ticket')"
+          [class.bg-black]="activeTab === 'ticket'"
+          [class.text-white]="activeTab === 'ticket'"
+          class="group flex items-center px-4 py-4 text-sm font-medium text-gray-500 
+                 hover:bg-black hover:text-white rounded-md cursor-pointer transition-colors">
+         <svg class="w-4 h-4 mr-2 text-gray-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+           <!-- Main ticket shape -->
+           <path 
+             d="M2 8C2 7.44772 2.44772 7 3 7H21C21.5523 7 22 7.44772 22 8V16C22 16.5523 21.5523 17 21 17H3C2.44772 17 2 16.5523 2 16V8Z" 
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+           />
+           
+           <!-- Perforation line -->
+           <path 
+             d="M8 7V17" 
+             stroke-width="2" 
+             stroke-linecap="round" 
+             stroke-dasharray="2 2"
+           />
+           
+           <!-- Optional decorative elements -->
+           <circle cx="12" cy="12" r="1" fill="currentColor"/>
+           <circle cx="16" cy="12" r="1" fill="currentColor"/>
+         </svg>
+         tickets
+       </a>
         </div>
       </div>
     </nav>

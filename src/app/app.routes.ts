@@ -15,6 +15,7 @@ import { FeedbackDashboardComponent } from './feedback-dashboard/feedback-dashbo
 import { ContactComponent } from './contact/contact.component';
 import { CareersComponent } from './careers/careers.component';
 import { AboutComponent } from './about/about.component';
+import { TicketManagementComponent } from './ticket-management/ticket-management.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent },
@@ -36,6 +37,9 @@ export const routes: Routes = [
             { path: 'edit/:id', component: ChatbotEditComponent },
             { path: 'integration/:id', component: IntegrationComponent },
             { path: 'gmail-integration/:id', component: GmailIntegrationComponent },
+            { path: 'tickets/:id', component: TicketManagementComponent },
+            
+            
             
             
         ]

@@ -1,0 +1,99 @@
+
+<div class="container mx-auto p-4">
+    <h2 class="text-2xl font-bold mb-4">Ticket Management</h2>
+    
+    <!-- Error Alert -->
+    <div *ngIf="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+      <strong class="font-bold">Error!</strong>
+      <span class="block sm:inline"> {{errorMessage}}</span>
+      <button 
+        class="absolute top-0 bottom-0 right-0 px-4 py-3"
+        (click)="clearError()">
+        <span class="text-2xl">&times;</span>
+      </button>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="flex justify-center items-center py-4">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+    </div>
+    
+    <!-- Tickets List -->
+    <div *ngIf="!loading" class="mb-8">
+      <h3 class="text-xl font-semibold mb-4">All Tickets</h3>
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border rounded-lg">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Priority</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <tr *ngFor="let ticket of tickets">
+              <td class="px-6 py-4 whitespace-nowrap">{{ticket.id}}</td>
+              <td class="px-6 py-4">{{ticket.subject}}</td>
+              <td class="px-6 py-4">
+                <select 
+                  [(ngModel)]="ticket.status"
+                  (change)="updateStatus(ticket.id, ticket.status)"
+                  class="border rounded p-1">
+                  <option value="open">Open</option>
+                  <option value="in_progress">In Progress</option>
+                  <option value="resolved">Resolved</option>
+                  <option value="closed">Closed</option>
+                </select>
+              </td>
+              <td class="px-6 py-4">
+                <span [class]="getPriorityClass(ticket.priority)">
+                  {{ticket.priority}}
+                </span>
+              </td>
+              <td class="px-6 py-4">{{ticket.created_at | date:'short'}}</td>
+              <td class="px-6 py-4">
+                <button 
+                  (click)="viewDetails(ticket.id)"
+                  class="text-blue-600 hover:text-blue-800 mr-3">
+                  View
+                </button>
+                <button 
+                  (click)="deleteTicket(ticket.id)"
+                  class="text-red-600 hover:text-red-800">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Ticket Details Modal -->
+    <div *ngIf="selectedTicket" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+      <div class="bg-white rounded-lg p-8 max-w-2xl w-full mx-4">
+        <h3 class="text-xl font-bold mb-4">Ticket Details</h3>
+        <div class="mb-4">
+          <p><strong>Subject:</strong> {{selectedTicket.ticket.subject}}</p>
+          <p><strong>Description:</strong> {{selectedTicket.ticket.description}}</p>
+          <p><strong>Status:</strong> {{selectedTicket.ticket.status}}</p>
+          <p><strong>Priority:</strong> {{selectedTicket.ticket.priority}}</p>
+          <p><strong>Account Details:</strong> {{selectedTicket.ticket.account_details}}</p>
+          <p><strong>Created:</strong> {{selectedTicket.ticket.created_at | date:'medium'}}</p>
+        </div>
+
+      
+
+        <button 
+          (click)="closeDetails()"
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+

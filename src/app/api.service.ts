@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable,of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
-
-
+import { HttpClient, HttpHeaders,HttpErrorResponse } from '@angular/common/http';
+import { Ticket, TicketDetail, TicketsResponse } from './ticket.types';
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry, map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 // Add Dashboard Data Interface
 export interface DashboardData {
@@ -47,14 +47,16 @@ export interface DashboardData {
 }
 
 
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'https://xavier-ai-backend.onrender.com';  // Update this to your Flask backend URL
+  // private apiUrl = 'https://xavier-ai-backend.onrender.com';  // Update this to your Flask backend URL
 
   
-  // private apiUrl = 'http://127.0.0.1:8000';
+  private apiUrl = 'http://127.0.0.1:5000';
    
   constructor(private http: HttpClient) { }
 
@@ -215,5 +217,57 @@ getChatbotById(chatbotId: string) {
   return this.http.get<any>(`/api/chatbots/${chatbotId}`);
 }
 
+
+private handleError(error: HttpErrorResponse) {
+  let errorMessage = 'An error occurred';
+  
+  if (error.error instanceof ErrorEvent) {
+    errorMessage = `Error: ${error.error.message}`;
+  } else {
+    errorMessage = error.error?.error || error.message;
+  }
+  
+  return throwError(() => errorMessage);
+}
+
+getTickets(): Observable<Ticket[]> {
+  return this.http.get<TicketsResponse>(`${this.apiUrl}/tickets`).pipe(
+    map(response => response.tickets),
+    retry(1),
+    catchError(this.handleError)
+  );
+}
+
+getTicketDetails(ticketId: number): Observable<TicketDetail> {
+  return this.http.get<TicketDetail>(`${this.apiUrl}/ticket/${ticketId}`).pipe(
+    retry(1),
+    catchError(this.handleError)
+  );
+}
+
+  // Get tickets by chatbot ID
+  getTicketsByChatbotId(chatbotId: string): Observable<Ticket[]> {
+    return this.http.get<TicketsResponse>(`${this.apiUrl}/tickets/${chatbotId}`).pipe(
+      map(response => response.tickets),
+      retry(1),
+      catchError(this.handleError)
+    );
+  }
+
+
+
+updateTicketStatus(ticketId: number, status: string): Observable<any> {
+  return this.http.patch(`${this.apiUrl}/ticket/${ticketId}/update-status`, { status }).pipe(
+    tap((response: any) => this.getTickets()),
+    catchError(this.handleError)
+  );
+}
+
+
+deleteTicket(ticketId: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/ticket/delete/${ticketId}`).pipe(
+    catchError(this.handleError)
+  );
+}
 }
 
