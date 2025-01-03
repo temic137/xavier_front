@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { ApiService} from '../api.service';
 import { FormsModule } from '@angular/forms';
 import { Ticket,TicketDetail } from '../ticket.types';
+import { Console } from 'node:console';
+import { ActivatedRoute,RouterModule } from '@angular/router';
 
 type PriorityClass = {
   [K in 'high' | 'medium' | 'low']: string;
@@ -11,71 +13,46 @@ type PriorityClass = {
 @Component({
   selector: 'app-ticket-management',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,RouterModule],
   templateUrl: './ticket-management.component.html',
   styleUrl: './ticket-management.component.css'
 })
 export class TicketManagementComponent {
 
+  chatbotId: string = '';
   tickets: Ticket[] = [];
   selectedTicket: TicketDetail | null = null;
   loading = false;
   errorMessage = '';
   currentChatbotId: string | null = null;
-  constructor(private ticketService: ApiService) {}
+  constructor(private ticketService: ApiService, private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.chatbotId = this.route.snapshot.paramMap.get('id') || '';
     this.loadTickets();
   }
-
-  // loadTickets() {
-  //   this.loading = true;
-  //   this.errorMessage = '';
-    
-  //   this.ticketService.getTickets().subscribe({
-  //     next: (tickets) => {
-  //       this.tickets = tickets;
-  //       this.loading = false;
-  //     },
-  //     error: (error) => {
-  //       console.error('Error loading tickets:', error);
-  //       this.errorMessage = error;
-  //       this.loading = false;
-  //     }
-  //   });
-  // }
 
 
   loadTickets() {
     this.loading = true;
     this.errorMessage = '';
-    
-    if (this.currentChatbotId) {
-      this.ticketService.getTicketsByChatbotId(this.currentChatbotId).subscribe({
-        next: (tickets) => {
-          this.tickets = tickets;
-          this.loading = false;
-        },
-        error: (error) => {
-          console.error('Error loading tickets:', error);
-          this.errorMessage = error;
-          this.loading = false;
-        }
-      });
-    } else {
-      // Fallback to getting all tickets if no chatbotId is set
-      this.ticketService.getTickets().subscribe({
-        next: (tickets) => {
-          this.tickets = tickets;
-          this.loading = false;
-        },
-        error: (error) => {
-          console.error('Error loading tickets:', error);
-          this.errorMessage = error;
-          this.loading = false;
-        }
-      });
+  
+    if (!this.chatbotId) {
+      this.loading = false;
+      return;
     }
+  
+    this.ticketService.getTicketsByChatbotId(this.chatbotId).subscribe({
+      next: (tickets) => {
+        this.tickets = tickets;
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error loading tickets:', error);
+        this.errorMessage = error;
+        this.loading = false;
+      }
+    });
   }
 
 
@@ -87,7 +64,6 @@ export class TicketManagementComponent {
     this.ticketService.getTicketDetails(ticketId).subscribe({
       next: (ticketDetail) => {
         this.selectedTicket = ticketDetail;
-        console.log(ticketDetail)
       },
       error: (error) => {
         this.errorMessage = error;
@@ -156,4 +132,5 @@ export class TicketManagementComponent {
     return classes[priority.toLowerCase() as keyof typeof classes] || 'text-gray-600';
   }
 }
+
 

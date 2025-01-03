@@ -1,8 +1,9 @@
-<!-- landing-page.component.html -->
+
+
+
 <div class="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
   <!-- Navbar -->
-     <!-- Navbar -->
-   <nav class="fixed top-0 w-full z-50 backdrop-blur-lg bg-black/50 border-b border-gray-800/50">
+  <nav class="fixed top-0 w-full z-50 backdrop-blur-lg bg-black/50 border-b border-gray-800/50">
     <div class="container mx-auto flex justify-between items-center px-6 py-4">
       <div class="flex items-center gap-3">
         <span class="text-xl font-semibold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
@@ -22,7 +23,7 @@
       <div class="hidden md:flex items-center gap-8">
         <a routerLink="/features" class="text-sm text-gray-300 hover:text-white transition-colors">Features</a>
         <a routerLink="/pricing" class="text-sm text-gray-300 hover:text-white transition-colors">Pricing</a>
-        <a routerLink="/contact" class="text-sm text-gray-300 hover:text-white transition-colors">Contact</a>
+        <a routerLink="/contact" class="text-sm text-gray-300 hover:text-white transition-colors">Contact Us</a>
         <a routerLink="admin/dashboard" class="text-sm text-gray-300 hover:text-white transition-colors">Feedbacks</a>
         <button routerLink="/login" class="text-sm text-gray-300 hover:text-white transition-colors">Login</button>
         <button routerLink="/register" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
@@ -36,7 +37,7 @@
       <div class="px-4 py-2 space-y-3">
         <a routerLink="/features" class="block py-2 text-sm text-gray-300 hover:text-white transition-colors">Features</a>
         <a routerLink="/pricing" class="block py-2 text-sm text-gray-300 hover:text-white transition-colors">Pricing</a>
-        <a routerLink="/contact" class="block py-2 text-sm text-gray-300 hover:text-white transition-colors">Contact</a>
+        <a routerLink="/contact" class="block py-2 text-sm text-gray-300 hover:text-white transition-colors">Contact Us</a>
         <a routerLink="admin/dashboard" class="block py-2 text-sm text-gray-300 hover:text-white transition-colors">Feedbacks</a>
         <a routerLink="/login" class="block py-2 text-sm text-gray-300 hover:text-white transition-colors">Login</a>
         <div class="pt-2 pb-4">
@@ -69,18 +70,23 @@
         </p>
         
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <button routerLink="register" class="group px-8 py-4 bg-blue-500 hover:bg-blue-600 rounded-xl font-medium transition-all flex items-center justify-center gap-2">
+          <button routerLink="/register" class="group px-8 py-4 bg-blue-500 hover:bg-blue-600 rounded-xl font-medium transition-all flex items-center justify-center gap-2">
             Start Free Trial
-            <!-- Arrow Right Icon -->
             <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14"></path>
               <path d="M12 5l7 7-7 7"></path>
             </svg>
           </button>
-          <button class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white rounded-xl font-medium transition-colors">
+          <!-- <button (click)="openVideoModal()" class="group px-8 py-4 bg-white/10 hover:bg-white/20 text-white rounded-xl font-medium transition-colors flex items-center justify-center gap-2">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polygon points="10 8 16 12 10 16 10 8" fill="currentColor"></polygon>
+            </svg>
             Watch Demo
-          </button>
+          </button> -->
         </div>
+
+
       </div>
     </div>
   </section>
@@ -256,6 +262,33 @@
           <img src="./assets/analytics.png" alt="Analytics and Testing" class="rounded-xl shadow-2xl shadow-blue-500/10">
         </div>
       </div>
+      <div class="flex flex-col md:flex-row items-center gap-12">
+        <div class="flex-1 space-y-6">
+          <div class="w-16 h-16 rounded-xl bg-white/5 flex items-center justify-center">
+            <!-- Support Team Icon -->
+            <svg class="w-8 h-8 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-semibold">Seamless Human Support Escalation</h3>
+          <p class="text-gray-400 leading-relaxed">
+            When situations require a human touch, users can easily escalate their conversations to real support agents. Our ticketing system ensures timely transitions from AI to human support, maintaining full conversation context and user history. Support teams can efficiently manage and respond to escalated tickets through a dedicated dashboard.
+          </p>
+          
+          <button class="group flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors">
+            Learn more
+            <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18l6-6-6-6"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="flex-1 mt-8 md:mt-0 md:px-6">
+          <img src="./assets/escalate.png" alt="Human Support Escalation" class="rounded-xl shadow-2xl shadow-blue-500/10">
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -266,6 +299,7 @@
   <div class="container mx-auto px-4">
     <div class="text-center mb-16">
       <h2 class="text-3xl md:text-4xl font-light mb-4">Simple, Transparent Pricing</h2>
+      <p class="text-gray-400">Free during beta period</p>
     </div>
     
     <div class="max-w-lg mx-auto">
@@ -280,8 +314,12 @@
           <div class="space-y-4">
             <h3 class="text-2xl font-light">Stay ahead of the competition.</h3>
             <div class="flex items-baseline gap-2">
-              <span class="text-5xl font-light">$42</span>
+              <div class="relative">
+                <span class="text-5xl font-light text-gray-500 line-through">$42</span>
+                <span class="absolute -top-4 right-0 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">Beta</span>
+              </div>
               <span class="text-gray-400">/month</span>
+              <span class="text-4xl font-light text-blue-500 ml-2">FREE</span>
             </div>
           </div>
 
@@ -309,12 +347,15 @@
 
           <!-- CTA Button -->
           <button class="w-full py-4 rounded-lg bg-blue-500 hover:bg-blue-600 transition-colors text-lg font-medium group flex items-center justify-center gap-2">
-            Get Started
+            Get Started Free
             <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14"></path>
               <path d="M12 5l7 7-7 7"></path>
             </svg>
           </button>
+
+          <!-- Beta notice -->
+          <p class="text-center text-sm text-gray-400">No credit card required during beta</p>
         </div>
       </div>
     </div>
@@ -326,7 +367,7 @@
     <div class="container mx-auto px-4 max-w-4xl">
       <div class="text-center p-12 rounded-3xl bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-white/10">
         <h2 class="text-4xl font-bold mb-4">Ready to Transform Your Support?</h2>
-        <p class="text-xl text-gray-300 mb-8">Join thousands of companies already using our AI solution</p>
+        <!-- <p class="text-xl text-gray-300 mb-8">Join thousands of companies already using our AI solution</p> -->
         <button routerLink="/register" class="group px-8 py-4 bg-blue-500 hover:bg-blue-600 rounded-xl font-medium transition-all flex items-center gap-2 mx-auto">
           Get Started Now
           <i class="fas fa-arrow-right w-4 h-4 transition-transform group-hover:translate-x-1"></i>
@@ -334,4 +375,43 @@
       </div>
     </div>
   </section>
+</div>
+
+<!-- Video Modal -->
+<div *ngIf="isVideoModalOpen" 
+     class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90" 
+     (click)="closeVideoModal()">
+  <div class="relative w-full max-w-4xl aspect-video" (click)="$event.stopPropagation()">
+    <!-- Close button -->
+    <button class="absolute -top-12 right-0 p-2 text-white/80 hover:text-white transition-colors" 
+            (click)="closeVideoModal()">
+      <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    
+    <!-- Loading spinner -->
+    <div *ngIf="isVideoLoading" class="absolute inset-0 flex items-center justify-center">
+      <div class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+    </div>
+
+    <!-- Error message -->
+    <div *ngIf="hasVideoError" class="absolute inset-0 flex items-center justify-center text-red-500">
+      Failed to load video. Please try again later.
+    </div>
+
+    <!-- Local Video Player -->
+    <video 
+      class="w-full h-full rounded-2xl" 
+      [class.opacity-0]="isVideoLoading"
+      [src]="videoSrc"
+      (loadeddata)="onVideoLoad()"
+      (error)="onVideoError()"
+      controls
+      autoplay
+      preload="auto"
+      [poster]="thumbnailSrc">
+      Your browser does not support the video tag.
+    </video>
+  </div>
 </div>

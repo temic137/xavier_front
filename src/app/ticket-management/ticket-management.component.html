@@ -92,54 +92,79 @@
       </div>
     </div>
   
-    <!-- Ticket Details Modal -->
-    <div *ngIf="selectedTicket" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
-      <div class="bg-white rounded-lg shadow-xl p-8 m-4 max-w-2xl w-full">
-        <div class="flex justify-between items-center mb-6">
-          <h3 class="text-xl font-bold text-gray-900">Ticket Details</h3>
-          <button (click)="closeDetails()" class="text-gray-500 hover:text-gray-700">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-          </button>
-        </div>
-  
-        <div class="grid grid-cols-2 gap-4">
+<!-- Ticket Details Modal -->
+<div *ngIf="selectedTicket" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full p-4 flex items-center justify-center">
+  <div class="relative bg-white rounded-lg shadow-xl w-full max-w-lg mx-auto">
+    <!-- Header -->
+    <div class="p-4 sm:p-6 border-b border-gray-200">
+      <div class="flex justify-between items-center">
+        <h3 class="text-lg sm:text-xl font-bold text-gray-900">Ticket Details</h3>
+        <button (click)="closeDetails()" 
+          class="text-gray-500 hover:text-gray-700 transition-colors">
+          <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="p-4 sm:p-6 max-h-[calc(100vh-12rem)] overflow-y-auto">
+      <div class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-500">Created</label>
+            <p class="mt-1 text-sm sm:text-base">{{selectedTicket.ticket.created_at | date:'medium'}}</p>
+          </div>
           
           <div>
-            <label class="text-sm font-medium text-gray-500">Created</label>
-            <p class="mt-1">{{selectedTicket.ticket.created_at | date:'medium'}}</p>
-          </div>
-          <div class="col-span-2">
-            <label class="text-sm font-medium text-gray-500">Subject</label>
-            <p class="mt-1">{{selectedTicket.ticket.subject}}</p>
-          </div>
-          <div class="col-span-2">
-            <label class="text-sm font-medium text-gray-500">Description</label>
-            <p class="mt-1"> {{selectedTicket.ticket.description}}</p>
-          </div>
-          <div>
-            <label class="text-sm font-medium text-gray-500">Status</label>
-            <p class="mt-1">{{selectedTicket.ticket.status}}</p>
-          </div>
-          <div>
-            <label class="text-sm font-medium text-gray-500">Priority</label>
-            <p class="mt-1">{{selectedTicket.ticket.priority}}</p>
-          </div>
-          <div class="col-span-2">
-            <label class="text-sm font-medium text-gray-500">Account Details</label>
-            <p class="mt-1"> {{selectedTicket.ticket.account_details}}</p>
+            <label class="block text-sm font-medium text-gray-500">Status</label>
+            <p class="mt-1 text-sm sm:text-base">{{selectedTicket.ticket.status}}</p>
           </div>
         </div>
-  
-        <div class="mt-8 flex justify-end">
-          <button (click)="closeDetails()" 
-            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">
-            Close
-          </button>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-500">Subject</label>
+          <p class="mt-1 text-sm sm:text-base break-words">{{selectedTicket.ticket.subject}}</p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-500">Description</label>
+          <p class="mt-1 text-sm sm:text-base whitespace-pre-wrap break-words">
+            {{selectedTicket.ticket.description}}
+          </p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-500">Priority</label>
+          <span class="inline-block mt-1 px-2 py-1 rounded-full text-xs font-semibold"
+            [ngClass]="{
+              'bg-red-100 text-red-800': selectedTicket.ticket.priority === 'high',
+              'bg-yellow-100 text-yellow-800': selectedTicket.ticket.priority === 'medium',
+              'bg-green-100 text-green-800': selectedTicket.ticket.priority === 'low'
+            }">
+            {{selectedTicket.ticket.priority | uppercase}}
+          </span>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-500">Account Details</label>
+          <p class="mt-1 text-sm sm:text-base break-words">{{selectedTicket.ticket.account_details}}</p>
         </div>
       </div>
     </div>
+
+    <!-- Footer -->
+    <div class="border-t border-gray-200 p-4 sm:p-6">
+      <div class="flex justify-end">
+        <button (click)="closeDetails()" 
+          class="bg-blue-500 text-white px-4 py-2 rounded text-sm sm:text-base hover:bg-blue-600 transition-colors">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
   </div>
 
 

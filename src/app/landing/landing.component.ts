@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { RotatingFeaturesComponent } from '../rotating-features/rotating-features.component';
-
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 interface Feature {
   icon: string;
@@ -43,6 +43,19 @@ export class LandingComponent {
   companyCount = 1000;
   currentYear = new Date().getFullYear();
   isMobileMenuOpen = false;
+
+  isVideoModalOpen = false;
+  
+  isVideoLoading = true;
+  hasVideoError = false;
+  
+  // Replace YOUR_VIDEO_ID with your actual YouTube video ID
+  private readonly videoId = 'YOUR_VIDEO_ID';
+
+
+  // Update these paths to match your actual video and thumbnail locations in assets folder
+  videoSrc = 'assets/videos/demo.mp4';
+  thumbnailSrc = 'assets/images/video-thumbnail.jpg';
 
   toggleMobileMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
@@ -115,23 +128,28 @@ export class LandingComponent {
     },
   ];
 
-  onGetStarted(): void {
-    console.log('Get Started clicked');
-    // Implement navigation or action
+
+  openVideoModal() {
+    this.isVideoModalOpen = true;
+    document.body.style.overflow = 'hidden';
   }
 
-  startTrial(): void {
-    console.log('Start Trial clicked');
-    // Implement trial start logic
+  closeVideoModal() {
+    this.isVideoModalOpen = false;
+    document.body.style.overflow = 'auto';
+    // Pause the video when modal is closed
+    const video = document.querySelector('video');
+    if (video) {
+      video.pause();
+    }
   }
 
-  watchDemo(): void {
-    console.log('Watch Demo clicked');
-    // Implement demo video logic
+  onVideoLoad() {
+    this.isVideoLoading = false;
   }
 
-  getStarted(): void {
-    console.log('Get Started Now clicked');
-    // Implement get started logic
+  onVideoError() {
+    this.isVideoLoading = false;
+    this.hasVideoError = true;
   }
 }

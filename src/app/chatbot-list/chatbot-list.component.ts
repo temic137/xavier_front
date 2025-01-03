@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../api.service';
-import { RouterModule } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { routes } from '../app.routes';
@@ -16,7 +16,7 @@ interface Chatbot {
 @Component({
   selector: 'app-chatbot-list',
   standalone: true,
-  imports: [CommonModule, RouterModule,FormsModule ],
+  imports: [CommonModule,FormsModule,RouterLink,RouterModule],
   templateUrl:'./chatbot-list.component.html',
   styleUrl:'./chatbot-list.component.css',
   

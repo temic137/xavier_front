@@ -150,7 +150,7 @@ export class ApiService {
 }
   
   viewFeedback(): Observable<any>{
-    return this.http.get(`${this.apiUrl}/chatbot/all-feedback`,{ withCredentials: true });
+    return this.http.get(`${this.apiUrl}/chatbot/all-feedback`);
    
   }
 
@@ -239,7 +239,7 @@ getTickets(): Observable<Ticket[]> {
 }
 
 getTicketDetails(ticketId: number): Observable<TicketDetail> {
-  return this.http.get<TicketDetail>(`${this.apiUrl}/ticket/${ticketId}`).pipe(
+  return this.http.get<TicketDetail>(`${this.apiUrl}/ticket/${ticketId}`, { withCredentials: true }).pipe(
     retry(1),
     catchError(this.handleError)
   );
@@ -247,7 +247,7 @@ getTicketDetails(ticketId: number): Observable<TicketDetail> {
 
   // Get tickets by chatbot ID
   getTicketsByChatbotId(chatbotId: string): Observable<Ticket[]> {
-    return this.http.get<TicketsResponse>(`${this.apiUrl}/tickets/${chatbotId}`).pipe(
+    return this.http.get<TicketsResponse>(`${this.apiUrl}/tickets/${chatbotId}`, { withCredentials: true }).pipe(
       map(response => response.tickets),
       retry(1),
       catchError(this.handleError)
@@ -257,7 +257,7 @@ getTicketDetails(ticketId: number): Observable<TicketDetail> {
 
 
 updateTicketStatus(ticketId: number, status: string): Observable<any> {
-  return this.http.patch(`${this.apiUrl}/ticket/${ticketId}/update-status`, { status }).pipe(
+  return this.http.patch(`${this.apiUrl}/ticket/${ticketId}/update-status`, { status }, { withCredentials: true }).pipe(
     tap((response: any) => this.getTickets()),
     catchError(this.handleError)
   );
@@ -265,7 +265,7 @@ updateTicketStatus(ticketId: number, status: string): Observable<any> {
 
 
 deleteTicket(ticketId: number): Observable<any> {
-  return this.http.delete(`${this.apiUrl}/ticket/delete/${ticketId}`).pipe(
+  return this.http.delete(`${this.apiUrl}/ticket/delete/${ticketId}`, { withCredentials: true }).pipe(
     catchError(this.handleError)
   );
 }

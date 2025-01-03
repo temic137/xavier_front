@@ -38,9 +38,7 @@ export const routes: Routes = [
             { path: 'integration/:id', component: IntegrationComponent },
             { path: 'gmail-integration/:id', component: GmailIntegrationComponent },
             { path: 'tickets/:id', component: TicketManagementComponent },
-            
-            
-            
+              
             
         ]
     },
