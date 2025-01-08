@@ -1,78 +1,84 @@
-<div class="min-h-screen bg-gray-50 ">
-  <div class="max-w-full mx-auto ">
-    <div class="bg-white rounded-lg shadow-sm">
+<div class="min-h-screen bg-gray-50">
+  <div class="max-w-4xl mx-auto pt-8 px-4">
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
       <!-- Header -->
-      <div class="border-b p-4">
-        <h2 class="text-xl font-semibold text-gray-800">Test {{ chatbotName }}</h2>
+      <div class="border-b px-6 py-4 bg-white">
+        <h2 class="text-lg font-semibold text-gray-800">{{ chatbotName }}</h2>
       </div>
 
       <!-- Chat Messages -->
-      <div class="h-[32rem] overflow-y-auto p-4 bg-gray-50">
-        <div class="space-y-4">
-          <div *ngFor="let message of messages" class="flex items-start space-x-2"
-               [ngClass]="{'justify-end': message.sender === 'user'}">
+      <div class="h-[calc(100vh-300px)] overflow-y-auto p-6 bg-gray-50">
+        <div class="space-y-6">
+          <div *ngFor="let message of messages" 
+               class="flex items-start gap-3"
+               [ngClass]="{'flex-row-reverse': message.sender === 'user'}">
             
             <!-- Bot Avatar -->
             <div *ngIf="message.sender === 'bot'" 
-                 class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-              <i class="text-blue-600">Bot</i>
+                 class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+              <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                      d="M8 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-4 4v-4z"/>
+              </svg>
             </div>
 
-            <div class="flex-1" [ngClass]="{'flex justify-end': message.sender === 'user'}">
-              <div class="inline-block rounded-lg shadow-sm p-3 max-w-[80%]"
+            <!-- Message Bubble -->
+            <div class="max-w-[70%]">
+              <div class="rounded-2xl px-4 py-3"
                    [ngClass]="{
-                     'bg-white': message.sender === 'bot',
+                     'bg-white shadow-sm': message.sender === 'bot',
                      'bg-blue-600 text-white': message.sender === 'user'
                    }">
-                <p>{{ message.text }}</p>
+                <p class="text-sm">{{ message.text }}</p>
               </div>
             </div>
 
             <!-- User Avatar -->
             <div *ngIf="message.sender === 'user'"
-                 class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
-              <span class="text-sm font-medium text-gray-600">You</span>
+                 class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
+              <span class="text-xs font-medium text-gray-600">You</span>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Input Area -->
-      <div class="border-t p-4 space-y-4 max-h-screen ">
-        <form (ngSubmit)="sendMessage()" class="flex space-x-2">
-          <input
-            type="text"
-            [(ngModel)]="currentMessage"
-            name="message"
-            class="flex-1 px-4 py-2 border border-gray-300 max-h-screen rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Type your message...">
-          <button type="submit" 
-                  class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center">
-            <i class="mr-2"></i> Send
-          </button>
-        </form>
+      <div class="border-t bg-white p-6">
+        <form (ngSubmit)="sendMessage()" class="space-y-4">
+          <div class="flex gap-2">
+            <input
+              type="text"
+              [(ngModel)]="currentMessage"
+              name="message"
+              class="flex-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Type your message...">
+            <button type="submit" 
+                    class="px-6 py-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors">
+              Send
+            </button>
+          </div>
 
-
-        <!-- Feedback Section -->
-        <div class="space-y-2">
+          <!-- Feedback Toggle -->
           <button (click)="toggleFeedback()" 
-                  class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
+                  class="text-sm text-gray-500 hover:text-gray-700 transition-colors">
             {{ showFeedback ? 'Hide Feedback' : 'Give Feedback' }}
           </button>
-          <div *ngIf="showFeedback">
-            <textarea [(ngModel)]="feedbackText" 
-                      name="feedback" 
-                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-24 resize-none"
-                      placeholder="Enter your feedback here..."></textarea>
+
+          <!-- Feedback Form -->
+          <div *ngIf="showFeedback" class="space-y-3">
+            <textarea 
+              [(ngModel)]="feedbackText" 
+              name="feedback" 
+              class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 h-24 resize-none"
+              placeholder="Enter your feedback here...">
+            </textarea>
             <button (click)="submitFeedback()" 
-                    class="mt-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors">
+                    class="w-full px-4 py-2.5 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-colors">
               Submit Feedback
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
-
-    
   </div>
 </div>

@@ -1,23 +1,23 @@
 <div class="min-h-screen bg-gray-50 py-8">
   <div class="max-w-4xl mx-auto">
     <!-- Header -->
-    <div class="bg-white rounded-t-xl shadow-sm px-8 py-6 border-b">
+    <div class="bg-white rounded-t-2xl shadow-md px-6 py-5 border-b border-gray-200">
       <div class="flex items-center justify-between">
-        <h1 class="text-2xl font-semibold text-gray-900">Website  Integration</h1>
+        <h1 class="text-2xl font-bold text-gray-900">Website Integration</h1>
         <div class="flex items-center space-x-2">
           <span *ngIf="isProcessing" class="flex items-center text-sm text-gray-600">
-            <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 mr-2"></div>
+            <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-indigo-500 mr-2"></div>
             Processing...
           </span>
           <button 
             *ngIf="integrationCode"
             (click)="copyToClipboard(integrationCode)"
-            class="inline-flex items-center px-3 py-1 text-sm font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
-            [ngClass]="{'bg-green-100 text-green-800 hover:bg-green-200': codeCopied}">
-            <svg *ngIf="!codeCopied" class="h-4 w-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            [ngClass]="{'bg-green-100 text-green-800 hover:bg-green-200': codeCopied, 'bg-gray-100 text-gray-700 hover:bg-gray-200': !codeCopied}"
+            class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+            <svg *ngIf="!codeCopied" class="h-5 w-5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
             </svg>
-            <svg *ngIf="codeCopied" class="h-4 w-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg *ngIf="codeCopied" class="h-5 w-5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
             {{ codeCopied ? 'Copied!' : 'Copy Code' }}
@@ -26,33 +26,29 @@
       </div>
     </div>
 
-    <!-- Rest of the component remains the same -->
     <!-- Status Messages -->
     <div *ngIf="message" 
          [@fadeInOut]
-         class="mx-8 mt-4"
-         [ngClass]="{'bg-green-50 border-green-500 text-green-700': isSuccess, 
-                     'bg-red-50 border-red-500 text-red-700': !isSuccess}">
-      <div class="rounded-lg p-4 flex items-center">
-        <div class="flex-shrink-0">
-          <svg *ngIf="isSuccess" class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-          </svg>
-          <svg *ngIf="!isSuccess" class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-          </svg>
-        </div>
-        <div class="ml-3">
-          <p class="text-sm font-medium">{{ message }}</p>
-        </div>
+         class="mx-6 mt-4 rounded-lg p-4 flex items-center"
+         [ngClass]="{'bg-green-50 border-green-500 text-green-700': isSuccess, 'bg-red-50 border-red-500 text-red-700': !isSuccess}">
+      <div class="flex-shrink-0">
+        <svg *ngIf="isSuccess" class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg>
+        <svg *ngIf="!isSuccess" class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+        </svg>
+      </div>
+      <div class="ml-3">
+        <p class="text-sm font-medium">{{ message }}</p>
       </div>
     </div>
 
     <!-- Main Content -->
-    <div class="bg-white shadow-sm rounded-b-xl">
+    <div class="bg-white shadow-md rounded-b-2xl">
       <!-- Integration Code Display -->
-      <div *ngIf="integrationCode" class="p-6 border-b">
-        <h3 class="text-sm font-medium text-gray-900 mb-3">Integration Code</h3>
+      <div *ngIf="integrationCode" class="p-6 border-b border-gray-200">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">Integration Code</h3>
         <div class="bg-gray-50 rounded-lg p-4">
           <pre class="text-sm text-gray-800 overflow-x-auto"><code>{{ integrationCode }}</code></pre>
         </div>
@@ -60,10 +56,19 @@
 
       <!-- Chatbot Selection & Controls -->
       <div class="p-6 space-y-6">
-        <div clas="inline-block"> <h1 class="text-2xl font-semibold text-gray-900">Gmail  Integration</h1> 
-          <h3 class="font-semibold text-gray-900">(coming soon)</h3></div>
-       
-        <!-- <div class="max-w-xl">
+        <div class="inline-block">
+          <h1 class="text-2xl font-bold text-gray-900">Gmail Integration</h1>
+          <h3 class="text-sm font-medium text-gray-500">(coming soon)</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+ <!-- <div class="max-w-xl">
           <label for="chatbot" class="block text-sm font-medium text-gray-700">Select Chatbot</label>
           <select 
             id="chatbot"
@@ -121,7 +126,3 @@
             </div>
           </div>
         </div> -->
-      </div>
-    </div>
-  </div>
-</div>

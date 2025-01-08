@@ -1,0 +1,168 @@
+<div class="min-h-screen bg-gray-50 py-12">
+    <div class="max-w-3xl mx-auto">
+      <!-- Header Section -->
+      <div class="bg-white rounded-t-xl shadow-sm px-8 py-6 border-b">
+        <h2 class="text-2xl font-bold text-gray-900">Train Chatbot</h2>
+        <p class="mt-2 text-sm text-gray-600">Upload training data from multiple sources to enhance your chatbot's knowledge</p>
+      </div>
+  
+      <!-- Main Form -->
+      <div class="bg-white shadow-sm rounded-b-xl">
+        <form class="p-8" (ngSubmit)="onTrainSubmit()">
+          <div class="space-y-6">
+            <!-- PDF Upload Section -->
+          <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+            <label class="block text-sm font-medium text-gray-900 mb-3">PDF or Text Documents</label>
+            <div class="flex items-center justify-center w-full">
+              <label 
+                for="pdfFile" 
+                class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 rounded-lg cursor-pointer transition-colors duration-200"
+                [class.border-dashed]="!isDragging"
+                [class.border-solid]="isDragging"
+                [class.border-blue-500]="isDragging"
+                [class.bg-blue-50]="isDragging"
+                [class.bg-white]="!isDragging"
+                [class.hover:bg-gray-50]="!isDragging"
+                (dragover)="onDragOver($event)"
+                (dragleave)="onDragLeave($event)"
+                (drop)="onDrop($event)">
+                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                  <svg class="w-8 h-8 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                  </svg>
+                  <p class="mb-2 text-sm text-gray-500">
+                    <span class="font-semibold">Click to upload</span> or drag and drop
+                  </p>
+                  <p class="text-xs text-gray-500">PDF, TEXT files etc.</p>
+                  <p *ngIf="selectedFile" class="mt-2 text-sm text-blue-600">
+                    Selected: {{ selectedFile.name }}
+                  </p>
+                </div>
+                <input 
+                  id="pdfFile" 
+                  type="file" 
+                  (change)="onFileSelected($event)" 
+                  class="hidden"
+                  accept=".pdf,.txt,.doc,.md,.rst">
+              </label>
+            </div>
+          </div>
+            <!-- Additional Sources Section -->
+            <div class="bg-white rounded-lg">
+              <div class="grid grid-cols-1 gap-6">
+                <!-- API URL Input -->
+                <div class="relative">
+                  <label for="apiUrl" class="block text-sm font-medium text-gray-700">API URL</label>
+                  <div class="mt-1 relative rounded-md shadow-sm">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                      </svg>
+                    </div>
+                    <input 
+                      id="apiUrl" 
+                      type="text" 
+                      [(ngModel)]="apiUrl" 
+                      name="apiUrl" 
+                      class="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                      placeholder="Enter API endpoint URL">
+                  </div>
+                </div>
+  
+                <!-- Folder Path Input -->
+                <div class="relative">
+                  <label for="folderPath" class="block text-sm font-medium text-gray-700">Local Knowledge Base</label>
+                  <div class="mt-1 relative rounded-md shadow-sm">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                      </svg>
+                    </div>
+                    <input 
+                      id="folderPath" 
+                      type="text" 
+                      [(ngModel)]="folderPath" 
+                      name="folderPath" 
+                      class="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                      placeholder="Enter path to local knowledge base folder">
+                  </div>
+                </div>
+  
+                <!-- Website URL Input -->
+                <div class="relative">
+                  <label for="websiteUrl" class="block text-sm font-medium text-gray-700">Web based knowledge base</label>
+                  <div class="mt-1 relative rounded-md shadow-sm">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                      </svg>
+                    </div>
+                    <input 
+                      id="websiteUrl" 
+                      type="text" 
+                      [(ngModel)]="WebsiteUrl" 
+                      name="websiteUrl" 
+                      class="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                      placeholder="Enter website URL to crawl">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Submit Button -->
+          <div class="mt-8">
+            <button 
+              type="submit" 
+              class="w-full flex justify-center items-center px-8 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+              Train Chatbot
+            </button>
+          </div>
+        </form>
+      </div>
+  
+      <!-- Toast Notification -->
+      <div 
+        *ngIf="message" 
+        [@slideInOut]
+        class="fixed bottom-4 right-4 max-w-md bg-white rounded-lg shadow-xl border-l-4 transition-all duration-300"
+        [ngClass]="{'border-green-500': isSuccess, 'border-red-500': !isSuccess}">
+        <div class="p-4 flex items-center">
+          <div class="flex-shrink-0">
+            <svg 
+              *ngIf="isSuccess" 
+              class="h-6 w-6 text-green-500" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <svg 
+              *ngIf="!isSuccess" 
+              class="h-6 w-6 text-red-500" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="ml-3 flex-1">
+            <p class="text-sm font-medium" [ngClass]="{'text-green-800': isSuccess, 'text-red-800': !isSuccess}">
+              {{ message }}
+            </p>
+          </div>
+          <button 
+            (click)="message = ''" 
+            class="ml-4 text-gray-400 hover:text-gray-600 focus:outline-none">
+            <span class="sr-only">Close</span>
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
