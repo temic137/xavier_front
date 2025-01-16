@@ -32,7 +32,6 @@ export class TicketManagementComponent {
     this.loadTickets();
   }
 
-
   loadTickets() {
     this.loading = true;
     this.errorMessage = '';
@@ -71,23 +70,11 @@ export class TicketManagementComponent {
     });
   }
 
-  // updateStatus(ticketId: number, status: string) {
-  //   this.ticketService.updateTicketStatus(ticketId, status).subscribe({
-  //     next: () => {
-  //       // Success handling
-  //     },
-  //     error: (error) => {
-  //       this.errorMessage = error;
-  //       this.loadTickets(); // Reload tickets to revert UI
-  //     }
-  //   });
-  // }
-
 
   updateStatus(ticketId: number, status: string) {
     this.ticketService.updateTicketStatus(ticketId, status).subscribe({
       next: () => {
-        // Update local ticket status
+       
         const ticket = this.tickets.find(t => t.id === ticketId);
         if (ticket) {
           ticket.status = status;
@@ -96,7 +83,7 @@ export class TicketManagementComponent {
         if (this.selectedTicket?.ticket.id === ticketId) {
           this.selectedTicket.ticket.status = status;
         }
-        // Optional: Refresh tickets from server
+        //  Refresh tickets from server
         this.loadTickets();
       },
       error: (error) => {
