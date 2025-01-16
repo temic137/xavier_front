@@ -1,16 +1,16 @@
 <div class="min-h-screen bg-gray-50 py-12">
     <div class="max-w-3xl mx-auto">
-      <!-- Header Section -->
+     
       <div class="bg-white rounded-t-xl shadow-sm px-8 py-6 border-b">
         <h2 class="text-2xl font-bold text-gray-900">Train Chatbot</h2>
         <p class="mt-2 text-sm text-gray-600">Upload training data from multiple sources to enhance your chatbot's knowledge</p>
       </div>
   
-      <!-- Main Form -->
+      
       <div class="bg-white shadow-sm rounded-b-xl">
         <form class="p-8" (ngSubmit)="onTrainSubmit()">
           <div class="space-y-6">
-            <!-- PDF Upload Section -->
+            
           <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
             <label class="block text-sm font-medium text-gray-900 mb-3">PDF or Text Documents</label>
             <div class="flex items-center justify-center w-full">
@@ -47,10 +47,10 @@
               </label>
             </div>
           </div>
-            <!-- Additional Sources Section -->
+           
             <div class="bg-white rounded-lg">
               <div class="grid grid-cols-1 gap-6">
-                <!-- API URL Input -->
+                
                 <div class="relative">
                   <label for="apiUrl" class="block text-sm font-medium text-gray-700">API URL</label>
                   <div class="mt-1 relative rounded-md shadow-sm">
@@ -69,7 +69,7 @@
                   </div>
                 </div>
   
-                <!-- Folder Path Input -->
+               
                 <div class="relative">
                   <label for="folderPath" class="block text-sm font-medium text-gray-700">Local Knowledge Base</label>
                   <div class="mt-1 relative rounded-md shadow-sm">
@@ -88,7 +88,7 @@
                   </div>
                 </div>
   
-                <!-- Website URL Input -->
+               
                 <div class="relative">
                   <label for="websiteUrl" class="block text-sm font-medium text-gray-700">Web based knowledge base</label>
                   <div class="mt-1 relative rounded-md shadow-sm">
@@ -110,7 +110,7 @@
             </div>
           </div>
   
-          <!-- Submit Button -->
+         
           <div class="mt-8">
             <button 
               type="submit" 
@@ -124,7 +124,7 @@
         </form>
       </div>
   
-      <!-- Toast Notification -->
+     
       <div 
         *ngIf="message" 
         [@slideInOut]
