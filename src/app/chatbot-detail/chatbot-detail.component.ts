@@ -46,7 +46,6 @@ export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   ) {}
 
   ngOnInit() {
-    // Get chatbot ID from route params
     this.routeSub = this.route.params.subscribe(params => {
       this.chatbotId = params['id'];
       this.loadChatbotDetails();
@@ -59,7 +58,7 @@ export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngOnDestroy() {
-    // Clean up subscriptions
+
     if (this.routeSub) {
       this.routeSub.unsubscribe();
     }
@@ -83,7 +82,6 @@ export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy 
         this.closeMobileMenu();
       });
 
-      // Close menu if clicking outside
       document.addEventListener('click', (event) => {
         if (this.isMobileMenuOpen && 
             !mobileMenu.contains(event.target as Node) && 
@@ -119,11 +117,8 @@ export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy 
 
   setActiveTab(tab: string) {
     this.activeTab = tab;
-    
-    // Close mobile menu when a tab is selected
     this.closeMobileMenu();
 
-    // Navigate respecting parent-child route hierarchy
     switch (tab) {
       case 'train':
         this.router.navigate(['/chatbot', this.chatbotId, 'train', this.chatbotId]);
