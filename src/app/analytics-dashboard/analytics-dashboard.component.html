@@ -1,7 +1,7 @@
 <div class="min-h-screen bg-white">
-  <!-- Stats Section -->
+ 
   <div class="container mx-auto p-8 space-y-8">
-    <!-- Stats cards unchanged -->
+
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="p-6 border rounded-lg">
         <h3 class="text-sm text-gray-600 mb-1">Total Questions</h3>
@@ -17,25 +17,22 @@
       </div>
     </div>
 
-    <!-- Charts with fixed height -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <div class="border rounded-lg p-6">
         <h3 class="text-lg font-medium mb-4">Daily Question Trends</h3>
-        <div class="h-64 relative"> <!-- Fixed height container -->
+        <div class="h-64 relative"> 
           <canvas id="dailyTrendsChart"></canvas>
         </div>
       </div>
 
       <div class="border rounded-lg p-6">
         <h3 class="text-lg font-medium mb-4">Hourly Distribution</h3>
-        <div class="h-64 relative"> <!-- Fixed height container -->
+        <div class="h-64 relative"> 
           <canvas id="hourlyDistributionChart"></canvas>
         </div>
       </div>
     </div>
 
-    <!-- Rest of the dashboard unchanged -->
-    <!-- Common Questions table -->
     <div class="border rounded-lg p-6">
       <h3 class="text-lg font-medium mb-4">Most Common Questions</h3>
       <div class="overflow-x-auto">
@@ -59,7 +56,6 @@
       </div>
     </div>
 
-    <!-- Topic Clusters -->
     <div class="border rounded-lg p-6">
       <h3 class="text-lg font-medium mb-4">Topic Clusters</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
