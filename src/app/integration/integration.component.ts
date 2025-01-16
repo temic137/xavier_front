@@ -5,8 +5,6 @@ import { RouterModule,ActivatedRoute } from '@angular/router';
 import { ApiService } from '../api.service';
 import { Router } from '@angular/router';
 
-
-
 interface Chatbot {
   id: string;
   name: string;
@@ -32,7 +30,6 @@ export class IntegrationComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Get the chatbot ID from the route parameters
     
     this.route.paramMap.subscribe(params => {
       this.chatbotId = params.get('id') || '';
@@ -64,20 +61,13 @@ export class IntegrationComponent implements OnInit {
     this.show = false;
   }
 
-
-
-
-
-  chatbots: Chatbot[] = []; // Store available chatbots
+  chatbots: Chatbot[] = []; 
   selectedChatbot: string | null = null;
   message: string = '';
   isSuccess: boolean = true;
   isProcessing: boolean = false;
   integrationStatus: { [key: string]: boolean } = {};
   processingStatus: { [key: string]: { count: number; timestamp: string } } = {};
-
-  
-
 
   fetchChatbots() {
     this.apiService.getChatbots().subscribe({
@@ -146,7 +136,7 @@ copyToClipboard(text: string) {
     this.codeCopied = true;
     setTimeout(() => {
       this.codeCopied = false;
-    }, 2000); // Reset after 2 seconds
+    }, 2000); 
   });
 }
 }
