@@ -1,5 +1,5 @@
 <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-  <!-- Responsive Header -->
+  
   <nav class="bg-white border-b border-gray-200">
     <div class="container mx-auto px-4 sm:px-6">
       <div class="flex flex-col sm:flex-row justify-between items-center h-auto sm:h-16 py-4 sm:py-0">
@@ -27,7 +27,6 @@
     </div>
   </nav>
 
-  <!-- Responsive Main Content -->
   <div class="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 space-y-2 sm:space-y-0">
       <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Your Chatbots</h2>
@@ -60,9 +59,7 @@
     </div>
   </div>
 
-
-
-  <!-- Responsive Toast Messages -->
+  
   <div *ngIf="message" class="fixed bottom-4 right-4 left-4 sm:left-auto z-50">
     <div class="max-w-md w-full mx-auto sm:mx-0 bg-white shadow-lg rounded-lg pointer-events-auto ring-1 overflow-hidden" 
          [ngClass]="{'ring-green-500': isSuccess, 'ring-red-500': !isSuccess}">
