@@ -1,12 +1,12 @@
 <div class="min-h-screen bg-gray-50 py-8">
   <div class="max-w-2xl mx-auto px-4">
-    <!-- Header -->
+    
     <div class="bg-white rounded-t-xl shadow-sm p-6 border-b">
       <h2 class="text-xl font-semibold text-gray-900">Train Chatbot</h2>
       <p class="mt-1 text-sm text-gray-500">Upload training data from multiple sources</p>
     </div>
 
-    <!-- Main Form -->
+    
     <div class="bg-white shadow-sm rounded-b-xl">
       <form class="p-6 space-y-6" (ngSubmit)="onTrainSubmit()">
         <!-- File Upload Section -->
@@ -43,7 +43,6 @@
           </div>
         </div>
 
-        <!-- Additional Sources -->
         <div class="space-y-4">
           <!-- API URL -->
           <div>
@@ -100,7 +99,7 @@
           </div>
         </div>
 
-        <!-- Submit Button -->
+        
         <button 
           type="submit"
           class="w-full flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
@@ -112,7 +111,7 @@
       </form>
     </div>
 
-    <!-- Toast Message -->
+    
     <div 
       *ngIf="message" 
       class="fixed bottom-4 right-4 max-w-sm bg-white rounded-lg shadow-lg border-l-4"
