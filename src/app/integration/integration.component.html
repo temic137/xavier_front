@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-gray-50 py-8">
   <div class="max-w-4xl mx-auto">
-    <!-- Header -->
+    
     <div class="bg-white rounded-t-2xl shadow-md px-6 py-5 border-b border-gray-200">
       <div class="flex items-center justify-between">
         <h1 class="text-2xl font-bold text-gray-900">Website Integration</h1>
@@ -26,7 +26,6 @@
       </div>
     </div>
 
-    <!-- Status Messages -->
     <div *ngIf="message" 
          [@fadeInOut]
          class="mx-6 mt-4 rounded-lg p-4 flex items-center"
@@ -43,10 +42,9 @@
         <p class="text-sm font-medium">{{ message }}</p>
       </div>
     </div>
-
-    <!-- Main Content -->
+    
     <div class="bg-white shadow-md rounded-b-2xl">
-      <!-- Integration Code Display -->
+      
       <div *ngIf="integrationCode" class="p-6 border-b border-gray-200">
         <h3 class="text-lg font-medium text-gray-900 mb-4">Integration Code</h3>
         <div class="bg-gray-50 rounded-lg p-4">
@@ -54,7 +52,6 @@
         </div>
       </div>
 
-      <!-- Chatbot Selection & Controls -->
       <div class="p-6 space-y-6">
         <div class="inline-block">
           <h1 class="text-2xl font-bold text-gray-900">Gmail Integration</h1>
@@ -64,65 +61,3 @@
     </div>
   </div>
 </div>
-
-
-
-
- <!-- <div class="max-w-xl">
-          <label for="chatbot" class="block text-sm font-medium text-gray-700">Select Chatbot</label>
-          <select 
-            id="chatbot"
-            [(ngModel)]="selectedChatbot" 
-            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md">
-            <option [ngValue]="null">Choose a chatbot...</option>
-            <option *ngFor="let bot of chatbots" [value]="bot.id">{{ bot.name }}</option>
-          </select>
-        </div> -->
-
-        <!-- <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-3 sm:space-y-0">
-          <button 
-            (click)="authorizeGmail(selectedChatbot!)"
-            [disabled]="!selectedChatbot || integrationStatus[selectedChatbot!]"
-            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed">
-            <svg class="mr-2 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M18 8a6 6 0 11-12 0 6 6 0 0112 0zm-1.5 0a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM9 13a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd" />
-            </svg>
-            Authorize Gmail
-          </button>
-
-          <button 
-            (click)="processEmails(selectedChatbot!)"
-            [disabled]="!selectedChatbot || !integrationStatus[selectedChatbot!] || isProcessing"
-            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed">
-            <svg class="mr-2 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" />
-            </svg>
-            Process Emails
-          </button>
-
-          <button 
-            (click)="disableIntegration(selectedChatbot!)"
-            [disabled]="!selectedChatbot || !integrationStatus[selectedChatbot!]"
-            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed">
-            <svg class="mr-2 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-            </svg>
-            Disable Integration
-          </button>
-        </div> -->
-
-        <!-- Processing Status -->
-        <!-- <div *ngIf="processingStatus[selectedChatbot!]" 
-             class="mt-6 bg-gray-50 rounded-lg p-4">
-          <h3 class="text-sm font-medium text-gray-900">Processing Status</h3>
-          <div class="mt-2 text-sm text-gray-600">
-            <div class="flex justify-between items-center">
-              <span>Processed emails</span>
-              <span class="font-medium text-gray-900">{{ processingStatus[selectedChatbot!].count }}</span>
-            </div>
-            <div class="flex justify-between items-center mt-1">
-              <span>Last updated</span>
-              <span class="text-gray-500">{{ processingStatus[selectedChatbot!].timestamp }}</span>
-            </div>
-          </div>
-        </div> -->
