@@ -48,12 +48,9 @@ export class LandingComponent {
   
   isVideoLoading = true;
   hasVideoError = false;
-  
-  // Replace YOUR_VIDEO_ID with your actual YouTube video ID
-  private readonly videoId = 'YOUR_VIDEO_ID';
+   
+  private readonly videoId = 'VIDEO_ID';
 
-
-  // Update these paths to match your actual video and thumbnail locations in assets folder
   videoSrc = 'assets/videos/demo.mp4';
   thumbnailSrc = 'assets/images/video-thumbnail.jpg';
 
@@ -61,7 +58,6 @@ export class LandingComponent {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
   
-
   features: Feature[] = [
     {
       icon: 'fas fa-clock text-blue-500 w-8 h-8',
@@ -137,7 +133,6 @@ export class LandingComponent {
   closeVideoModal() {
     this.isVideoModalOpen = false;
     document.body.style.overflow = 'auto';
-    // Pause the video when modal is closed
     const video = document.querySelector('video');
     if (video) {
       video.pause();
