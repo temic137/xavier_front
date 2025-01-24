@@ -238,7 +238,6 @@ export class AnalyticsDashboardComponent implements OnInit {
   initializeCharts() {
     if (!this.dashboardData) return;
 
-    // Daily Trends Chart
     new Chart('dailyTrendsChart', {
       type: 'line',
       data: {
@@ -261,7 +260,6 @@ export class AnalyticsDashboardComponent implements OnInit {
       }
     });
 
-    // Hourly Distribution Chart
     new Chart('hourlyDistributionChart', {
       type: 'bar',
       data: {

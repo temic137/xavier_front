@@ -1,0 +1,403 @@
+
+<div class="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
+  
+  <nav class="fixed top-0 w-full z-50 backdrop-blur-lg bg-black/50 border-b border-gray-800/50">
+    <div class="container mx-auto flex justify-between items-center px-6 py-4">
+      <div class="flex items-center gap-3">
+        <span class="text-xl font-semibold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+          Xavier AI
+        </span>
+      </div>
+      
+      <!-- Mobile menu button -->
+      <button class="md:hidden p-2" (click)="toggleMobileMenu()">
+        <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path *ngIf="!isMobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          <path *ngIf="isMobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center gap-8">
+        <a routerLink="/features" class="text-sm text-gray-300 hover:text-white transition-colors">Features</a>
+        <a routerLink="/pricing" class="text-sm text-gray-300 hover:text-white transition-colors">Pricing</a>
+        <a routerLink="/contact" class="text-sm text-gray-300 hover:text-white transition-colors">Contact Us</a>
+        <a routerLink="admin/dashboard" class="text-sm text-gray-300 hover:text-white transition-colors">Feedbacks</a>
+        <button routerLink="/login" class="text-sm text-gray-300 hover:text-white transition-colors">Login</button>
+        <button routerLink="/register" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+          Get Started
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div *ngIf="isMobileMenuOpen" class="md:hidden border-t border-gray-800/50">
+      <div class="px-4 py-2 space-y-3">
+        <a routerLink="/features" class="block py-2 text-sm text-gray-300 hover:text-white transition-colors">Features</a>
+        <a routerLink="/pricing" class="block py-2 text-sm text-gray-300 hover:text-white transition-colors">Pricing</a>
+        <a routerLink="/contact" class="block py-2 text-sm text-gray-300 hover:text-white transition-colors">Contact Us</a>
+        <a routerLink="admin/dashboard" class="block py-2 text-sm text-gray-300 hover:text-white transition-colors">Feedbacks</a>
+        <a routerLink="/login" class="block py-2 text-sm text-gray-300 hover:text-white transition-colors">Login</a>
+        <div class="pt-2 pb-4">
+          <button routerLink="/register" class="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+            Get Started
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  
+  <section class="pt-32 pb-20 px-4">
+    <div class="container mx-auto max-w-6xl">
+      <div class="text-center space-y-8">
+        <div class="inline-block px-4 py-2 bg-blue-500/10 rounded-full">
+          <span class="text-sm text-blue-400">Revolutionize Customer Support</span>
+        </div>
+        
+        <h1 class="text-5xl md:text-7xl font-bold">
+          Transform Support with
+          <span class="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+            Artificial Intelligence
+          </span>
+        </h1>
+        
+        <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+          Deliver exceptional customer experiences with our intelligent chatbot platform.
+          Available 24/7, powered by cutting-edge AI.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <button routerLink="/register" class="group px-8 py-4 bg-blue-500 hover:bg-blue-600 rounded-xl font-medium transition-all flex items-center justify-center gap-2">
+            Start Free Trial
+            <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"></path>
+              <path d="M12 5l7 7-7 7"></path>
+            </svg>
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Grid -->
+  <section class="py-20">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <!-- Feature 1 -->
+        <div class="group p-8 rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-300">
+          <div class="space-y-6">
+            <div class="w-16 h-16 rounded-xl bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform">
+             
+              <svg class="w-8 h-8 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 6v6l4 2"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold">24/7 Availability</h3>
+            <p class="text-gray-400">Never miss a customer query with round-the-clock AI support</p>
+          </div>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="group p-8 rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-300">
+          <div class="space-y-6">
+            <div class="w-16 h-16 rounded-xl bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform">
+              
+              <svg class="w-8 h-8 text-purple-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13 2L3 14h9l-1 8L21 10h-9l1-8z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold">Smart Responses</h3>
+            <p class="text-gray-400">AI-powered responses that understand context and provide accurate solutions</p>
+          </div>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="group p-8 rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-300">
+          <div class="space-y-6">
+            <div class="w-16 h-16 rounded-xl bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform">
+              
+              <svg class="w-8 h-8 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 20V10"></path>
+                <path d="M12 20V4"></path>
+                <path d="M6 20v-6"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold">Analytics & Insights</h3>
+            <p class="text-gray-400">Detailed analytics to help you understand customer needs better</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+<section class="py-20">
+  <div class="container mx-auto px-4 max-w-6xl">
+      <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-light mb-4">Powerful Features</h2>
+      <p class="text-gray-400">Explore what makes our platform unique</p>
+        </div>
+    <div class="space-y-32">
+      <!-- Detailed Feature 1 -->
+      <div class="flex flex-col md:flex-row items-center gap-12">
+        <div class="flex-1 space-y-6">
+          <div class="w-16 h-16 rounded-xl bg-white/5 flex items-center justify-center">
+            
+            <svg class="w-8 h-8 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-semibold">Comprehensive Knowledge Training</h3>
+          <p class="text-gray-400 leading-relaxed">
+            Train your chatbots using multiple data sources including PDF documents, web knowledge bases, and APIs
+          </p>
+          <button class="group flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors">
+            Learn more
+            
+            <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18l6-6-6-6"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="flex-1 mt-8 md:mt-0 md:px-6">
+          <img src="./assets/train.png" alt="Knowledge Training" class="rounded-xl shadow-2xl shadow-blue-500/10">
+        </div>
+      </div>
+
+      <!-- Detailed Feature 2 -->
+      <div class="flex flex-col md:flex-row-reverse items-center gap-12">
+        <div class="flex-1 space-y-6">
+          <div class="w-16 h-16 rounded-xl bg-white/5 flex items-center justify-center">
+            
+            <svg class="w-8 h-8 text-purple-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-semibold">Easy Knowledge Base Management</h3>
+          <p class="text-gray-400 leading-relaxed">
+            Edit and update your chatbot's knowledge base in real-time with our intuitive interface
+          </p>
+          <button class="group flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors">
+            Learn more
+            <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18l6-6-6-6"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="flex-1 mt-8 md:mt-0 md:px-6">
+          <img src="./assets/edit.png" alt="Knowledge Management" class="rounded-xl shadow-2xl shadow-blue-500/10">
+        </div>
+      </div>
+
+      <!-- Feature 3: Website Integration -->
+      <div class="flex flex-col md:flex-row items-center gap-12">
+        <div class="flex-1 space-y-6">
+          <div class="w-16 h-16 rounded-xl bg-white/5 flex items-center justify-center">
+            
+            <svg class="w-8 h-8 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <rect x="6" y="8" width="12" height="3" rx="1"/>
+              <path d="M6 14h8"/>
+              <path d="M6 17h5"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-semibold">Seamless Website Integration</h3>
+          <p class="text-gray-400 leading-relaxed">
+            Integrate your chatbots into any website with our simple embed code. Our chatbots appear as a professional live chat widget, providing instant support to your visitors while maintaining your website's look and feel.
+          </p>
+          <button class="group flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors">
+            Learn more
+            <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18l6-6-6-6"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="flex-1 mt-8 md:mt-0 md:px-6">
+          <img src="./assets/integration.png" alt="Website Integration" class="rounded-xl shadow-2xl shadow-blue-500/10">
+        </div>
+      </div>
+
+      <!-- Feature 4: Analytics & Testing -->
+      <div class="flex flex-col md:flex-row-reverse items-center gap-12">
+        <div class="flex-1 space-y-6">
+          <div class="w-16 h-16 rounded-xl bg-white/5 flex items-center justify-center">
+            
+            <svg class="w-8 h-8 text-yellow-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 20h18"/>
+              <path d="M7 20v-8"/>
+              <path d="M13 20V8"/>
+              <path d="M19 20V4"/>
+              <circle cx="7" cy="12" r="1" fill="currentColor"/>
+              <circle cx="13" cy="8" r="1" fill="currentColor"/>
+              <circle cx="19" cy="4" r="1" fill="currentColor"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-semibold">Real-time Analytics & Testing</h3>
+          <p class="text-gray-400 leading-relaxed">
+            Monitor your chatbots' performance with comprehensive analytics. Test conversations, track user satisfaction, and gather insights about user interactions. Make data-driven decisions to improve your chatbots' effectiveness.
+          </p>
+          <button class="group flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors">
+            Learn more
+            <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18l6-6-6-6"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="flex-1 mt-8 md:mt-0 md:px-6">
+          <img src="./assets/analytics.png" alt="Analytics and Testing" class="rounded-xl shadow-2xl shadow-blue-500/10">
+        </div>
+      </div>
+      <div class="flex flex-col md:flex-row items-center gap-12">
+        <div class="flex-1 space-y-6">
+          <div class="w-16 h-16 rounded-xl bg-white/5 flex items-center justify-center">
+            
+            <svg class="w-8 h-8 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-semibold">Seamless Human Support Escalation</h3>
+          <p class="text-gray-400 leading-relaxed">
+            When situations require a human touch, users can easily escalate their conversations to real support agents. Our ticketing system ensures timely transitions from AI to human support, maintaining full conversation context and user history. Support teams can efficiently manage and respond to escalated tickets through a dedicated dashboard.
+          </p>
+          
+          <button class="group flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors">
+            Learn more
+            <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18l6-6-6-6"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="flex-1 mt-8 md:mt-0 md:px-6">
+          <img src="./assets/escalate.png" alt="Human Support Escalation" class="rounded-xl shadow-2xl shadow-blue-500/10">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="py-20">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-light mb-4">Simple, Transparent Pricing</h2>
+      <p class="text-gray-400">Free during beta period</p>
+    </div>
+    
+    <div class="max-w-lg mx-auto">
+      <div class="p-10 rounded-xl bg-black border border-gray-800 hover:border-blue-500/50 transition-all duration-300 relative overflow-hidden">
+        
+        <div class="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/20 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-purple-500/20 rounded-full blur-3xl"></div>
+        
+        <div class="relative space-y-8">
+          
+          <div class="space-y-4">
+            <h3 class="text-2xl font-light">Stay ahead of the competition.</h3>
+            <div class="flex items-baseline gap-2">
+              <div class="relative">
+                <span class="text-5xl font-light text-gray-500 line-through">$42</span>
+                <span class="absolute -top-4 right-0 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">Beta</span>
+              </div>
+              <span class="text-gray-400">/month</span>
+              <span class="text-4xl font-light text-blue-500 ml-2">FREE</span>
+            </div>
+          </div>
+
+          
+          <ul class="space-y-6">
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-lg">Multiple chatbots</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-lg">Real-time analytics</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-lg">Integration into websites</span>
+            </li>
+          </ul>
+
+          <button class="w-full py-4 rounded-lg bg-blue-500 hover:bg-blue-600 transition-colors text-lg font-medium group flex items-center justify-center gap-2">
+            Get Started Free
+            <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"></path>
+              <path d="M12 5l7 7-7 7"></path>
+            </svg>
+          </button>
+
+          <p class="text-center text-sm text-gray-400">No credit card required during beta</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+   
+   <section class="py-20">
+    <div class="container mx-auto px-4 max-w-4xl">
+      <div class="text-center p-12 rounded-3xl bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-white/10">
+        <h2 class="text-4xl font-bold mb-4">Ready to Transform Your Support?</h2>
+        <!-- <p class="text-xl text-gray-300 mb-8">Join thousands of companies already using our AI solution</p> -->
+        <button routerLink="/register" class="group px-8 py-4 bg-blue-500 hover:bg-blue-600 rounded-xl font-medium transition-all flex items-center gap-2 mx-auto">
+          Get Started Now
+          <i class="fas fa-arrow-right w-4 h-4 transition-transform group-hover:translate-x-1"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Video Modal -->
+<div *ngIf="isVideoModalOpen" 
+     class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90" 
+     (click)="closeVideoModal()">
+  <div class="relative w-full max-w-4xl aspect-video" (click)="$event.stopPropagation()">
+    <!-- Close button -->
+    <button class="absolute -top-12 right-0 p-2 text-white/80 hover:text-white transition-colors" 
+            (click)="closeVideoModal()">
+      <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    
+    <div *ngIf="isVideoLoading" class="absolute inset-0 flex items-center justify-center">
+      <div class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+    </div>
+
+    <div *ngIf="hasVideoError" class="absolute inset-0 flex items-center justify-center text-red-500">
+      Failed to load video. Please try again later.
+    </div>
+
+    <video 
+      class="w-full h-full rounded-2xl" 
+      [class.opacity-0]="isVideoLoading"
+      [src]="videoSrc"
+      (loadeddata)="onVideoLoad()"
+      (error)="onVideoError()"
+      controls
+      autoplay
+      preload="auto"
+      [poster]="thumbnailSrc">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+

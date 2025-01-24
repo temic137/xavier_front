@@ -143,7 +143,6 @@ export class LandingComponent {
   closeVideoModal() {
     this.isVideoModalOpen = false;
     document.body.style.overflow = 'auto';
-    // Pause the video when modal is closed
     const video = document.querySelector('video');
     if (video) {
       video.pause();

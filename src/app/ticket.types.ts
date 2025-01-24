@@ -1,12 +1,4 @@
-// export interface Ticket {
-//     id: number;
-//     subject: string;
-//     description?: string;
-//     status: string;
-//     priority: string;
-//     account_details?: string;
-//     created_at: string;
-//   }
+
   
 
 export interface Ticket {
@@ -16,7 +8,7 @@ export interface Ticket {
     status: string;
     priority: string;
     account_details?: {
-        [key: string]: any;  // Or define specific properties if known
+        [key: string]: any; 
     };
     created_at: string;
 }

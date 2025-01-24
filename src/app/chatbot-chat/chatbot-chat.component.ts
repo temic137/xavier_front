@@ -22,8 +22,6 @@ export class ChatbotChatComponent implements OnInit {
   isRecording: boolean = false;
   audioUrl: string | null = null;
   oncli: boolean =false;
-
-  // New feedback-related properties
   showFeedback: boolean = false;
   feedbackText: string = '';
 
@@ -35,7 +33,7 @@ export class ChatbotChatComponent implements OnInit {
 
   ngOnInit() {
     this.chatbotId = this.route.snapshot.paramMap.get('id') || '';
-    // Fetch chatbot name from API
+
     this.chatbotName = 'Chatbot';
   }
 
@@ -179,12 +177,11 @@ export class ChatbotChatComponent implements OnInit {
     }
   }
 
-  // New method to toggle feedback form visibility
+
   toggleFeedback() {
     this.showFeedback = !this.showFeedback;
   }
 
-    // New method to submit feedback
   submitFeedback() {
     if (this.feedbackText.trim()) {
       this.apiService.submitFeedback(this.chatbotId, this.feedbackText).subscribe(

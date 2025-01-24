@@ -70,7 +70,6 @@ export class FeedbackDashboardComponent implements OnInit{
         return;
       }
 
-      // Split the feedback string into individual feedback entries
       const feedbackEntries = chatbot.feedback.split('------------------------\n');
       
       feedbackEntries.forEach(entry => {
@@ -97,12 +96,9 @@ export class FeedbackDashboardComponent implements OnInit{
   applyFilters() {
     let filtered = this.allFeedback;
 
-    // Apply chatbot filter
     if (this.selectedChatbot !== 'all') {
       filtered = filtered.filter(f => f.chatbotId === this.selectedChatbot);
     }
-
-    // Apply search filter
     if (this.searchTerm) {
       const search = this.searchTerm.toLowerCase();
       filtered = filtered.filter(f => 
@@ -112,7 +108,6 @@ export class FeedbackDashboardComponent implements OnInit{
       );
     }
 
-    // Apply time filter
     const now = new Date();
     switch (this.timeFilter) {
       case 'today':

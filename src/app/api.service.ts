@@ -110,10 +110,7 @@ export class ApiService {
     return this.http.delete(`${this.apiUrl}/delete_chatbot/${chatbotId}`, { withCredentials: true });
   }
 
-  // askChatbot(chatbotId: string, question: string): Observable<any> {
-  //   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-  //   return this.http.post(`${this.apiUrl}/chatbot/${chatbotId}/ask`, { question }, { withCredentials: true });
-  // }
+
 
   askChatbot(chatbotId: string, question: string | File, inputType: 'text' | 'audio' = 'text'): Observable<any> {
     if (inputType === 'text') {
@@ -142,7 +139,7 @@ export class ApiService {
     const body = { feedback };
     return this.http.post(url, body, { 
         headers, 
-        withCredentials: true  // Add this line
+        withCredentials: true  
     });
 }
   
@@ -205,7 +202,7 @@ export class ApiService {
     );
   }
 
-  // Add this method to the ApiService class
+ 
 getChatbot1(chatbotId: string): Observable<any> {
   return this.http.get(`${this.apiUrl}/chatbots/${chatbotId}`, { withCredentials: true });
 }
@@ -242,7 +239,7 @@ getTicketDetails(ticketId: number): Observable<TicketDetail> {
   );
 }
 
-  // Get tickets by chatbot ID
+  
   getTicketsByChatbotId(chatbotId: string): Observable<Ticket[]> {
     return this.http.get<TicketsResponse>(`${this.apiUrl}/tickets/${chatbotId}`, { withCredentials: true }).pipe(
       map(response => response.tickets),
