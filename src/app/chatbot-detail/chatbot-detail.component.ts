@@ -127,21 +127,27 @@ export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     switch (tab) {
       case 'train':
         this.router.navigate(['/chatbot', this.chatbotId, 'train', this.chatbotId]);
+        this.isMobileMenuOpen = false;
         break;
       case 'analytics':
         this.router.navigate(['/chatbot', this.chatbotId, 'analyticsdash', this.chatbotId]);
+        this.isMobileMenuOpen = false;
         break;
       case 'test':
         this.router.navigate(['/chatbot', this.chatbotId, 'chat', this.chatbotId]);
+        this.isMobileMenuOpen = false;
         break;
       case 'knowledge':
         this.router.navigate(['/chatbot', this.chatbotId, 'edit', this.chatbotId]);
+        this.isMobileMenuOpen = false;
         break;
       case 'integration' :
         this.router.navigate(['/chatbot', this.chatbotId, 'integration', this.chatbotId]);
+        this.isMobileMenuOpen = false;
         break;
       case 'ticket' :
         this.router.navigate(['/chatbot', this.chatbotId, 'tickets', this.chatbotId]);
+        this.isMobileMenuOpen = false;
         break;
       
     }

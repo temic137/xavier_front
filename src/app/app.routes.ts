@@ -16,6 +16,8 @@ import { ContactComponent } from './contact/contact.component';
 import { CareersComponent } from './careers/careers.component';
 import { AboutComponent } from './about/about.component';
 import { TicketManagementComponent } from './ticket-management/ticket-management.component';
+import { AgentDashboardComponent } from './agent-dashboard/agent-dashboard.component';
+
 
 export const routes: Routes = [
     { path: '', component: LandingComponent },
@@ -26,6 +28,8 @@ export const routes: Routes = [
     { path: 'contact', component:ContactComponent},
     { path: 'careers', component:CareersComponent},
     { path: 'about', component:AboutComponent},
+    { path: 'agent-dash', component: AgentDashboardComponent },
+    
     { 
         path: 'chatbot/:id', 
         component: ChatbotDetailComponent,

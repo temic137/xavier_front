@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { RotatingFeaturesComponent } from '../rotating-features/rotating-features.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -48,6 +48,10 @@ export class LandingComponent {
   
   isVideoLoading = true;
   hasVideoError = false;
+
+
+  currentSlide = 0;
+  private intervalId: any;
   
   // Replace YOUR_VIDEO_ID with your actual YouTube video ID
   private readonly videoId = 'YOUR_VIDEO_ID';
@@ -60,6 +64,7 @@ export class LandingComponent {
   toggleMobileMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
+  
   
 
   features: Feature[] = [
@@ -79,6 +84,7 @@ export class LandingComponent {
       description: 'Detailed analytics to help you understand customer needs better'
     }
   ];
+
 
   detailedFeatures: DetailedFeature[] = [
     {

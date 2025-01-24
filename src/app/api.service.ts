@@ -28,7 +28,6 @@ export interface DashboardData {
       }>;
       question_count: number;
     }>;
-    timeframe_days: number;
     total_questions: number;
   };
   usage_patterns: {
@@ -40,23 +39,31 @@ export interface DashboardData {
       hour: number;
       count: number;
     }>;
-    timeframe_days: number;
+  };
+  sentiment_analytics: {
+    total_ratings: number;
+    positive_ratings: number;
+    negative_ratings: number;
+    satisfaction_rate: number;
+    detail_records: Array<{
+      sentiment: string;
+      timestamp: string;
+      conversation_id: string | null;
+    }>;
   };
   last_updated: string;
   timeframe_days: number;
 }
 
 
-
-
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'https://xavier-ai-backend.onrender.com';  // Update this to your Flask backend URL
+  // private apiUrl = 'https://xavier-ai-backend.onrender.com';  // Update this to your Flask backend URL
 
   
-  // private apiUrl = 'http://127.0.0.1:5000';
+  private apiUrl = 'http://127.0.0.1:5000';
    
   constructor(private http: HttpClient) { }
 
@@ -125,16 +132,6 @@ export class ApiService {
   getIntegration_code(chatbotId: string): Observable<any>{
     return this.http.get(`${this.apiUrl}/get_chatbot_script/${chatbotId}`,{ withCredentials: true });
   }
-  // submitFeedback(chatbotId: string, feedback: string,): Observable<any> {
-  //   const url = `${this.apiUrl}/chatbot/${chatbotId}/feedback`;
-  //   const headers = new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //     'User-ID': "temi2"
-  //   });
-  //   const body = { feedback };
-
-  //   return this.http.post(url, body, { headers });
-  // }
 
   submitFeedback(chatbotId: string, feedback: string): Observable<any> {
     const url = `${this.apiUrl}/chatbot/${chatbotId}/feedback`;
