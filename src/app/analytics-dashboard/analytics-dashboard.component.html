@@ -4,36 +4,34 @@
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
       <div class="p-6 border rounded-lg">
         <h3 class="text-sm text-gray-600 mb-1">Total Questions</h3>
-        <p class="text-3xl font-bold">{{dashboardData?.common_questions?.total_questions || 0}}</p>
+        <p class="text-3xl font-bold">{{ dashboardData?.common_questions?.total_questions || 0 }}</p>
       </div>
       <div class="p-6 border rounded-lg">
         <h3 class="text-sm text-gray-600 mb-1">Active Topics</h3>
-        <p class="text-3xl font-bold">{{dashboardData?.topic_clusters?.clusters?.length || 0}}</p>
+        <p class="text-3xl font-bold">{{ dashboardData?.topic_clusters?.clusters?.length || 0 }}</p>
       </div>
       <div class="p-6 border rounded-lg">
         <h3 class="text-sm text-gray-600 mb-1">Peak Hour</h3>
-        <p class="text-3xl font-bold">{{getPeakHour()}}:00</p>
+        <p class="text-3xl font-bold">{{ getPeakHour() }}:00</p>
       </div>
       <div class="p-6 border rounded-lg">
         <h3 class="text-sm text-gray-600 mb-1">User Satisfaction</h3>
-        <p class="text-3xl font-bold">{{dashboardData?.sentiment_analytics?.satisfaction_rate || 0}}%</p>
+        <p class="text-3xl font-bold">{{ dashboardData?.sentiment_analytics?.satisfaction_rate || 0 }}%</p>
       </div>
     </div>
 
     <!-- Charts Section -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Daily Trends Chart -->
       <div class="border rounded-lg p-6">
         <h3 class="text-lg font-medium mb-4">Daily Question Trends</h3>
-        <div class="h-64 relative">
-          <canvas id="dailyTrendsChart"></canvas>
-        </div>
+        <canvasjs-chart [options]="dailyTrendsChartOptions"></canvasjs-chart>
       </div>
 
+      <!-- Hourly Distribution Chart -->
       <div class="border rounded-lg p-6">
         <h3 class="text-lg font-medium mb-4">Hourly Distribution</h3>
-        <div class="h-64 relative">
-          <canvas id="hourlyDistributionChart"></canvas>
-        </div>
+        <canvasjs-chart [options]="hourlyDistributionChartOptions"></canvasjs-chart>
       </div>
     </div>
 
@@ -43,17 +41,18 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div class="p-4 bg-green-50 rounded-lg">
           <h4 class="text-sm text-gray-600">Positive Ratings</h4>
-          <p class="text-2xl font-bold text-green-600">{{dashboardData?.sentiment_analytics?.positive_ratings || 0}}</p>
+          <p class="text-2xl font-bold text-green-600">{{ dashboardData?.sentiment_analytics?.positive_ratings || 0 }}</p>
         </div>
         <div class="p-4 bg-red-50 rounded-lg">
           <h4 class="text-sm text-gray-600">Negative Ratings</h4>
-          <p class="text-2xl font-bold text-red-600">{{dashboardData?.sentiment_analytics?.negative_ratings || 0}}</p>
+          <p class="text-2xl font-bold text-red-600">{{ dashboardData?.sentiment_analytics?.negative_ratings || 0 }}</p>
         </div>
         <div class="p-4 bg-gray-50 rounded-lg">
           <h4 class="text-sm text-gray-600">Total Ratings</h4>
-          <p class="text-2xl font-bold">{{dashboardData?.sentiment_analytics?.total_ratings || 0}}</p>
+          <p class="text-2xl font-bold">{{ dashboardData?.sentiment_analytics?.total_ratings || 0 }}</p>
         </div>
       </div>
+      <canvasjs-chart [options]="sentimentChartOptions"></canvasjs-chart>
     </div>
 
     <!-- Common Questions Section -->
@@ -71,10 +70,10 @@
           </thead>
           <tbody>
             <tr *ngFor="let q of dashboardData?.common_questions?.top_questions" class="border-b">
-              <td class="px-4 py-3">{{q.question}}</td>
-              <td class="px-4 py-3">{{q.count}}</td>
-              <td class="px-4 py-3">{{formatDate(q.last_asked)}}</td>
-              <td class="px-4 py-3 max-w-md truncate">{{q.latest_answer}}</td>
+              <td class="px-4 py-3">{{ q.question }}</td>
+              <td class="px-4 py-3">{{ q.count }}</td>
+              <td class="px-4 py-3">{{ formatDate(q.last_asked) }}</td>
+              <td class="px-4 py-3 max-w-md truncate">{{ q.latest_answer }}</td>
             </tr>
           </tbody>
         </table>
@@ -82,47 +81,17 @@
     </div>
 
     <!-- Topic Clusters Section -->
-    <!-- <div class="border rounded-lg p-6">
+    <div class="border rounded-lg p-6">
       <h3 class="text-lg font-medium mb-4">Topic Clusters</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div *ngFor="let cluster of dashboardData?.topic_clusters?.clusters" class="p-4 border rounded-lg">
           <div class="flex justify-between mb-2">
-            <h4>Cluster {{cluster.cluster_id + 1}}</h4>
-            <span class="text-sm text-gray-600">{{cluster.question_count}} questions</span>
-          </div>
-          <div class="mb-2">
-            <h5 class="text-sm font-medium text-gray-600">Top Terms:</h5>
-            <p class="text-sm">
-              <span *ngFor="let term of cluster.topic_terms; let last = last">
-                {{term}}{{!last ? ', ' : ''}}
-              </span>
-            </p>
-          </div>
-          <div class="mt-2">
-            <h5 class="text-sm font-medium text-gray-600">Sample Questions:</h5>
-            <ul class="text-sm list-disc list-inside">
-              <li *ngFor="let q of cluster.questions.slice(0, 3)" class="truncate">
-                {{q.question}}
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
-     <!-- Topic Clusters -->
-     <div class="border rounded-lg p-6">
-      <h3 class="text-lg font-medium mb-4">Topic Clusters</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div *ngFor="let cluster of dashboardData?.topic_clusters?.clusters" 
-             class="p-4 border rounded-lg">
-          <div class="flex justify-between mb-2">
-            <h4>Cluster {{cluster.cluster_id + 1}}</h4>
-            <span class="text-sm text-gray-600">{{cluster.question_count}} questions</span>
+            <h4>Cluster {{ cluster.cluster_id + 1 }}</h4>
+            <span class="text-sm text-gray-600">{{ cluster.question_count }} questions</span>
           </div>
           <p class="text-sm text-gray-600">
             <span *ngFor="let term of cluster.topic_terms; let last = last">
-              {{term}}{{!last ? ', ' : ''}}
+              {{ term }}{{ !last ? ', ' : '' }}
             </span>
           </p>
         </div>
@@ -130,10 +99,3 @@
     </div>
   </div>
 </div>
-
-
-
-
-
-
-

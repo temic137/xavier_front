@@ -7,3 +7,8 @@
   .chart-card {
     @apply h-[300px];
   }
+
+  canvasjs-chart {
+    width: 100%;
+    height: 400px;
+  }
