@@ -28,7 +28,7 @@ export interface Escalation {
   providedIn: 'root'
 })
 export class EscalationService {
-  private apiUrl = 'http://127.0.0.1:5000';
+  private apiUrl = 'https://xavier-back.onrender.com';
   private escalationsEventSource: EventSource | null = null;
   private escalations = new BehaviorSubject<Escalation[]>([]);
   
