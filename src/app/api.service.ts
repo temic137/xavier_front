@@ -65,7 +65,7 @@ export class ApiService {
   // private apiUrl = 'https://xavier-ai-backend.onrender.com'; 
 
   
-  private apiUrl = 'http://127.0.0.1:5000';
+  private apiUrl = 'https://xavier-back.onrender.com';
   
    
   constructor(private http: HttpClient) { }
