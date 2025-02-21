@@ -57,7 +57,7 @@ interface EscalationsResponse {
 })
 export class AgentDashboardComponent implements OnInit {
   // API URL
-  private apiUrl = 'http://127.0.0.1:5000';
+  private apiUrl = 'https://xavier-back.onrender.com';
 
   // Core properties
   chatbotId: string = '';
