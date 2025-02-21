@@ -76,3 +76,574 @@
 .carousel-item:nth-child(4) { animation-delay: 15s; }
 .carousel-item:nth-child(5) { animation-delay: 20s; }
 
+@keyframes draw {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-draw {
+  stroke-dasharray: 100;
+  animation: draw 1.5s ease-in-out infinite;
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 3s linear infinite;
+}
+
+.typing-animation {
+  overflow: hidden;
+  border-right: 2px solid black;
+  white-space: nowrap;
+  animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: black }
+}
+
+/* Smooth transitions */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Hover animations */
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+}
+
+.hover\:shadow-xl:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Loading animations */
+@keyframes draw-circle {
+  from {
+    stroke-dashoffset: 300;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes draw-logo {
+  from {
+    stroke-dashoffset: 200;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-draw-circle {
+  stroke-dasharray: 300;
+  animation: draw-circle 2s ease-out forwards;
+}
+
+.animate-draw-logo {
+  stroke-dasharray: 200;
+  animation: draw-logo 1.5s ease-out forwards;
+}
+
+.animate-fade-in-delayed {
+  opacity: 0;
+  animation: fade-in 0.5s ease-out 1.8s forwards;
+}
+
+.animate-fade-in-delayed-2 {
+  opacity: 0;
+  animation: fade-in 0.5s ease-out 2s forwards;
+}
+
+/* Image animations and effects */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Enhanced shadows */
+.shadow-3xl {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Smooth transitions */
+.transform-gpu {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Image container hover effects */
+.group:hover .group-hover\:opacity-75 {
+  opacity: 0.75;
+}
+
+.group:hover .group-hover\:opacity-40 {
+  opacity: 0.4;
+}
+
+.group:hover .group-hover\:scale-105 {
+  transform: scale(1.05);
+}
+
+/* Shine effect */
+.group:hover .group-hover\:translate-x-full {
+  transform: translateX(100%);
+}
+
+/* Enhanced circle drawing animation */
+@keyframes draw-circle {
+  from {
+    stroke-dashoffset: 300;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes draw-circle-2 {
+  0% {
+    stroke-dashoffset: 250;
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+/* Line drawing animations */
+@keyframes draw-line {
+  0% {
+    stroke-dashoffset: 100;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+/* Loading dot animation */
+@keyframes loading-dot {
+  0%, 100% {
+    transform: scale(0.3);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Apply animations to elements */
+.animate-draw-circle {
+  stroke-dasharray: 300;
+  animation: draw-circle 2s ease-out forwards;
+}
+
+.animate-draw-circle-2 {
+  stroke-dasharray: 250;
+  animation: draw-circle-2 2s ease-out 0.5s forwards;
+}
+
+.animate-draw-line-1 {
+  stroke-dasharray: 100;
+  animation: draw-line 1.5s ease-out 0.2s forwards;
+}
+
+.animate-draw-line-2 {
+  stroke-dasharray: 100;
+  animation: draw-line 1.5s ease-out 0.4s forwards;
+}
+
+.animate-draw-line-3 {
+  stroke-dasharray: 100;
+  animation: draw-line 1.5s ease-out 0.6s forwards;
+}
+
+.animate-draw-line-4 {
+  stroke-dasharray: 100;
+  animation: draw-line 1.5s ease-out 0.8s forwards;
+}
+
+.animate-loading-dot {
+  animation: loading-dot 1.4s ease-in-out infinite;
+}
+
+/* Chat bubble drawing animation */
+@keyframes draw-chat {
+  0% {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+/* Circuit line animations */
+@keyframes draw-circuit {
+  0% {
+    stroke-dashoffset: 100;
+    opacity: 0;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+/* Node appearance animation */
+@keyframes node-appear {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Typing dots animation */
+@keyframes typing-dot {
+  0% {
+    transform: translateY(0);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateY(-6px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0.2;
+  }
+}
+
+/* Apply animations to elements */
+.animate-draw-chat {
+  stroke-dasharray: 400;
+  animation: draw-chat 2s ease-in-out infinite;
+}
+
+.animate-draw-circuit-1 {
+  stroke-dasharray: 100;
+  animation: draw-circuit 1.5s ease-out 0.5s forwards;
+}
+
+.animate-draw-circuit-2 {
+  stroke-dasharray: 100;
+  animation: draw-circuit 1.5s ease-out 0.8s forwards;
+}
+
+.animate-node-1 {
+  fill: black;
+  animation: node-appear 0.5s ease-out 1s forwards;
+  opacity: 0;
+}
+
+.animate-node-2 {
+  fill: black;
+  animation: node-appear 0.5s ease-out 1.2s forwards;
+  opacity: 0;
+}
+
+.animate-node-3 {
+  fill: black;
+  animation: node-appear 0.5s ease-out 1.4s forwards;
+  opacity: 0;
+}
+
+.animate-node-4 {
+  fill: black;
+  animation: node-appear 0.5s ease-out 1.6s forwards;
+  opacity: 0;
+}
+
+.animate-typing-dot {
+  animation: typing-dot 1.2s ease-in-out infinite;
+}
+
+/* Browser window drawing animations */
+@keyframes draw-browser {
+  0% {
+    stroke-dashoffset: 200;
+    opacity: 0;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes draw-controls {
+  0% {
+    stroke-dashoffset: 50;
+    opacity: 0;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes draw-widget {
+  0% {
+    stroke-dashoffset: 100;
+    opacity: 0;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes draw-code {
+  0% {
+    stroke-dashoffset: 30;
+    opacity: 0;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+/* Apply animations to elements */
+.animate-draw-browser {
+  stroke-dasharray: 200;
+  animation: draw-browser 1.5s ease-out forwards;
+}
+
+.animate-draw-controls {
+  stroke-dasharray: 50;
+  animation: draw-controls 1s ease-out 0.5s forwards;
+}
+
+.animate-draw-dot {
+  opacity: 0;
+  animation: node-appear 0.3s ease-out 0.8s forwards;
+}
+
+.animate-draw-widget {
+  stroke-dasharray: 100;
+  animation: draw-widget 1s ease-out 1.2s forwards;
+}
+
+.animate-draw-code {
+  stroke-dasharray: 30;
+  animation: draw-code 0.8s ease-out 1.5s forwards;
+}
+
+/* Chat escalation animations */
+@keyframes draw-human {
+  0% {
+    stroke-dashoffset: 150;
+    opacity: 0;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes draw-arrow {
+  0% {
+    stroke-dashoffset: 50;
+    opacity: 0;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+.animate-draw-human {
+  stroke-dasharray: 150;
+  animation: draw-human 1.5s ease-out 0.5s forwards;
+}
+
+.animate-draw-arrow {
+  stroke-dasharray: 50;
+  animation: draw-arrow 1s ease-out 1s forwards;
+  stroke: currentColor;
+}
+
+/* Connection line animation */
+@keyframes draw-connection {
+  0% {
+    stroke-dashoffset: 100;
+    opacity: 0;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+.animate-draw-connection {
+  stroke-dasharray: 100;
+  animation: draw-connection 1s ease-out 1.5s forwards;
+}
+
+/* First, let's define a better drop animation */
+@keyframes dropIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-100vh);
+  }
+  70% {
+    transform: translateY(20px);
+  }
+  85% {
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Separate animation for shadow effect */
+@keyframes shadowAppear {
+  from {
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+  to {
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Feature card base styles */
+.feature-card {
+  will-change: transform, opacity;
+}
+
+/* Add these utility classes if not already provided by Tailwind */
+.opacity-0 {
+  opacity: 0;
+}
+
+.opacity-100 {
+  opacity: 1;
+}
+
+.translate-y-8 {
+  transform: translateY(2rem);
+}
+
+.translate-y-0 {
+  transform: translateY(0);
+}
+
+.transition-all {
+  transition-property: all;
+}
+
+.duration-700 {
+  transition-duration: 700ms;
+}
+
+/* Optional: Add a stagger effect */
+.feature-card:nth-child(1) { transition-delay: 0ms; }
+.feature-card:nth-child(2) { transition-delay: 100ms; }
+.feature-card:nth-child(3) { transition-delay: 200ms; }
+.feature-card:nth-child(4) { transition-delay: 300ms; }
+.feature-card:nth-child(5) { transition-delay: 400ms; }
+
+/* Add a shadow animation for better depth perception */
+@keyframes shadowPulse {
+  0% {
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+  70% {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  }
+  100% {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Update the feature card class in your HTML to include this animation */
+.feature-card {
+  animation: shadowPulse 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: var(--animation-delay);
+}
+
+/* Add a new fade-out animation */
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.fade-out {
+  animation: fade-out 0.5s ease-out forwards;
+}
+
+/* Add this new animation class */
+.animate-fade-in-delayed-3 {
+  opacity: 0;
+  animation: fade-in 0.8s ease-out 1s forwards;
+}
+
+/* Update the fade-in keyframes if you don't already have it */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 0.5;
+    transform: translateY(0);
+  }
+}
+

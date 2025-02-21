@@ -1,9 +1,9 @@
-<div class="min-h-screen bg-gray-50">
+<div class="min-h-screen bg-white">
   <div class="w-full max-w-4xl mx-auto pt-4 sm:pt-8 px-2 sm:px-4">
-    <div class="bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden">
+    <div class="bg-white rounded-lg sm:rounded-xl border border-gray-200 overflow-hidden">
 
-      <div class="border-b px-4 sm:px-6 py-3 sm:py-4 bg-white">
-        <h2 class="text-base sm:text-lg font-semibold text-gray-800">{{ chatbotName }}</h2>
+      <div class="border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4">
+        <h2 class="text-base sm:text-lg font-semibold text-gray-900">{{ chatbotName }}</h2>
       </div>
       
       <!-- Chat Messages -->
@@ -28,7 +28,7 @@
                      'bg-white shadow-sm': message.sender === 'bot',
                      'bg-blue-600 text-white': message.sender === 'user'
                    }">
-                <p class="text-xs sm:text-sm">{{ message.text }}</p>
+                <p class="text-xs sm:text-sm ">{{ message.text }}</p>
               </div>
             </div>
             
@@ -40,14 +40,14 @@
         </div>
       </div>
       
-      <div class="border-t bg-white p-4 sm:p-6">
+      <div class="border-t border-gray-200 bg-white p-4 sm:p-6">
         <form (ngSubmit)="sendMessage()" class="space-y-3 sm:space-y-4">
           <div class="flex flex-col sm:flex-row gap-2">
             <input
               type="text"
               [(ngModel)]="currentMessage"
               name="message"
-              class="w-full px-3 sm:px-4 py-2 sm:py-2.5 bg-gray-50 border border-gray-200 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              class="w-full px-3 sm:px-4 py-2 sm:py-2.5 bg-white border  rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
               placeholder="Type your message...">
             <button type="submit" 
                     class="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-2.5 bg-blue-600 text-white rounded-lg sm:rounded-xl hover:bg-blue-700 transition-colors text-sm">
@@ -64,7 +64,7 @@
             <textarea 
               [(ngModel)]="feedbackText" 
               name="feedback" 
-              class="w-full px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 border border-gray-200 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 h-20 sm:h-24 resize-none text-sm"
+              class="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white border  rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 h-20 sm:h-24 resize-none text-sm"
               placeholder="Enter your feedback here...">
             </textarea>
             <button (click)="submitFeedback()" 

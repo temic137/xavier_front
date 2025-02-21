@@ -1,0 +1,98 @@
+<div class="min-h-screen bg-gray-50">
+  <div class="container mx-auto p-8 space-y-8">
+    <!-- Main Stats Section -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 w-auto h-auto mb-0">
+      <div class="p-6 bg-white rounded-lg shadow-sm h-fit">
+        <h3 class="text-sm text-gray-600 mb-1">Total Questions</h3>
+        <p class="text-5xl font-bold">{{dashboardData?.common_questions?.total_questions || 0}}</p>
+      </div>
+      <div class="p-6 bg-white rounded-lg shadow-sm h-fit">
+        <h3 class="text-sm text-gray-600 mb-1">Active Topics</h3>
+        <p class="text-5xl font-bold">{{dashboardData?.topic_clusters?.clusters?.length || 0}}</p>
+      </div>
+      <div class="p-6 bg-white rounded-lg shadow-sm h-fit">
+        <h3 class="text-sm text-gray-600 mb-1">Peak Hour</h3>
+        <p class="text-5xl font-bold">{{getPeakHour()}}:00</p>
+      </div>
+      <div class="p-6 bg-white rounded-lg shadow-sm h-fit">
+        <h3 class="text-sm text-gray-600">User Satisfaction</h3>
+        <div id="satisfactionArc"></div>
+      </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Daily Trends Chart -->
+      <div class="bg-white rounded-lg p-6 shadow-sm">
+        <h3 class="text-lg font-medium mb-4">Daily Question Trends</h3>
+        <div id="dailyTrendsChart" class="w-full h-96"></div>
+      </div>
+
+      <!-- Hourly Distribution Chart -->
+      <div class="bg-white rounded-lg p-6 shadow-sm">
+        <h3 class="text-lg font-medium mb-4">Hourly Distribution</h3>
+        <div id="hourlyDistributionChart" class="w-full h-96"></div>
+      </div>
+    </div>
+
+    <!-- Sentiment Analysis Section -->
+    <div class="bg-white rounded-lg p-6 shadow-sm">
+      <h3 class="text-lg font-medium mb-4">User Sentiment Analysis</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-4 bg-green-50 rounded-lg">
+          <h4 class="text-sm text-gray-600">Positive Ratings</h4>
+          <p class="text-2xl font-bold text-green-600">{{dashboardData?.sentiment_analytics?.positive_ratings || 0}}</p>
+        </div>
+        <div class="p-4 bg-red-50 rounded-lg">
+          <h4 class="text-sm text-gray-600">Negative Ratings</h4>
+          <p class="text-2xl font-bold text-red-600">{{dashboardData?.sentiment_analytics?.negative_ratings || 0}}</p>
+        </div>
+        <div class="p-4 bg-gray-50 rounded-lg">
+          <h4 class="text-sm text-gray-600">Total Ratings</h4>
+          <p class="text-2xl font-bold">{{dashboardData?.sentiment_analytics?.total_ratings || 0}}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Common Questions Section -->
+    <div class="bg-white rounded-lg p-6 shadow-sm">
+      <h3 class="text-lg font-medium mb-4">Most Common Questions</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b">
+              <th class="px-4 py-2 text-left text-sm text-gray-600">Question</th>
+              <th class="px-4 py-2 text-left text-sm text-gray-600">Count</th>
+              <th class="px-4 py-2 text-left text-sm text-gray-600">Last Asked</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let q of dashboardData?.common_questions?.top_questions" class="border-b last:border-b-0">
+              <td class="px-4 py-3">{{q.question}}</td>
+              <td class="px-4 py-3">{{q.count}}</td>
+              <td class="px-4 py-3">{{formatDate(q.last_asked)}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Topic Clusters Section -->
+    <div class="bg-white rounded-lg p-6 shadow-sm">
+      <h3 class="text-lg font-medium mb-4">Topic Clusters</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div *ngFor="let cluster of dashboardData?.topic_clusters?.clusters" class="p-4 bg-gray-50 rounded-lg">
+          <div class="flex justify-between mb-2">
+            <h4>Cluster {{cluster.cluster_id + 1}}</h4>
+            <span class="text-sm text-gray-600">{{cluster.question_count}} questions</span>
+          </div>
+          <p class="text-sm text-gray-600">
+            <span *ngFor="let term of cluster.topic_terms; let last = last">
+              {{term}}{{!last ? ', ' : ''}}
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

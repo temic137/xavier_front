@@ -1,147 +1,209 @@
-<div class="min-h-screen bg-gray-50">
+<div class="min-h-screen bg-white">
+  <!-- Add a relative wrapper for the nav -->
+  <div class="relative">
+    <nav class="fixed top-0 left-0 right-0 bg-black z-50">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="flex items-center justify-between h-14">
+          <div class="flex items-center space-x-4">
+            <a routerLink="/chatbots" class="flex items-center text-gray-100 hover:text-white transition-colors focus:outline-none">
+              <svg class="w-5 h-5 mr-2 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7" />
+              </svg>
+              <span class="text-sm font-medium">Back</span>
+            </a>
+            <div class="h-6 w-px bg-gray-700"></div>
+            <a routerLink="" class="text-2xl font-bold text-white">Xavier AI</a>
+          </div>
 
-  <nav class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="flex items-center justify-between h-16">
+          <!-- Desktop Navigation -->
+          <div class="hidden md:flex items-center space-x-4 relative">
+            <h2 class="font-bold text-white"> ({{ chatbotName }})</h2>
+            <a (click)="setActiveTab('analytics')" 
+               [class.active-tab]="activeTab === 'analytics'"
+               class="relative px-3 py-2 text-sm font-medium text-gray-100 hover:text-white transition-colors cursor-pointer
+                      before:content-[''] before:absolute before:bottom-[-11px] before:left-0 before:w-full before:h-[3px] 
+                      before:bg-blue-500 before:transform before:scale-x-0 before:transition-transform before:duration-300
+                      hover:before:scale-x-100 [&.active-tab]:text-white [&.active-tab]:before:scale-x-100">
+              Analytics
+            </a>
+            
+            <a (click)="setActiveTab('train')"
+            [class.active-tab]="activeTab === 'train'"
+            class="relative px-3 py-2 text-sm font-medium text-gray-100 hover:text-white transition-colors cursor-pointer
+                   before:content-[''] before:absolute before:bottom-[-11px] before:left-0 before:w-full before:h-[3px] 
+                   before:bg-blue-500 before:transform before:scale-x-0 before:transition-transform before:duration-300
+                   hover:before:scale-x-100 [&.active-tab]:text-white [&.active-tab]:before:scale-x-100">
+           Train
+         </a>
+            
+            <a (click)="setActiveTab('test')"
+            [class.active-tab]="activeTab === 'test'"
+            class="relative px-3 py-2 text-sm font-medium text-gray-100 hover:text-white transition-colors cursor-pointer
+                   before:content-[''] before:absolute before:bottom-[-11px] before:left-0 before:w-full before:h-[3px] 
+                   before:bg-blue-500 before:transform before:scale-x-0 before:transition-transform before:duration-300
+                   hover:before:scale-x-100 [&.active-tab]:text-white [&.active-tab]:before:scale-x-100">
+           Test
+         </a>
+            
+            <a (click)="setActiveTab('knowledge')"
+            [class.active-tab]="activeTab === 'knowledge'"
+            class="relative px-3 py-2 text-sm font-medium text-gray-100 hover:text-white transition-colors cursor-pointer
+                   before:content-[''] before:absolute before:bottom-[-11px] before:left-0 before:w-full before:h-[3px] 
+                   before:bg-blue-500 before:transform before:scale-x-0 before:transition-transform before:duration-300
+                   hover:before:scale-x-100 [&.active-tab]:text-white [&.active-tab]:before:scale-x-100">
+           Knowledge Base
+         </a>
+            
 
-        <div class="flex items-center space-x-4">
-          <a routerLink="/chatbots" class="flex items-center text-gray-600 hover:text-black transition-colors focus:outline-none">
-            <svg class="w-5 h-5 mr-2 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7" />
-            </svg>
-            <span class="text-sm font-medium">Back</span>
-          </a>
-          <div class="h-6 w-px bg-gray-200"></div>
-          <a routerLink="" class="text-2xl font-bold">Xavier AI</a>
+           <a (click)="setActiveTab('customize')"
+           [class.active-tab]="activeTab === 'customize'"
+           class="relative px-3 py-2 text-sm font-medium text-gray-100 hover:text-white transition-colors cursor-pointer
+                  before:content-[''] before:absolute before:bottom-[-11px] before:left-0 before:w-full before:h-[3px] 
+                  before:bg-blue-500 before:transform before:scale-x-0 before:transition-transform before:duration-300
+                  hover:before:scale-x-100 [&.active-tab]:text-white [&.active-tab]:before:scale-x-100">
+            Settings
+           </a>
+
+           <a (click)="setActiveTab('integration')"
+           [class.active-tab]="activeTab === 'integration'"
+           class="relative px-3 py-2 text-sm font-medium text-gray-100 hover:text-white transition-colors cursor-pointer
+                  before:content-[''] before:absolute before:bottom-[-11px] before:left-0 before:w-full before:h-[3px] 
+                  before:bg-blue-500 before:transform before:scale-x-0 before:transition-transform before:duration-300
+                  hover:before:scale-x-100 [&.active-tab]:text-white [&.active-tab]:before:scale-x-100">
+          Integration
+            </a>
+              <a (click)="setActiveTab('support')"
+                 [class.active-tab]="activeTab === 'support'"
+                 class="relative px-3 py-2 text-sm font-medium text-gray-100 hover:text-white transition-colors cursor-pointer
+                          before:content-[''] before:absolute before:bottom-[-11px] before:left-0 before:w-full before:h-[3px] 
+                          before:bg-blue-500 before:transform before:scale-x-0 before:transition-transform before:duration-300
+                          hover:before:scale-x-100 [&.active-tab]:text-white [&.active-tab]:before:scale-x-100">
+                <div class="relative flex items-center">
+                  Escalations
+                  <!-- Updated notification dot -->
+                  <div *ngIf="hasPendingEscalations" 
+                       class="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full animate-pulse">
+                  </div>
+                </div>
+              </a>
+          </div>
+
+          <!-- Mobile Menu Button -->
+          <div class="md:hidden">
+            <button (click)="isMobileMenuOpen = !isMobileMenuOpen" class="focus:outline-none text-gray-100 hover:text-gray-100">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path *ngIf="!isMobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                <path *ngIf="isMobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
         </div>
 
-        <!-- Desktop Navigation -->
-        <div class="hidden md:flex items-center space-x-4">
-          (<h2 class=" font-bold text-gray-900 ">{{ chatbotName }}</h2>)
-          <a (click)="setActiveTab('analytics')" 
-             [class.active-tab]="activeTab === 'analytics'"
-             class="relative px-3 py-2 text-sm font-medium text-gray-500 hover:text-black transition-colors cursor-pointer
-                    before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-full before:h-0.5 
-                    before:bg-black before:transform before:scale-x-0 before:transition-transform before:duration-300
-                    hover:before:scale-x-100 [&.active-tab]:text-black [&.active-tab]:before:scale-x-100">
-            Dashboard
-          </a>
-          
-          <a (click)="setActiveTab('train')"
-             [class.active-tab]="activeTab === 'train'"
-             class="relative px-3 py-2 text-sm font-medium text-gray-500 hover:text-black transition-colors cursor-pointer
-                    before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-full before:h-0.5 
-                    before:bg-black before:transform before:scale-x-0 before:transition-transform before:duration-300
-                    hover:before:scale-x-100 [&.active-tab]:text-black [&.active-tab]:before:scale-x-100">
-            Train
-          </a>
-          
-          <a (click)="setActiveTab('test')"
-             [class.active-tab]="activeTab === 'test'"
-             class="relative px-3 py-2 text-sm font-medium text-gray-500 hover:text-black transition-colors cursor-pointer
-                    before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-full before:h-0.5 
-                    before:bg-black before:transform before:scale-x-0 before:transition-transform before:duration-300
-                    hover:before:scale-x-100 [&.active-tab]:text-black [&.active-tab]:before:scale-x-100">
-            Test
-          </a>
-          
-          <a (click)="setActiveTab('knowledge')"
-             [class.active-tab]="activeTab === 'knowledge'"
-             class="relative px-3 py-2 text-sm font-medium text-gray-500 hover:text-black transition-colors cursor-pointer
-                    before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-full before:h-0.5 
-                    before:bg-black before:transform before:scale-x-0 before:transition-transform before:duration-300
-                    hover:before:scale-x-100 [&.active-tab]:text-black [&.active-tab]:before:scale-x-100">
-            Knowledge Base
-          </a>
-          
-          <a (click)="setActiveTab('integration')"
-             [class.active-tab]="activeTab === 'integration'"
-             class="relative px-3 py-2 text-sm font-medium text-gray-500 hover:text-black transition-colors cursor-pointer
-                    before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-full before:h-0.5 
-                    before:bg-black before:transform before:scale-x-0 before:transition-transform before:duration-300
-                    hover:before:scale-x-100 [&.active-tab]:text-black [&.active-tab]:before:scale-x-100">
-            Integration
-          </a>
-          
-          <a (click)="setActiveTab('ticket')"
-             [class.active-tab]="activeTab === 'ticket'"
-             class="relative px-3 py-2 text-sm font-medium text-gray-500 hover:text-black transition-colors cursor-pointer
-                    before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-full before:h-0.5 
-                    before:bg-black before:transform before:scale-x-0 before:transition-transform before:duration-300
-                    hover:before:scale-x-100 [&.active-tab]:text-black [&.active-tab]:before:scale-x-100">
-            Tickets
-          </a>
-        </div>
 
-        <!-- Mobile Menu Button -->
-        <div class="md:hidden">
-          <button (click)="isMobileMenuOpen = !isMobileMenuOpen" class="focus:outline-none">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path *ngIf="!isMobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-              <path *ngIf="isMobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-          </button>
-        </div>
+                <!-- Mobile Navigation Menu -->
+                <div class="md:hidden" [ngClass]="{'block': isMobileMenuOpen, 'hidden': !isMobileMenuOpen}">
+                  <h2 class="font-bold text-gray-500">{{ chatbotName }}</h2>
+                  <div class="px-2 pt-2 pb-3 space-y-1">
+                    <a (click)="setActiveTab('analytics')" 
+                       [class.active-tab]="activeTab === 'analytics'"
+                       class="block px-3 py-2 text-sm font-medium text-gray-500 hover:text-white
+                              transition-colors cursor-pointer rounded-md
+                              [&.active-tab]:text-white">
+                      Analytics
+                    </a>
+                    
+                    <a (click)="setActiveTab('train')"
+                       [class.active-tab]="activeTab === 'train'"
+                       class="block px-3 py-2 text-sm font-medium text-gray-500 hover:text-white
+                              transition-colors cursor-pointer rounded-md
+                              [&.active-tab]:text-white ">
+                      Train
+                    </a>
+                    
+                    <a (click)="setActiveTab('test')"
+                       [class.active-tab]="activeTab === 'test'"
+                       class="block px-3 py-2 text-sm font-medium text-gray-500 hover:text-white
+                              transition-colors cursor-pointer rounded-md
+                              [&.active-tab]:text-white ">
+                      Test
+                    </a>
+                    
+                    <a (click)="setActiveTab('knowledge')"
+                       [class.active-tab]="activeTab === 'knowledge'"
+                       class="block px-3 py-2 text-sm font-medium text-gray-500 hover:text-white
+                              transition-colors cursor-pointer rounded-md
+                              [&.active-tab]:text-white ">
+                      Knowledge Base
+                    </a>
+                    
+                    <a (click)="setActiveTab('customize')"
+                    [class.active-tab]="activeTab === 'customize'"
+                    class="block px-3 py-2 text-sm font-medium text-gray-500 hover:text-white
+                           transition-colors cursor-pointer rounded-md
+                           [&.active-tab]:text-white ">
+                     Settings
+                   </a>
+
+                    <a (click)="setActiveTab('integration')"
+                       [class.active-tab]="activeTab === 'integration'"
+                       class="block px-3 py-2 text-sm font-medium text-gray-500 hover:text-white
+                              transition-colors cursor-pointer rounded-md
+                              [&.active-tab]:text-white ">
+                      Integration
+                    </a>
+
+                    <a (click)="setActiveTab('support')"
+                       [class.active-tab]="activeTab === 'support'"
+                       class="block px-3 py-2 text-sm font-medium text-gray-500 hover:text-white
+                              transition-colors cursor-pointer rounded-md relative
+                              [&.active-tab]:text-white ">
+                      <div class="relative flex items-center">
+                        Escalations
+                        <!-- Updated notification dot -->
+                        <div *ngIf="hasPendingEscalations" 
+                             class="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full animate-pulse">
+                        </div>
+                      </div>
+                    </a>
+          
+                   
+                  </div>
+                </div>
+
       </div>
+    </nav>
+    <!-- Add a fixed border line -->
+    <div class="fixed top-14 left-0 right-0 h-px bg-gray-800 z-50"></div>
+  </div>
 
-      <!-- Mobile Navigation Menu -->
-      <div class="md:hidden" [ngClass]="{'block': isMobileMenuOpen, 'hidden': !isMobileMenuOpen}">
-        <h2 class=" font-bold text-gray-900 ">{{ chatbotName }}</h2>
-        <div class="px-2 pt-2 pb-3 space-y-1">
-          <a (click)="setActiveTab('analytics')" 
-             [class.active-tab]="activeTab === 'analytics'"
-             class="block px-3 py-2 text-sm font-medium text-gray-500 hover:text-black hover:bg-gray-50 
-                    transition-colors cursor-pointer rounded-md
-                    [&.active-tab]:text-black [&.active-tab]:bg-gray-100">
-            Dashboard
-          </a>
-          
-          <a (click)="setActiveTab('train')"
-             [class.active-tab]="activeTab === 'train'"
-             class="block px-3 py-2 text-sm font-medium text-gray-500 hover:text-black hover:bg-gray-50 
-                    transition-colors cursor-pointer rounded-md
-                    [&.active-tab]:text-black [&.active-tab]:bg-gray-100">
-            Train
-          </a>
-          
-          <a (click)="setActiveTab('test')"
-             [class.active-tab]="activeTab === 'test'"
-             class="block px-3 py-2 text-sm font-medium text-gray-500 hover:text-black hover:bg-gray-50 
-                    transition-colors cursor-pointer rounded-md
-                    [&.active-tab]:text-black [&.active-tab]:bg-gray-100">
-            Test
-          </a>
-          
-          <a (click)="setActiveTab('knowledge')"
-             [class.active-tab]="activeTab === 'knowledge'"
-             class="block px-3 py-2 text-sm font-medium text-gray-500 hover:text-black hover:bg-gray-50 
-                    transition-colors cursor-pointer rounded-md
-                    [&.active-tab]:text-black [&.active-tab]:bg-gray-100">
-            Knowledge Base
-          </a>
-          
-          <a (click)="setActiveTab('integration')"
-             [class.active-tab]="activeTab === 'integration'"
-             class="block px-3 py-2 text-sm font-medium text-gray-500 hover:text-black hover:bg-gray-50 
-                    transition-colors cursor-pointer rounded-md
-                    [&.active-tab]:text-black [&.active-tab]:bg-gray-100">
-            Integration
-          </a>
-          
-          <a (click)="setActiveTab('ticket')"
-             [class.active-tab]="activeTab === 'ticket'"
-             class="block px-3 py-2 text-sm font-medium text-gray-500 hover:text-black hover:bg-gray-50 
-                    transition-colors cursor-pointer rounded-md
-                    [&.active-tab]:text-black [&.active-tab]:bg-gray-100">
-            Tickets
-          </a>
-        </div>
+ <!-- Support Sub-navigation -->
+<div *ngIf="activeTab === 'support' && activeSupportTab !== ''" 
+     class="fixed top-14 left-0 right-0 bg-white border-b border-gray-200 z-40">
+  <div class="max-w-7xl mx-auto px-6 py-3">
+    <div class="bg-gray-100 w-fit mx-auto rounded-full p-1.5 shadow-md border border-gray-200">
+      <div class="flex space-x-2">
+        <a (click)="setActiveTab('support', 'escalations')"
+           [class.bg-white]="activeSupportTab === 'escalations'"
+           [class.text-gray-900]="activeSupportTab === 'escalations'"
+           [class.shadow-sm]="activeSupportTab === 'escalations'"
+           class="px-6 py-2 text-sm font-medium text-gray-500 rounded-full cursor-pointer transition-all duration-200 hover:text-gray-900">
+          Live Chats
+        </a>
+
+        <a (click)="setActiveTab('support', 'tickets')"
+           [class.bg-white]="activeSupportTab === 'tickets'"
+           [class.text-gray-900]="activeSupportTab === 'tickets'"
+           [class.shadow-sm]="activeSupportTab === 'tickets'"
+           class="px-6 py-2 text-sm font-medium text-gray-500 rounded-full cursor-pointer transition-all duration-200 hover:text-gray-900">
+          Tickets
+        </a>
       </div>
     </div>
-  </nav>
+  </div>
+</div>
 
-
-  <main class="pt-16 p-4">
+  <!-- Main Content with adjusted padding when sub-nav is present -->
+  <main [class.pt-32]="activeTab === 'support'" [class.pt-16]="activeTab !== 'support'" class="p-4 text-gray-900">
     <router-outlet></router-outlet>
   </main>
 </div>

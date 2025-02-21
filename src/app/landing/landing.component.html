@@ -1,4 +1,34 @@
-<div class="min-h-screen bg-white">
+<div *ngIf="isLoading" 
+     class="fixed inset-0 bg-white z-50 flex items-center justify-center transition-opacity duration-500"
+     [class.opacity-0]="!isLoading">
+  <div class="space-y-8 text-center">
+    <!-- Clean Chat Bubble Animation -->
+    <div class="relative w-32 h-32 mx-auto">
+      <svg class="absolute inset-0 animate-draw-logo" viewBox="0 0 100 100" fill="none" stroke="black" stroke-width="1.5">
+        <!-- Simplified Chat Bubble -->
+        <path d="M20,40 Q20,20 40,20 L60,20 Q80,20 80,40 L80,50 Q80,70 60,70 L55,70 L50,80 L45,70 L40,70 Q20,70 20,50 Z" 
+              class="animate-draw-chat"></path>
+      </svg>
+    </div>
+    
+    <!-- Simplified Loading Dots -->
+    <div class="flex justify-center gap-2">
+      <div class="w-2 h-2 bg-black rounded-full animate-typing-dot" style="animation-delay: 0s"></div>
+      <div class="w-2 h-2 bg-black rounded-full animate-typing-dot" style="animation-delay: 0.2s"></div>
+      <div class="w-2 h-2 bg-black rounded-full animate-typing-dot" style="animation-delay: 0.4s"></div>
+    </div>
+
+    <!-- Xavier AI Text -->
+    <div class="mt-8">
+      <p class="text-black text-sm font-light tracking-widest animate-fade-in-delayed-3 opacity-50">
+        XAVIER AI
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="min-h-screen bg-white transition-opacity duration-500"
+     [class.opacity-0]="isLoading">
 <!-- Navbar -->
 <nav class="fixed top-0 w-full z-50 backdrop-blur-lg bg-white/95 border-b border-gray-200 shadow-sm">
   <div class="container mx-auto flex justify-between items-center px-6 py-4">
@@ -127,12 +157,12 @@
     <div class="container mx-auto max-w-6xl">
       <div class="text-center space-y-8 animate-fade-in">
         <div class="inline-block px-4 py-2 bg-gray-100 rounded-full animate-slide-in-left">
-          <span class="text-sm text-gray-700 font-medium">Revolutionize Customer Support</span>
+          <span class="text-sm text-gray-700 font-medium">✨ Try Xavier AI for free during beta</span>
         </div>
         
-        <h1 class="text-5xl md:text-7xl font-bold text-black animate-slide-in-right">
+        <h1 class="text-5xl md:text-7xl font-extralight text-black animate-slide-in-right">
           Transform Support with
-          <span class="bg-gradient-to-r from-black to-gray-800 bg-clip-text text-transparent">
+          <span class="bg-gradient-to-r font-extralight from-black to-gray-800 bg-clip-text text-transparent">
             Artificial Intelligence
           </span>
         </h1>
@@ -143,11 +173,27 @@
         </p>
         
         <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in">
-          <button routerLink="/register" class="group px-8 py-4 bg-black hover:bg-gray-900 text-white rounded-xl font-medium transition-all flex items-center justify-center gap-2 shadow-lg hover:scale-105 animate-pulse">
+          <button routerLink="/register" 
+                  class="group px-8 py-4 bg-black hover:bg-gray-900 text-white rounded-xl font-medium 
+                         transition-all flex items-center justify-center gap-2 shadow-lg hover:scale-105 
+                         animate-pulse">
             Start Free Trial
-            <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" 
+                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+                 stroke-linejoin="round">
               <path d="M5 12h14"></path>
               <path d="M12 5l7 7-7 7"></path>
+            </svg>
+          </button>
+          <button (click)="openVideoModal()" 
+                  class="group px-8 py-4 bg-gray-100 hover:bg-gray-200 text-black rounded-xl 
+                         font-medium transition-all flex items-center justify-center gap-2">
+            Watch Demo
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" 
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" 
+                    clip-rule="evenodd">
+              </path>
             </svg>
           </button>
         </div>
@@ -155,218 +201,238 @@
     </div>
   </section>
 
-  <!-- Features Grid -->
-  <section class="py-20 bg-gray-50">
+  <!-- Feature Showcase Section -->
+  <section class="py-20 bg-gradient-to-b from-white to-gray-50">
     <div class="container mx-auto px-4">
       <div class="text-center mb-16 animate-fade-in">
-        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-black">Core Features</h2>
-        <p class="text-gray-600">Explore the powerful features that make Xavier AI stand out</p>
+        <h2 class="text-3xl md:text-4xl font-extralight mb-4 text-black">Experience AI-Powered Support</h2>
+        <p class="text-gray-600">See how Xavier AI transforms customer interactions</p>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        <!-- Feature 1 -->
-        <div class="group p-8 rounded-2xl bg-white hover:shadow-xl transition-all duration-300 border border-gray-200 animate-fade-in-up">
-          <div class="space-y-6">
-            <div class="w-16 h-16 rounded-xl bg-gray-100 flex items-center justify-center group-hover:scale-110 transition-transform">
-              <svg class="w-8 h-8 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M12 6v6l4 2"></path>
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold text-black">24/7 Availability</h3>
-            <p class="text-gray-600">Never miss a customer query with round-the-clock AI support</p>
-          </div>
-        </div>
 
-        <!-- Feature 2 -->
-        <div class="group p-8 rounded-2xl bg-white hover:shadow-xl transition-all duration-300 border border-gray-200 animate-fade-in-up delay-100">
-          <div class="space-y-6">
-            <div class="w-16 h-16 rounded-xl bg-gray-100 flex items-center justify-center group-hover:scale-110 transition-transform">
-              <svg class="w-8 h-8 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M13 2L3 14h9l-1 8L21 10h-9l1-8z"></path>
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold text-black">Smart Responses</h3>
-            <p class="text-gray-600">AI-powered responses that understand context and provide accurate solutions</p>
-          </div>
-        </div>
+      <!-- Add this container div around the Feature Cards Container -->
+      <div class="flex flex-col items-center">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl">
+          <!-- Feature 1: Knowledge Training -->
+          <div class="feature-card opacity-0 translate-y-8 transition-all duration-700"
+               #featureCard>
+            <div class="p-6 space-y-4">
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 rounded-xl bg-black/5 flex items-center justify-center flex-shrink-0">
+                  <svg class="w-6 h-6 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-xl font-semibold text-black">Knowledge Training</h3>
+                  <p class="text-gray-600 mt-2">Train your AI with multiple data sources</p>
+                </div>
+              </div>
+              
+              <div class="relative aspect-[16/9] mt-4 bg-gray-50 rounded-lg overflow-hidden group">
+                <img 
+                  src="assets/landing/train.png" 
+                  alt="Knowledge Training" 
+                  class="w-full h-full object-contain p-4 transition-transform duration-300 group-hover:scale-110"
+                >
+              </div>
 
-        <!-- Feature 3 -->
-        <div class="group p-8 rounded-2xl bg-white hover:shadow-xl transition-all duration-300 border border-gray-200 animate-fade-in-up delay-200">
-          <div class="space-y-6">
-            <div class="w-16 h-16 rounded-xl bg-gray-100 flex items-center justify-center group-hover:scale-110 transition-transform">
-              <svg class="w-8 h-8 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18 20V10"></path>
-                <path d="M12 20V4"></path>
-                <path d="M6 20v-6"></path>
-              </svg>
+              <ul class="space-y-3 mt-4">
+                <li class="flex items-center gap-2 text-gray-600">
+                  <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  PDF Document Processing
+                </li>
+                <li class="flex items-center gap-2 text-gray-600">
+                  <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  Web Knowledge Integration
+                </li>
+              </ul>
             </div>
-            <h3 class="text-xl font-bold text-black">Analytics & Insights</h3>
-            <p class="text-gray-600">Detailed analytics to help you understand customer needs better</p>
+          </div>
+
+          <!-- Feature 2: Analytics Dashboard -->
+          <div class="feature-card opacity-0 translate-y-8 transition-all duration-700"
+               #featureCard>
+            <div class="p-6 space-y-4">
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 rounded-xl bg-black/5 flex items-center justify-center flex-shrink-0">
+                  <svg class="w-6 h-6 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-xl font-semibold text-black">Analytics Dashboard</h3>
+                  <p class="text-gray-600 mt-2">Track and optimize performance</p>
+                </div>
+              </div>
+
+              <div class="relative aspect-[16/9] mt-4 bg-gray-50 rounded-lg overflow-hidden group">
+                <img 
+                  src="assets/landing/analytics.png" 
+                  alt="Analytics Dashboard" 
+                  class="w-full h-full object-contain p-4 transition-transform duration-300 group-hover:scale-110"
+                >
+              </div>
+
+              <ul class="space-y-3 mt-4">
+                <li class="flex items-center gap-2 text-gray-600">
+                  <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  Real-time Metrics
+                </li>
+                <li class="flex items-center gap-2 text-gray-600">
+                  <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  User Satisfaction Tracking
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Feature 3: Knowledge Management -->
+          <div class="feature-card opacity-0 translate-y-8 transition-all duration-700"
+               #featureCard>
+            <div class="p-6 space-y-4">
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 rounded-xl bg-black/5 flex items-center justify-center flex-shrink-0">
+                  <svg class="w-6 h-6 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-xl font-semibold text-black">Knowledge Management</h3>
+                  <p class="text-gray-600 mt-2">Easy updates and maintenance</p>
+                </div>
+              </div>
+
+              <div class="relative aspect-[16/9] mt-4 bg-gray-50 rounded-lg overflow-hidden group">
+                <img 
+                  src="assets/landing/editing.png" 
+                  alt="Knowledge Management" 
+                  class="w-full h-full object-contain p-4 transition-transform duration-300 group-hover:scale-110"
+                >
+              </div>
+
+              <ul class="space-y-3 mt-4">
+                <li class="flex items-center gap-2 text-gray-600">
+                  <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  Real-time Updates
+                </li>
+                <li class="flex items-center gap-2 text-gray-600">
+                  <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  Version Control
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Feature 4: Smart Escalation -->
+          <div class="feature-card opacity-0 translate-y-8 transition-all duration-700"
+               #featureCard>
+            <div class="p-6 space-y-4">
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 rounded-xl bg-black/5 flex items-center justify-center flex-shrink-0">
+                  <svg class="w-6 h-6 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-xl font-semibold text-black">Smart Escalation</h3>
+                  <p class="text-gray-600 mt-2">Seamless handoff to human agents</p>
+                </div>
+              </div>
+
+              <div class="relative aspect-[16/9] mt-4 bg-gray-50 rounded-lg overflow-hidden group">
+                <img 
+                  src="assets/landing/real.png" 
+                  alt="Smart Escalation" 
+                  class="w-full h-full object-contain p-4 transition-transform duration-300 group-hover:scale-110"
+                >
+              </div>
+
+              <ul class="space-y-3 mt-4">
+                <li class="flex items-center gap-2 text-gray-600">
+                  <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  Intelligent Triggers
+                </li>
+                <li class="flex items-center gap-2 text-gray-600">
+                  <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  Context Preservation
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Feature 5: Ticket Management -->
+          <div class="feature-card opacity-0 translate-y-8 transition-all duration-700"
+               #featureCard>
+            <div class="p-6 space-y-4">
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 rounded-xl bg-black/5 flex items-center justify-center flex-shrink-0">
+                  <svg class="w-6 h-6 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                    <path d="M9 14h6"></path>
+                    <path d="M9 10h6"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-xl font-semibold text-black">Ticket Management</h3>
+                  <p class="text-gray-600 mt-2">Organized support ticket handling</p>
+                </div>
+              </div>
+
+              <div class="relative aspect-[16/9] mt-4 bg-gray-50 rounded-lg overflow-hidden group">
+                <img 
+                  src="assets/landing/ticket.png" 
+                  alt="Ticket Management" 
+                  class="w-full h-full object-contain p-4 transition-transform duration-300 group-hover:scale-110"
+                >
+              </div>
+
+              <ul class="space-y-3 mt-4">
+                <li class="flex items-center gap-2 text-gray-600">
+                  <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  Automated Ticket Creation
+                </li>
+                <li class="flex items-center gap-2 text-gray-600">
+                  <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  Priority Management
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-
-  <!-- carousel.component.html -->
-<section class="py-20 bg-white">
-  <div class="container mx-auto px-4 max-w-6xl">
-    <div class="text-center mb-16">
-      <h2 class="text-3xl md:text-4xl font-bold mb-4 text-black">Advanced Capabilities</h2>
-      <p class="text-gray-600">Discover how Xavier AI can transform your business</p>
-    </div>
-
-    <!-- Carousel Container -->
-    <div class="carousel-container">
-      <!-- Feature 1 -->
-      <div class="carousel-item">
-        <div class="flex flex-col md:flex-row items-center gap-12">
-          <div class="flex-1 space-y-6">
-            <div class="w-16 h-16 rounded-xl bg-gray-100 flex items-center justify-center">
-              <svg class="w-8 h-8 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-              </svg>
-            </div>
-            <h3 class="text-2xl font-bold text-black">Comprehensive Knowledge Training</h3>
-            <p class="text-gray-600 leading-relaxed">
-              Train your chatbots using multiple data sources including PDF documents, web knowledge bases, and APIs
-            </p>
-            <button class="group flex items-center gap-2 text-black hover:text-gray-800 transition-colors font-medium">
-              Learn more
-              <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 18l6-6-6-6"></path>
-              </svg>
-            </button>
-          </div>
-          <div class="flex-1 mt-8 md:mt-0 md:px-6">
-            <img src="./assets/training.png" alt="Knowledge Training" class="rounded-xl shadow-2xl shadow-black/10">
-          </div>
-        </div>
-      </div>
-
-      <!-- Feature 2 -->
-      <div class="carousel-item">
-        <div class="flex flex-col md:flex-row-reverse items-center gap-12">
-          <div class="flex-1 space-y-6">
-            <div class="w-16 h-16 rounded-xl bg-gray-100 flex items-center justify-center">
-              <svg class="w-8 h-8 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="3"></circle>
-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-              </svg>
-            </div>
-            <h3 class="text-2xl font-bold text-black">Easy Knowledge Base Management</h3>
-            <p class="text-gray-600 leading-relaxed">
-              Edit and update your chatbot's knowledge base in real-time with our intuitive interface
-            </p>
-            <button class="group flex items-center gap-2 text-black hover:text-gray-800 transition-colors font-medium">
-              Learn more
-              <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 18l6-6-6-6"></path>
-              </svg>
-            </button>
-          </div>
-          <div class="flex-1 mt-8 md:mt-0 md:px-6">
-            <img src="./assets/editing.png" alt="Knowledge Management" class="rounded-xl shadow-2xl shadow-black/10">
-          </div>
-        </div>
-      </div>
-
-      <!-- Feature 3 -->
-      <div class="carousel-item">
-        <div class="flex flex-col md:flex-row items-center gap-12">
-          <div class="flex-1 space-y-6">
-            <div class="w-16 h-16 rounded-xl bg-gray-100 flex items-center justify-center">
-              <svg class="w-8 h-8 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="4" width="20" height="16" rx="2"/>
-                <rect x="6" y="8" width="12" height="3" rx="1"/>
-                <path d="M6 14h8"/>
-                <path d="M6 17h5"/>
-              </svg>
-            </div>
-            <h3 class="text-2xl font-bold text-black">Seamless Website Integration</h3>
-            <p class="text-gray-600 leading-relaxed">
-              Integrate your chatbots into any website with our simple embed code. Our chatbots appear as a professional live chat widget, providing instant support to your visitors while maintaining your website's look and feel.
-            </p>
-            <button class="group flex items-center gap-2 text-black hover:text-gray-800 transition-colors font-medium">
-              Learn more
-              <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 18l6-6-6-6"></path>
-              </svg>
-            </button>
-          </div>
-          <div class="flex-1 mt-8 md:mt-0 md:px-6">
-            <img src="./assets/integrations.png" alt="Website Integration" class="rounded-xl shadow-2xl shadow-black/10">
-          </div>
-        </div>
-      </div>
-
-      <!-- Feature 4 -->
-      <div class="carousel-item">
-        <div class="flex flex-col md:flex-row-reverse items-center gap-12">
-          <div class="flex-1 space-y-6">
-            <div class="w-16 h-16 rounded-xl bg-gray-100 flex items-center justify-center">
-              <svg class="w-8 h-8 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18 20V10"></path>
-                <path d="M12 20V4"></path>
-                <path d="M6 20v-6"></path>
-              </svg>
-            </div>
-            <h3 class="text-2xl font-bold text-black">Analytics & Insights</h3>
-            <p class="text-gray-600 leading-relaxed">
-              Monitor your chatbots' performance with comprehensive analytics. Test conversations, track user satisfaction, and gather insights about user interactions.
-            </p>
-            <button class="group flex items-center gap-2 text-black hover:text-gray-800 transition-colors font-medium">
-              Learn more
-              <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 18l6-6-6-6"></path>
-              </svg>
-            </button>
-          </div>
-          <div class="flex-1 mt-8 md:mt-0 md:px-6">
-            <img src="./assets/analytics.png" alt="Analytics and Testing" class="rounded-xl shadow-2xl shadow-black/10">
-          </div>
-        </div>
-      </div>
-
-      <!-- Feature 5 -->
-      <div class="carousel-item">
-        <div class="flex flex-col md:flex-row items-center gap-12">
-          <div class="flex-1 space-y-6">
-            <div class="w-16 h-16 rounded-xl bg-gray-100 flex items-center justify-center">
-              <svg class="w-8 h-8 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-              </svg>
-            </div>
-            <h3 class="text-2xl font-bold text-black">Seamless Human Support Escalation</h3>
-            <p class="text-gray-600 leading-relaxed">
-              When situations require a human touch, users can easily escalate their conversations to real support agents. Our ticketing system ensures timely transitions from AI to human support, maintaining full conversation context and user history.
-            </p>
-            <button class="group flex items-center gap-2 text-black hover:text-gray-800 transition-colors font-medium">
-              Learn more
-              <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 18l6-6-6-6"></path>
-              </svg>
-            </button>
-          </div>
-          <div class="flex-1 mt-8 md:mt-0 md:px-6">
-            <img src="./assets/escalate.png" alt="Human Support Escalation" class="rounded-xl shadow-2xl shadow-black/10">
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+  
 
   <!-- Pricing Section -->
-  <section class="py-20 bg-gray-50">
+  <section class="py-20 bg-white">
     <div class="container mx-auto px-4">
       <div class="text-center mb-16 animate-fade-in">
-        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-black">Simple, Transparent Pricing</h2>
+        <h2 class="text-3xl md:text-4xl font-extralight mb-4 text-black">Simple, Transparent Pricing</h2>
         <p class="text-gray-600">Free during beta period</p>
       </div>
       
@@ -375,7 +441,7 @@
           <div class="relative space-y-8">
             <!-- Price header -->
             <div class="space-y-4">
-              <h3 class="text-2xl font-bold text-black">Stay ahead of the competition.</h3>
+              <h3 class="text-2xl font-extralight text-black">Stay ahead of the competition.</h3>
               <div class="flex items-baseline gap-2">
                 <div class="relative">
                   <span class="text-5xl font-bold text-gray-500 line-through">$42</span>
@@ -429,7 +495,7 @@
   <section class="py-20 bg-white">
     <div class="container mx-auto px-4 max-w-4xl">
       <div class="text-center p-12 rounded-3xl bg-gray-100 border border-gray-200 animate-fade-in">
-        <h2 class="text-4xl font-bold mb-4 text-black">Ready to Transform Your Support?</h2>
+        <h2 class="text-4xl font-extralight mb-4 text-black">Ready to Transform Your Support?</h2>
         <button routerLink="/register" class="group px-8 py-4 bg-black hover:bg-gray-900 text-white rounded-xl font-medium transition-all flex items-center gap-2 mx-auto shadow-lg hover:scale-105 animate-pulse">
           Get Started Now
           <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

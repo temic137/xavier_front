@@ -1,0 +1,144 @@
+<div class="min-h-screen bg-white p-6">
+  <div class="max-w-lg mx-auto">
+    <div class="bg-gray-50 rounded-xl border border-gray-200 p-8">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-6">Customize Chatbot</h2>
+      
+      <!-- Color Picker -->
+      <div class="mb-6">
+        <label class="text-sm font-medium text-gray-700">Theme Color</label>
+        <div class="flex items-center mt-2 gap-3">
+          <input 
+            type="color" 
+            [value]="themeColor"
+            (change)="onColorChange($event)"
+            class="h-10 w-16 rounded cursor-pointer border-0"
+          >
+          <span class="text-sm text-gray-600 font-mono">{{themeColor}}</span>
+        </div>
+      </div>
+
+      <!-- Feature Toggles -->
+      <div class="mb-6 space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <label class="text-sm font-medium text-gray-700">Enable Escalations</label>
+            <p class="text-xs text-gray-500">Allow users to escalate conversations to agents</p>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" 
+                   [(ngModel)]="enableEscalation"
+                   (ngModelChange)="onToggleChange('Escalation', enableEscalation)"
+                   class="sr-only peer">
+            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 
+                        peer-focus:ring-blue-300 rounded-full peer 
+                        peer-checked:after:translate-x-full peer-checked:after:border-white 
+                        after:content-[''] after:absolute after:top-[2px] after:left-[2px] 
+                        after:bg-white after:border-gray-300 after:border after:rounded-full 
+                        after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
+            </div>
+          </label>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <div>
+            <label class="text-sm font-medium text-gray-700">Enable Tickets</label>
+            <p class="text-xs text-gray-500">Allow users to create support tickets</p>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" 
+                   [(ngModel)]="enableTickets"
+                   (ngModelChange)="onToggleChange('Tickets', enableTickets)"
+                   class="sr-only peer">
+            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 
+                        peer-focus:ring-blue-300 rounded-full peer 
+                        peer-checked:after:translate-x-full peer-checked:after:border-white 
+                        after:content-[''] after:absolute after:top-[2px] after:left-[2px] 
+                        after:bg-white after:border-gray-300 after:border after:rounded-full 
+                        after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Avatar Section -->
+      <div class="mb-6">
+        <label class="text-sm font-medium text-gray-700">Avatar</label>
+        
+        <!-- Image Preview -->
+        <div *ngIf="avatarPreview" class="mt-3 flex flex-col items-center">
+          <img [src]="avatarPreview" class="h-24 w-24 rounded-full object-cover shadow-sm">
+          <button 
+            (click)="removeImage()"
+            class="mt-2 text-sm text-red-400 hover:text-red-300"
+          >
+            Remove
+          </button>
+        </div>
+
+        <!-- Upload Area -->
+        <div 
+          *ngIf="!avatarPreview"
+          class="mt-2 border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-gray-400 transition-colors"
+          (dragover)="onDragOver($event)"
+          (drop)="onDrop($event)"
+        >
+          <div class="space-y-2">
+            <label class="cursor-pointer inline-block">
+              <span class="text-sm text-blue-600 hover:text-blue-700">Choose a file</span>
+              <input 
+                type="file" 
+                class="hidden" 
+                accept="image/*"
+                (change)="onFileSelected($event)"
+              >
+            </label>
+            <p class="text-sm text-gray-500">or drag and drop</p>
+          </div>
+        </div>
+
+        <!-- URL Input -->
+        <div class="mt-3">
+          <div class="flex gap-2">
+            <input 
+              type="text" 
+              [(ngModel)]="imageUrlInput"
+              placeholder="Or paste an image URL"
+              class="flex-1 px-3 py-2 text-sm bg-white border border-gray-300 text-gray-700 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            />
+            <button 
+              (click)="onImageUrlSubmit()"
+              class="px-4 py-2 text-sm text-white bg-black rounded-lg hover:bg-gray-800 transition-colors"
+            >
+              Set
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Save Button -->
+      <button 
+        (click)="saveCustomization()"
+        class="w-full py-2.5 px-4 bg-black rounded-lg hover:bg-gray-800 text-white 
+               transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 
+               focus:ring-offset-2 disabled:opacity-50"
+        [disabled]="isSaving"
+      >
+        <span class="flex items-center justify-center gap-2">
+          <svg *ngIf="isSaving" class="animate-spin h-4 w-4" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+          </svg>
+          {{ isSaving ? 'Saving...' : 'Save Changes' }}
+        </span>
+      </button>
+
+      <!-- Message -->
+      <div *ngIf="message" 
+           class="mt-4 p-3 rounded-lg text-sm"
+           [ngClass]="messageType === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'"
+      >
+        {{ message }}
+      </div>
+    </div>
+  </div>
+</div>

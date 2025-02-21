@@ -34,7 +34,7 @@ export class ChatbotChatComponent implements OnInit {
   ngOnInit() {
     this.chatbotId = this.route.snapshot.paramMap.get('id') || '';
 
-    this.chatbotName = 'Chatbot';
+    this.chatbotName = 'Test it';
   }
 
   sendMessage() {

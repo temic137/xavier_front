@@ -1,99 +1,150 @@
-<div class="min-h-screen bg-white">
-  <div class="container mx-auto p-8 space-y-8">
-    <!-- Main Stats Section -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-      <div class="p-6 border rounded-lg">
-        <h3 class="text-sm text-gray-600 mb-1">Total Questions</h3>
-        <p class="text-3xl font-bold">{{ dashboardData?.common_questions?.total_questions || 0 }}</p>
+<div class="min-h-screen bg-white p-4 sm:p-6">
+  <div class="max-w-7xl mx-auto space-y-4 sm:space-y-8">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <h1 class="text-xl sm:text-2xl font-semibold text-gray-900">Analytics Overview</h1>
+        <p class="text-xs sm:text-sm text-gray-600 mt-1">Last updated {{dashboardData?.last_updated | date:'medium'}}</p>
       </div>
-      <div class="p-6 border rounded-lg">
-        <h3 class="text-sm text-gray-600 mb-1">Active Topics</h3>
-        <p class="text-3xl font-bold">{{ dashboardData?.topic_clusters?.clusters?.length || 0 }}</p>
-      </div>
-      <div class="p-6 border rounded-lg">
-        <h3 class="text-sm text-gray-600 mb-1">Peak Hour</h3>
-        <p class="text-3xl font-bold">{{ getPeakHour() }}:00</p>
-      </div>
-      <div class="p-6 border rounded-lg">
-        <h3 class="text-sm text-gray-600 mb-1">User Satisfaction</h3>
-        <p class="text-3xl font-bold">{{ dashboardData?.sentiment_analytics?.satisfaction_rate || 0 }}%</p>
-      </div>
+
     </div>
 
-    <!-- Charts Section -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <!-- Daily Trends Chart -->
-      <div class="border rounded-lg p-6">
-        <h3 class="text-lg font-medium mb-4">Daily Question Trends</h3>
-        <canvasjs-chart [options]="dailyTrendsChartOptions"></canvasjs-chart>
-      </div>
-
-      <!-- Hourly Distribution Chart -->
-      <div class="border rounded-lg p-6">
-        <h3 class="text-lg font-medium mb-4">Hourly Distribution</h3>
-        <canvasjs-chart [options]="hourlyDistributionChartOptions"></canvasjs-chart>
-      </div>
-    </div>
-
-    <!-- Sentiment Analysis Section -->
-    <div class="border rounded-lg p-6">
-      <h3 class="text-lg font-medium mb-4">User Sentiment Analysis</h3>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        <div class="p-4 bg-green-50 rounded-lg">
-          <h4 class="text-sm text-gray-600">Positive Ratings</h4>
-          <p class="text-2xl font-bold text-green-600">{{ dashboardData?.sentiment_analytics?.positive_ratings || 0 }}</p>
-        </div>
-        <div class="p-4 bg-red-50 rounded-lg">
-          <h4 class="text-sm text-gray-600">Negative Ratings</h4>
-          <p class="text-2xl font-bold text-red-600">{{ dashboardData?.sentiment_analytics?.negative_ratings || 0 }}</p>
-        </div>
-        <div class="p-4 bg-gray-50 rounded-lg">
-          <h4 class="text-sm text-gray-600">Total Ratings</h4>
-          <p class="text-2xl font-bold">{{ dashboardData?.sentiment_analytics?.total_ratings || 0 }}</p>
-        </div>
-      </div>
-      <canvasjs-chart [options]="sentimentChartOptions"></canvasjs-chart>
-    </div>
-
-    <!-- Common Questions Section -->
-    <div class="border rounded-lg p-6">
-      <h3 class="text-lg font-medium mb-4">Most Common Questions</h3>
-      <div class="overflow-x-auto">
-        <table class="w-full">
-          <thead>
-            <tr class="border-b">
-              <th class="px-4 py-2 text-left text-sm text-gray-600">Question</th>
-              <th class="px-4 py-2 text-left text-sm text-gray-600">Count</th>
-              <th class="px-4 py-2 text-left text-sm text-gray-600">Last Asked</th>
-              <th class="px-4 py-2 text-left text-sm text-gray-600">Latest Answer</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let q of dashboardData?.common_questions?.top_questions" class="border-b">
-              <td class="px-4 py-3">{{ q.question }}</td>
-              <td class="px-4 py-3">{{ q.count }}</td>
-              <td class="px-4 py-3">{{ formatDate(q.last_asked) }}</td>
-              <td class="px-4 py-3 max-w-md truncate">{{ q.latest_answer }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Topic Clusters Section -->
-    <div class="border rounded-lg p-6">
-      <h3 class="text-lg font-medium mb-4">Topic Clusters</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div *ngFor="let cluster of dashboardData?.topic_clusters?.clusters" class="p-4 border rounded-lg">
-          <div class="flex justify-between mb-2">
-            <h4>Cluster {{ cluster.cluster_id + 1 }}</h4>
-            <span class="text-sm text-gray-600">{{ cluster.question_count }} questions</span>
+    <!-- Key Metrics Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-4 sm:mb-8">
+      <div class="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">Total Questions</p>
+            <p class="text-2xl font-semibold text-gray-900">
+              {{dashboardData?.common_questions?.total_questions | number}}
+            </p>
           </div>
-          <p class="text-sm text-gray-600">
-            <span *ngFor="let term of cluster.topic_terms; let last = last">
-              {{ term }}{{ !last ? ', ' : '' }}
-            </span>
-          </p>
+          <div class="p-3 bg-blue-50 rounded-full">
+            <svg class="w-6 h-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <!-- Add more metric cards -->
+    </div>
+
+    <!-- Charts -->
+    <div class="space-y-4 sm:space-y-6">
+      <!-- First Row: Question Trends and Topic Distribution -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+        <!-- Question Trends -->
+        <div class="bg-white rounded-xl p-4 sm:p-6 border border-gray-200">
+          <h3 class="text-sm sm:text-base font-semibold text-gray-900 mb-4 sm:mb-6">Question Trends</h3>
+          <div #questionTrendsChart id="questionTrendsChart" class="h-[250px] sm:h-[300px] lg:h-[350px] w-full"></div>
+        </div>
+
+        <!-- Topic Distribution -->
+        <div class="bg-white rounded-xl p-4 sm:p-6 border border-gray-200">
+          <h3 class="text-sm sm:text-base font-semibold text-gray-900 mb-4 sm:mb-6">Popular Topics</h3>
+          <div #topicDistributionChart id="topicDistributionChart" class="h-[250px] sm:h-[300px] lg:h-[350px] w-full"></div>
+        </div>
+      </div>
+
+      <!-- Second Row: Hourly Activity (Full Width) -->
+      <div class="bg-white rounded-xl p-4 sm:p-6 border border-gray-200">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-sm sm:text-base font-semibold text-gray-900">Hourly Activity Distribution</h3>
+          <div class="text-xs text-gray-500">Peak activity: {{getPeakHour()}}:00</div>
+        </div>
+        <div #hourlyActivityChart id="hourlyActivityChart" class="h-[300px] sm:h-[350px] lg:h-[400px] w-full"></div>
+      </div>
+
+      <!-- Third Row: Top Questions & Satisfaction -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+        <!-- Top Questions -->
+        <div class="bg-white rounded-xl p-4 sm:p-6 border border-gray-200">
+          <h3 class="text-sm sm:text-base font-semibold text-gray-900 mb-3 sm:mb-4">Frequently Asked Questions</h3>
+          <div class="space-y-2 sm:space-y-3">
+            <div *ngFor="let question of dashboardData?.common_questions?.top_questions?.slice(0, 5)"
+                 class="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
+              <div class="flex-1 min-w-0">
+                <p class="text-xs sm:text-sm font-medium text-gray-900 truncate">{{question.question}}</p>
+                <p class="text-xs text-gray-600">Asked {{question.count}} times</p>
+              </div>
+              <div [ngClass]="getTrendClass(question.count || 0)"
+                   class="flex items-center space-x-1 ml-2">
+                <span class="text-xs sm:text-sm">{{question.count}}</span>
+                <span class="text-xs sm:text-sm">{{getTrendIcon(question.count || 0)}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Satisfaction Overview -->
+        <div class="bg-white rounded-xl p-4 sm:p-6 border border-gray-200">
+          <h3 class="text-sm sm:text-base font-semibold text-gray-900 mb-3 sm:mb-4">User Satisfaction</h3>
+          <!-- Modern satisfaction display -->
+          <div class="flex flex-col items-center justify-center mb-6">
+            <div class="relative w-40 h-40">
+              <!-- Background gradient -->
+              <div class="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 rounded-full shadow-inner"></div>
+              
+              <!-- Progress arc -->
+              <svg class="transform -rotate-90 w-full h-full">
+                <!-- Background track -->
+                <circle
+                  cx="80"
+                  cy="80"
+                  r="68"
+                  stroke="currentColor"
+                  stroke-width="8"
+                  fill="none"
+                  class="text-gray-100"
+                ></circle>
+                
+                <!-- Progress indicator -->
+                <circle
+                  cx="80"
+                  cy="80"
+                  r="68"
+                  [attr.stroke]="getSatisfactionColor(dashboardData?.sentiment_analytics?.satisfaction_rate || 0)"
+                  stroke-width="8"
+                  fill="none"
+                  [attr.stroke-dasharray]="getCircumference()"
+                  [attr.stroke-dashoffset]="getDashOffset(dashboardData?.sentiment_analytics?.satisfaction_rate || 0)"
+                  class="transition-all duration-1000 ease-out drop-shadow-sm"
+                  stroke-linecap="round"
+                ></circle>
+              </svg>
+              
+              <!-- Center content -->
+              <div class="absolute inset-0 flex flex-col items-center justify-center">
+                <span class="text-3xl font-bold bg-gradient-to-r" 
+                      [class]="getSatisfactionGradient(dashboardData?.sentiment_analytics?.satisfaction_rate || 0)">
+                  {{dashboardData?.sentiment_analytics?.satisfaction_rate || 0}}%
+                </span>
+                <span class="text-sm text-gray-500 mt-1">Satisfaction</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Satisfaction stats -->
+          <div class="grid grid-cols-3 gap-4">
+            <div class="bg-green-50 rounded-lg p-3 text-center">
+              <p class="text-xs text-green-600 font-medium">Positive</p>
+              <p class="text-lg font-semibold text-green-700">
+                {{dashboardData?.sentiment_analytics?.positive_ratings || 0}}
+              </p>
+            </div>
+            <div class="bg-gray-50 rounded-lg p-3 text-center">
+              <p class="text-xs text-gray-600 font-medium">Neutral</p>
+              <p class="text-lg font-semibold text-gray-700">
+                {{getNeutralRatings()}}
+              </p>
+            </div>
+            <div class="bg-red-50 rounded-lg p-3 text-center">
+              <p class="text-xs text-red-600 font-medium">Negative</p>
+              <p class="text-lg font-semibold text-red-700">
+                {{dashboardData?.sentiment_analytics?.negative_ratings || 0}}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

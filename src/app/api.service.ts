@@ -4,6 +4,8 @@ import { Ticket, TicketDetail, TicketsResponse } from './ticket.types';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
 import { tap } from 'rxjs/operators';
+import { jwtDecode } from 'jwt-decode'; // Change the import to use named import
+
 
 // Add Dashboard Data Interface
 export interface DashboardData {
@@ -60,10 +62,11 @@ export interface DashboardData {
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'https://xavier-ai-backend.onrender.com'; 
+  // private apiUrl = 'https://xavier-ai-backend.onrender.com'; 
 
   
-  // private apiUrl = 'http://127.0.0.1:5000';
+  private apiUrl = 'http://127.0.0.1:5000';
+  
    
   constructor(private http: HttpClient) { }
 
@@ -71,9 +74,13 @@ export class ApiService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(`${this.apiUrl}/login`, { username, password }, { withCredentials: true });
   }
+
+
+
   logout(){
     return this.http.post(`${this.apiUrl}/logout`,{}, { withCredentials: true });
   }
+  
   
 
   register(username: string, password: string): Observable<any> {
@@ -257,11 +264,20 @@ updateTicketStatus(ticketId: number, status: string): Observable<any> {
   );
 }
 
+updateTicketPriority(ticketId: number, priority: string): Observable<any> {
+  return this.http.put(`${this.apiUrl}/ticket/${ticketId}/priority`, { priority }, { withCredentials: true }).pipe(
+    tap((response: any) => this.getTickets()),
+    catchError(this.handleError)
+  );
+}
 
 deleteTicket(ticketId: number): Observable<any> {
   return this.http.delete(`${this.apiUrl}/ticket/delete/${ticketId}`, { withCredentials: true }).pipe(
     catchError(this.handleError)
   );
 }
+
+
+
 }
 

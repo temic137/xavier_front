@@ -24,11 +24,13 @@ export class ChatbotListComponent implements OnInit {
   newChatbotName: string = '';
   showDeleteModal: boolean = false;
   chatbotToDeleteId: string | null = null;
+  
 
   constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit() {
     this.fetchChatbots();
+    
   }
 
   fetchChatbots() {
@@ -41,6 +43,8 @@ export class ChatbotListComponent implements OnInit {
       },
     });
   }
+
+  
 
   toggleModal() {
     this.showModal = !this.showModal;
@@ -96,7 +100,7 @@ export class ChatbotListComponent implements OnInit {
   logout1() {
     this.apiService.logout().subscribe(() => {
       console.log('Logged out successfully');
-      this.router.navigate(['/login']);
+      this.router.navigate(['/']);
     });
   }
 

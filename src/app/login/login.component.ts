@@ -23,6 +23,7 @@ export class LoginComponent {
       (response) => {
         console.log('Logged in successfully');
         this.router.navigate(['/chatbots']);
+        
       },
       (error) => {
         console.error('Login failed', error);

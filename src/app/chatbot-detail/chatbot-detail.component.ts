@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { finalize, catchError } from 'rxjs/operators';
 import { of, Subscription } from 'rxjs';
+import { EscalationStatusService } from '../services/escalation-status.service';
+import { HttpClient } from '@angular/common/http';
 
 interface Chatbot {
   id: string;
@@ -16,6 +18,7 @@ interface Chatbot {
   selector: 'app-chatbot-detail',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule, RouterOutlet],
+  providers: [EscalationStatusService],
   templateUrl: './chatbot-detail.component.html',
   styleUrls: ['./chatbot-detail.component.css'], 
 })
@@ -25,32 +28,58 @@ export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   chatbotId: string = '';
   chatbotName: string = '';
   activeTab: string = 'analytics';
+  activeSupportTab: string = 'escalations'; // New property for support sub-navigation
   loading: boolean = false;
   selectedFile: File | null = null;
-  folderPath : string | null =null;
-  WebsiteUrl : string | null =null;
+  folderPath: string | null = null;
+  WebsiteUrl: string | null = null;
   selectedChatbot!: Chatbot;
-  apiUrl: string = '';
+  private apiUrl = 'http://127.0.0.1:5000';  // Make sure this matches your API URL
   showForm: boolean = false;
   message: string = '';
   isSuccess: boolean = true;
   isMobileMenuOpen: boolean = false;
+  hasPendingEscalations: boolean = false;
 
   private routeSub: Subscription | null = null;
   private routerEventsSub: Subscription | null = null;
+  private escalationStatusSub: Subscription | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private escalationStatusService: EscalationStatusService,
+    private http: HttpClient
   ) {}
 
   ngOnInit() {
     this.routeSub = this.route.params.subscribe(params => {
       this.chatbotId = params['id'];
-      this.loadChatbotDetails();
+      if (this.chatbotId) {
+        this.loadChatbotDetails();
+        this.fetchInitialEscalationStatus();
+      }
     });
 
+    // Subscribe to route changes to update active tabs
+    this.routerEventsSub = this.router.events.subscribe(() => {
+      const url = this.router.url;
+      if (url.includes('/agent-dash')) {
+        this.activeTab = 'support';
+        this.activeSupportTab = 'escalations';
+      } else if (url.includes('/tickets')) {
+        this.activeTab = 'support';
+        this.activeSupportTab = 'tickets';
+      }
+    });
+
+    // Subscribe to escalation status changes
+    this.escalationStatusSub = this.escalationStatusService.getPendingStatus()
+      .subscribe(hasPending => {
+        console.log('Component received pending status update:', hasPending); // Debug log
+        this.hasPendingEscalations = hasPending;
+      });
   }
 
   ngAfterViewInit() {
@@ -58,12 +87,14 @@ export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngOnDestroy() {
-
     if (this.routeSub) {
       this.routeSub.unsubscribe();
     }
     if (this.routerEventsSub) {
       this.routerEventsSub.unsubscribe();
+    }
+    if (this.escalationStatusSub) {
+      this.escalationStatusSub.unsubscribe();
     }
   }
 
@@ -115,41 +146,58 @@ export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     });
   }
 
-  setActiveTab(tab: string) {
+  setActiveTab(tab: string, subtab?: string) {
     this.activeTab = tab;
+    if (tab !== 'support') {
+      this.activeSupportTab = ''; // Reset support subtab when switching to a different main tab
+    } else if (subtab) {
+      this.activeSupportTab = subtab;
+    }
     this.closeMobileMenu();
 
     switch (tab) {
       case 'train':
         this.router.navigate(['/chatbot', this.chatbotId, 'train', this.chatbotId]);
-        this.isMobileMenuOpen = false;
         break;
       case 'analytics':
         this.router.navigate(['/chatbot', this.chatbotId, 'analyticsdash', this.chatbotId]);
-        this.isMobileMenuOpen = false;
         break;
       case 'test':
         this.router.navigate(['/chatbot', this.chatbotId, 'chat', this.chatbotId]);
-        this.isMobileMenuOpen = false;
         break;
       case 'knowledge':
         this.router.navigate(['/chatbot', this.chatbotId, 'edit', this.chatbotId]);
-        this.isMobileMenuOpen = false;
         break;
-      case 'integration' :
+      case 'integration':
         this.router.navigate(['/chatbot', this.chatbotId, 'integration', this.chatbotId]);
-        this.isMobileMenuOpen = false;
         break;
-      case 'ticket' :
-        this.router.navigate(['/chatbot', this.chatbotId, 'tickets', this.chatbotId]);
-        this.isMobileMenuOpen = false;
-        break;
-      
+      case 'customize':
+          this.router.navigate(['/chatbot', this.chatbotId, 'chatbot-customize', this.chatbotId]);
+          break;
+        case 'support':
+          // If no subtab is specified, default to escalations
+          if (!subtab) {
+            this.activeSupportTab = 'escalations';
+            this.router.navigate(['/chatbot', this.chatbotId, 'agent-dash', this.chatbotId]);
+          } else {
+            this.activeSupportTab = subtab;
+            if (subtab === 'tickets') {
+              this.router.navigate(['/chatbot', this.chatbotId, 'tickets', this.chatbotId]);
+            } else {
+              this.router.navigate(['/chatbot', this.chatbotId, 'agent-dash', this.chatbotId]);
+            }
+          }
+          break;
     }
+    this.isMobileMenuOpen = false;
   }
 
   isActiveTab(tab: string): boolean {
     return this.activeTab === tab;
+  }
+
+  isActiveSupportTab(tab: string): boolean {
+    return this.activeSupportTab === tab;
   }
 
   onFileSelected(event: Event) {
@@ -164,5 +212,27 @@ export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     this.apiUrl = '';
     this.selectedFile = null;
   }
-}
 
+  private fetchInitialEscalationStatus() {
+    if (!this.chatbotId) return;
+
+    console.log('Fetching initial escalation status for chatbot:', this.chatbotId); // Debug log
+
+    this.http.get<any>(`${this.apiUrl}/agent/escalations/${this.chatbotId}`).subscribe({
+      next: (response) => {
+        console.log('Received escalation response:', response); // Debug log
+        if (response && response.escalations) {
+          const pendingCount = response.escalations.filter(
+            (e: any) => e.status === 'pending'
+          ).length;
+          console.log('Pending escalations count:', pendingCount); // Debug log
+          this.escalationStatusService.setPendingStatus(pendingCount);
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching initial escalation status:', error);
+        this.escalationStatusService.setPendingStatus(0);
+      }
+    });
+  }
+}

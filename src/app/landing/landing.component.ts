@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { RotatingFeaturesComponent } from '../rotating-features/rotating-features.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -38,7 +38,8 @@ interface FooterColumn {
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css'
 })
-export class LandingComponent {
+export class LandingComponent implements OnInit, AfterViewInit {
+  @ViewChildren('featureCard') featureCards!: QueryList<ElementRef>;
 
   companyCount = 1000;
   currentYear = new Date().getFullYear();
@@ -60,6 +61,10 @@ export class LandingComponent {
   // Update these paths to match your actual video and thumbnail locations in assets folder
   videoSrc = 'assets/videos/demo.mp4';
   thumbnailSrc = 'assets/images/video-thumbnail.jpg';
+
+  isLoading = true;
+
+  constructor(private elementRef: ElementRef) {}
 
   toggleMobileMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
@@ -101,16 +106,28 @@ export class LandingComponent {
     }
   ];
 
-  testimonials: Testimonial[] = [
+  statistics = [
+    { value: '99%', label: 'Customer Satisfaction' },
+    { value: '24/7', label: 'Availability' },
+    { value: '1000+', label: 'Active Users' },
+    { value: '5x', label: 'Faster Response Time' }
+  ];
+
+  testimonials = [
     {
-      quote: 'The AI chatbot has transformed our customer service operations. Response times are down 80% and satisfaction is up.',
+      quote: 'Xavier AI has transformed our customer service. Response times are down 80% and satisfaction is up.',
       author: 'Sarah Johnson',
       role: 'CTO at TechCorp'
     },
     {
-      quote: 'Implementation was seamless and the results were immediate. Our team can now focus on strategic initiatives.',
+      quote: 'Implementation was seamless and the results were immediate. Our team loves it.',
       author: 'Michael Chen',
       role: 'Head of Support at StartupX'
+    },
+    {
+      quote: 'The AI responses are incredibly accurate and natural. Our customers love it.',
+      author: 'Emily Rodriguez',
+      role: 'Customer Success at CloudTech'
     }
   ];
 
@@ -156,5 +173,37 @@ export class LandingComponent {
   onVideoError() {
     this.isVideoLoading = false;
     this.hasVideoError = true;
+  }
+
+  ngOnInit() {
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 2500);
+  }
+
+  ngAfterViewInit() {
+    this.setupScrollAnimation();
+  }
+
+  private setupScrollAnimation() {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('opacity-100', 'translate-y-0');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+      }
+    );
+
+    this.featureCards.forEach(card => {
+      observer.observe(card.nativeElement);
+    });
   }
 }

@@ -1,0 +1,163 @@
+<div class="min-h-screen bg-gray-50">
+
+    <nav class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+  
+          <div class="flex items-center space-x-4">
+            <a routerLink="/chatbots" class="flex items-center text-gray-600 hover:text-black transition-colors focus:outline-none">
+              <svg class="w-5 h-5 mr-2 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7" />
+              </svg>
+              <span class="text-sm font-medium">Back</span>
+            </a>
+            <div class="h-6 w-px bg-gray-200"></div>
+            <a routerLink="" class="text-2xl font-bold">Xavier AI</a>
+          </div>
+  
+          <!-- Desktop Navigation -->
+          <div class="hidden md:flex items-center space-x-4">
+            (<h2 class=" font-bold text-gray-900 ">{{ chatbotName }}</h2>)
+            <a (click)="setActiveTab('analytics')" 
+               [class.active-tab]="activeTab === 'analytics'"
+               class="relative px-3 py-2 text-sm font-medium text-gray-500 hover:text-black transition-colors cursor-pointer
+                      before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-full before:h-0.5 
+                      before:bg-black before:transform before:scale-x-0 before:transition-transform before:duration-300
+                      hover:before:scale-x-100 [&.active-tab]:text-black [&.active-tab]:before:scale-x-100">
+              Dashboard
+            </a>
+            
+            <a (click)="setActiveTab('train')"
+               [class.active-tab]="activeTab === 'train'"
+               class="relative px-3 py-2 text-sm font-medium text-gray-500 hover:text-black transition-colors cursor-pointer
+                      before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-full before:h-0.5 
+                      before:bg-black before:transform before:scale-x-0 before:transition-transform before:duration-300
+                      hover:before:scale-x-100 [&.active-tab]:text-black [&.active-tab]:before:scale-x-100">
+              Train
+            </a>
+            
+            <a (click)="setActiveTab('test')"
+               [class.active-tab]="activeTab === 'test'"
+               class="relative px-3 py-2 text-sm font-medium text-gray-500 hover:text-black transition-colors cursor-pointer
+                      before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-full before:h-0.5 
+                      before:bg-black before:transform before:scale-x-0 before:transition-transform before:duration-300
+                      hover:before:scale-x-100 [&.active-tab]:text-black [&.active-tab]:before:scale-x-100">
+              Test
+            </a>
+            
+            <a (click)="setActiveTab('knowledge')"
+               [class.active-tab]="activeTab === 'knowledge'"
+               class="relative px-3 py-2 text-sm font-medium text-gray-500 hover:text-black transition-colors cursor-pointer
+                      before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-full before:h-0.5 
+                      before:bg-black before:transform before:scale-x-0 before:transition-transform before:duration-300
+                      hover:before:scale-x-100 [&.active-tab]:text-black [&.active-tab]:before:scale-x-100">
+              Knowledge Base
+            </a>
+            
+            <a (click)="setActiveTab('integration')"
+               [class.active-tab]="activeTab === 'integration'"
+               class="relative px-3 py-2 text-sm font-medium text-gray-500 hover:text-black transition-colors cursor-pointer
+                      before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-full before:h-0.5 
+                      before:bg-black before:transform before:scale-x-0 before:transition-transform before:duration-300
+                      hover:before:scale-x-100 [&.active-tab]:text-black [&.active-tab]:before:scale-x-100">
+              Integration
+            </a>
+            
+            <a (click)="setActiveTab('ticket')"
+               [class.active-tab]="activeTab === 'ticket'"
+               class="relative px-3 py-2 text-sm font-medium text-gray-500 hover:text-black transition-colors cursor-pointer
+                      before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-full before:h-0.5 
+                      before:bg-black before:transform before:scale-x-0 before:transition-transform before:duration-300
+                      hover:before:scale-x-100 [&.active-tab]:text-black [&.active-tab]:before:scale-x-100">
+              Tickets
+            </a>
+            <a (click)="setActiveTab('escalation')"
+               [class.active-tab]="activeTab === 'escalation'"
+               class="relative px-3 py-2 text-sm font-medium text-gray-500 hover:text-black transition-colors cursor-pointer
+                      before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-full before:h-0.5 
+                      before:bg-black before:transform before:scale-x-0 before:transition-transform before:duration-300
+                      hover:before:scale-x-100 [&.active-tab]:text-black [&.active-tab]:before:scale-x-100">
+              Escalations
+            </a>
+          </div>
+  
+          <!-- Mobile Menu Button -->
+          <div class="md:hidden">
+            <button (click)="isMobileMenuOpen = !isMobileMenuOpen" class="focus:outline-none">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path *ngIf="!isMobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                <path *ngIf="isMobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+  
+        <!-- Mobile Navigation Menu -->
+        <div class="md:hidden" [ngClass]="{'block': isMobileMenuOpen, 'hidden': !isMobileMenuOpen}">
+          <h2 class=" font-bold text-gray-900 ">{{ chatbotName }}</h2>
+          <div class="px-2 pt-2 pb-3 space-y-1">
+            <a (click)="setActiveTab('analytics')" 
+               [class.active-tab]="activeTab === 'analytics'"
+               class="block px-3 py-2 text-sm font-medium text-gray-500 hover:text-black hover:bg-gray-50 
+                      transition-colors cursor-pointer rounded-md
+                      [&.active-tab]:text-black [&.active-tab]:bg-gray-100">
+              Dashboard
+            </a>
+            
+            <a (click)="setActiveTab('train')"
+               [class.active-tab]="activeTab === 'train'"
+               class="block px-3 py-2 text-sm font-medium text-gray-500 hover:text-black hover:bg-gray-50 
+                      transition-colors cursor-pointer rounded-md
+                      [&.active-tab]:text-black [&.active-tab]:bg-gray-100">
+              Train
+            </a>
+            
+            <a (click)="setActiveTab('test')"
+               [class.active-tab]="activeTab === 'test'"
+               class="block px-3 py-2 text-sm font-medium text-gray-500 hover:text-black hover:bg-gray-50 
+                      transition-colors cursor-pointer rounded-md
+                      [&.active-tab]:text-black [&.active-tab]:bg-gray-100">
+              Test
+            </a>
+            
+            <a (click)="setActiveTab('knowledge')"
+               [class.active-tab]="activeTab === 'knowledge'"
+               class="block px-3 py-2 text-sm font-medium text-gray-500 hover:text-black hover:bg-gray-50 
+                      transition-colors cursor-pointer rounded-md
+                      [&.active-tab]:text-black [&.active-tab]:bg-gray-100">
+              Knowledge Base
+            </a>
+            
+            <a (click)="setActiveTab('integration')"
+               [class.active-tab]="activeTab === 'integration'"
+               class="block px-3 py-2 text-sm font-medium text-gray-500 hover:text-black hover:bg-gray-50 
+                      transition-colors cursor-pointer rounded-md
+                      [&.active-tab]:text-black [&.active-tab]:bg-gray-100">
+              Integration
+            </a>
+            
+            <a (click)="setActiveTab('ticket')"
+               [class.active-tab]="activeTab === 'ticket'"
+               class="block px-3 py-2 text-sm font-medium text-gray-500 hover:text-black hover:bg-gray-50 
+                      transition-colors cursor-pointer rounded-md
+                      [&.active-tab]:text-black [&.active-tab]:bg-gray-100">
+              Tickets
+            </a>
+  
+            <a (click)="setActiveTab('escalation')"
+            [class.active-tab]="activeTab === 'escalation'"
+            class="block px-3 py-2 text-sm font-medium text-gray-500 hover:text-black hover:bg-gray-50 
+                   transition-colors cursor-pointer rounded-md
+                   [&.active-tab]:text-black [&.active-tab]:bg-gray-100">
+           Escalations
+         </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  
+  
+    <main class="pt-16 p-4">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
