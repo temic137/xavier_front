@@ -32,7 +32,19 @@
             "prerender": true,
             "ssr": {
               "entry": "server.ts"
-            }
+            },
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "2mb",
+                "maximumError": "3mb"
+              },
+              {
+                "type": "anyComponentStyle",
+                "maximumWarning": "8kb",
+                "maximumError": "10kb"
+              }
+            ]
           },
           "configurations": {
             "production": {

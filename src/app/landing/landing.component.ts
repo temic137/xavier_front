@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChildren, QueryList, HostListener, PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { RotatingFeaturesComponent } from '../rotating-features/rotating-features.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -40,6 +41,7 @@ interface FooterColumn {
 })
 export class LandingComponent implements OnInit, AfterViewInit {
   @ViewChildren('featureCard') featureCards!: QueryList<ElementRef>;
+  private isBrowser: boolean;
 
   companyCount = 1000;
   currentYear = new Date().getFullYear();
@@ -64,7 +66,9 @@ export class LandingComponent implements OnInit, AfterViewInit {
 
   isLoading = true;
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   toggleMobileMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
@@ -181,29 +185,35 @@ export class LandingComponent implements OnInit, AfterViewInit {
     }, 2500);
   }
 
-  ngAfterViewInit() {
-    this.setupScrollAnimation();
+  @HostListener('window:scroll', ['$event'])
+  onScroll() {
+    if (this.isBrowser) {
+      this.checkFeatureCardsVisibility();
+    }
   }
 
-  private setupScrollAnimation() {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('opacity-100', 'translate-y-0');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-      }
-    );
+  ngAfterViewInit() {
+    if (this.isBrowser) {
+      // Initial check for visible cards
+      setTimeout(() => {
+        this.checkFeatureCardsVisibility();
+      }, 100);
+    }
+  }
 
-    this.featureCards.forEach(card => {
-      observer.observe(card.nativeElement);
+  private checkFeatureCardsVisibility() {
+    if (!this.isBrowser) return;
+    
+    const windowHeight = window.innerHeight;
+    
+    this.featureCards.forEach((cardRef: ElementRef) => {
+      const element = cardRef.nativeElement;
+      const rect = element.getBoundingClientRect();
+      
+      // Check if element is in viewport
+      if (rect.top <= windowHeight * 0.85) { // Show when element is 85% from the top of viewport
+        element.classList.add('opacity-100', 'translate-y-0');
+      }
     });
   }
 }
