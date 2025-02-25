@@ -38,6 +38,7 @@
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
     "lucide-angular": "^0.469.0",
+    "pusher-js": "^8.4.0",
     "rxjs": "~7.8.0",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
