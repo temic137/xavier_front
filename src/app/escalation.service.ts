@@ -106,7 +106,6 @@ import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import Pusher from 'pusher-js'; // Default import for Pusher
-import { environment } from './environment';
 // Define the Escalation interface
 export interface Escalation {
   id: string;
@@ -122,17 +121,19 @@ export interface Escalation {
   providedIn: 'root'
 })
 export class EscalationService {
-  private apiUrl = environment.apiUrl || 'http://localhost:5000';
+  private apiUrl = 'https://xavier-back.onrender.com';
   private escalations = new BehaviorSubject<Escalation[]>([]);
   private pusher: Pusher;
+  private pusherKey = '43bd6f1835e5bb8165d8'; // Replace with your actual Pusher app key
+  private pusherCluster = 'us3'; // Replace with your actual Pusher cluster
 
   constructor(
     private http: HttpClient,
     private ngZone: NgZone
   ) {
     // Initialize Pusher with environment variables
-    this.pusher = new Pusher(environment.pusherKey, {
-      cluster: environment.pusherCluster,
+    this.pusher = new Pusher(this.pusherKey, {
+      cluster: this.pusherCluster,
       
     });
   }
