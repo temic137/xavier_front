@@ -19,7 +19,7 @@ interface CustomizationData {
   styleUrl: './chatbot-customize.component.css'
 })
 export class ChatbotCustomizeComponent {
-  private apiUrl = 'http://localhost:5000'; // Update this with your Flask backend URL
+  private apiUrl = 'https://xavier-back.onrender.com'; // Update this with your Flask backend URL
   themeColor: string = '#0084ff';
   avatarUrl: string = '';
   avatarPreview: string | null = null;
