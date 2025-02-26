@@ -121,12 +121,12 @@ export class ApiService {
 
   askChatbot(chatbotId: string, question: string | File, inputType: 'text' | 'audio' = 'text'): Observable<any> {
     if (inputType === 'text') {
-      return this.http.post(`${this.apiUrl}/chatbot/${chatbotId}/ask`, { question }, { withCredentials: true });
+      return this.http.post(`${this.apiUrl}/chatbot/${chatbotId}/ask`, { question });
     } else {
       const formData = new FormData();
       formData.append('audio', question as File);
       formData.append('input_type', 'audio');
-      return this.http.post(`${this.apiUrl}/chatbot/${chatbotId}/ask`, formData, { withCredentials: true });
+      return this.http.post(`${this.apiUrl}/chatbot/${chatbotId}/ask`, formData);
     }
   }
 
