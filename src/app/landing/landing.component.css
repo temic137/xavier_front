@@ -666,15 +666,20 @@
 }
 
 .tagline-container {
-  height: 1.5rem; /* Adjust based on your text size */
+  height: 1.5rem; /* Match your text size */
   position: relative;
   overflow: hidden;
+  width: 200px; /* Give it a specific width */
+  margin-left: 8px; /* Add some spacing */
 }
 
 .tagline {
   position: absolute;
   width: 100%;
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  top: 0;
+  left: 0;
+  opacity: 0; /* Start invisible by default */
+  transform: translateY(10px);
 }
 
 .tagline-entering {
