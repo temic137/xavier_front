@@ -669,7 +669,7 @@
   height: 1.5rem; /* Match your text size */
   position: relative;
   overflow: hidden;
-  width: 250px; /* Give it a specific width */
+  width: 220px; /* Give it a specific width */
   margin-left: 8px; /* Add some spacing */
 }
 
