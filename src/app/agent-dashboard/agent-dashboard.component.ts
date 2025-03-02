@@ -77,9 +77,9 @@ export class AgentDashboardComponent implements OnInit{
   // State properties
   isTyping: boolean = false;
   typingTimeout: any;
-  
+
   @ViewChild('notificationSound') notificationSound!: ElementRef<HTMLAudioElement>;
-  
+
   userStats: any = {};
   agentName: string = 'John Doe'; // Replace with actual agent name
   lastWeekStats = {
@@ -88,7 +88,7 @@ export class AgentDashboardComponent implements OnInit{
     resolved: 15,
     responseTime: 45
   };
-  
+
   isScrolled = false;
   activeDropdown: 'status' | 'sort' | 'priority' | null = null;
   // notifications: Array<{ id: number, message: string, type: string, timestamp: Date }> = [];
@@ -221,7 +221,7 @@ export class AgentDashboardComponent implements OnInit{
     this.joinEscalation(escalation.id);
     this.selectEscalation(escalation);
   }
-  
+
   private ensureISODate(dateStr: string): string {
     try {
       if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z$/.test(dateStr)) {
@@ -312,7 +312,6 @@ export class AgentDashboardComponent implements OnInit{
     channel.bind('status-update', (data: { type: string; status: string; agent_joined: boolean }) => {
       this.ngZone.run(() => {
         if (this.selectedEscalation) {
-          // Type assertion to ensure status matches Escalation type
           const validStatus = ['pending', 'in_progress', 'resolved', 'closed'].includes(data.status)
             ? data.status as 'pending' | 'in_progress' | 'resolved' | 'closed'
             : this.selectedEscalation.status;

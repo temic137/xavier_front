@@ -65,7 +65,7 @@ export class ApiService {
   // private apiUrl = 'https://xavier-ai-backend.onrender.com'; 
 
   
-  private apiUrl = 'http://localhost:5000';
+  private apiUrl ='https://xavier-back.onrender.com';
   
    
   constructor(private http: HttpClient) { }
@@ -129,7 +129,7 @@ export class ApiService {
       return this.http.post(`${this.apiUrl}/chatbot/${chatbotId}/ask`, formData, { withCredentials: true });
     }
   }
-
+  
   getChatbots(): Observable<any> {
     return this.http.get(`${this.apiUrl}/chatbots`, { withCredentials: true });
   }
