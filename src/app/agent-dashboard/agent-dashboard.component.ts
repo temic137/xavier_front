@@ -49,7 +49,7 @@ interface EscalationsResponse {
 })
 export class AgentDashboardComponent implements OnInit{
   // API URL and Pusher setup
-  private apiUrl = 'http://localhost:5000';
+  private apiUrl = 'https://xavier-back.onrender.com';
   private pusherKey = '43bd6f1835e5bb8165d8'; // Replace with your actual Pusher app key
   private pusherCluster = 'us3'; // Replace with your actual Pusher cluster
   private pusher: Pusher;
