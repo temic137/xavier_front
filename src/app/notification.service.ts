@@ -151,18 +151,18 @@ export class NotificationService {
 
   showNotification(message: string, type: 'info' | 'success' | 'warning' | 'error' = 'info'): void {
     const notification: NotificationMessage = {
-      id: crypto.randomUUID(),
+      id: Date.now().toString(), // Use timestamp as ID
       message,
       type,
       timestamp: new Date()
     };
-
+  
     const currentNotifications = this.notifications.value;
     this.notifications.next([notification, ...currentNotifications]);
     
     this.playNotificationSound();
-
-    // Auto-remove after 5 seconds
+  
+    // Auto-remove after 5000 milliseconds (5 seconds)
     setTimeout(() => {
       this.removeNotification(notification.id);
     }, 5000);

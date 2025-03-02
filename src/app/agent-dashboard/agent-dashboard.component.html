@@ -1,28 +1,28 @@
-<div class="min-h-screen bg-white">
+<div class="min-h-screen bg-gray-50">
   <!-- Header -->
-  <div class="sticky mb-0 top-0 bg-white border-b border-gray-200 z-10 transition-all duration-200" 
-       [class.shadow-sm]="isScrolled">
-    <div class="p-4 max-w-7xl mx-auto">
+  <div class="sticky mb-0 top-0 bg-white border-b border-gray-200 z-10 transition-all duration-200 shadow-sm" 
+       [class.shadow-md]="isScrolled">
+    <div class="px-6 py-4 max-w-7xl mx-auto">
       <div class="flex justify-between items-center">
         <!-- Title -->
         <div>
-          <h2 class="text-xl font-semibold text-gray-900">Escalations Dashboard</h2>
-          <p class="text-sm text-gray-600">{{getTotalCount()}} total cases</p>
+          <h2 class="text-2xl font-bold text-gray-900">Escalations Dashboard</h2>
+          <p class="text-sm text-gray-500 mt-1">{{getTotalCount()}} total cases</p>
         </div>
         
         <!-- Stats -->
-        <div class="flex gap-6">
-          <div class="text-center">
-            <span class="text-sm text-gray-600">Active</span>
-            <p class="text-lg font-medium text-blue-600">{{getActiveCount()}}</p>
+        <div class="flex gap-8">
+          <div class="text-center bg-white rounded-lg px-4 py-2 ">
+            <span class="text-sm font-medium text-gray-500">Active</span>
+            <p class="text-xl font-semibold text-blue-600">{{getActiveCount()}}</p>
           </div>
-          <div class="text-center">
-            <span class="text-sm text-gray-600">Pending</span>
-            <p class="text-lg font-medium text-yellow-600">{{getPendingCount()}}</p>
+          <div class="text-center bg-white rounded-lg px-4 py-2 ">
+            <span class="text-sm font-medium text-gray-500">Pending</span>
+            <p class="text-xl font-semibold text-amber-500">{{getPendingCount()}}</p>
           </div>
-          <div class="text-center">
-            <span class="text-sm text-gray-600">Resolved</span>
-            <p class="text-lg font-medium text-green-600">{{getResolvedCount()}}</p>
+          <div class="text-center bg-white rounded-lg px-4 py-2 ">
+            <span class="text-sm font-medium text-gray-500">Resolved</span>
+            <p class="text-xl font-semibold text-emerald-500">{{getResolvedCount()}}</p>
           </div>
         </div>
       </div>
@@ -30,9 +30,9 @@
   </div>
 
   <!-- Main Content -->
-  <div class="container mx-auto pt-28 px-4 pb-6">
+  <div class="container mx-auto px-6 pb-8 pt-6">
     <!-- Filter and Search Section -->
-    <div class="max-w-7xl mx-auto p-4 space-y-4 bg-white rounded-xl border-gray-200 mb-6 mt-0">
+    <div class="max-w-7xl mx-auto p-5 bg-white rounded-xl shadow-sm border border-gray-100 mb-6">
       <!-- Search Bar -->
       <div class="relative">
         <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
@@ -44,19 +44,19 @@
           type="text"
           [(ngModel)]="searchTerm"
           placeholder="Search by escalation ID or user ID..."
-          class="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 text-gray-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150"
+          class="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150"
         >
       </div>
     
       <!-- Filters Row -->
-      <div class="flex flex-col sm:flex-row gap-4">
+      <div class="flex flex-col sm:flex-row gap-4 mt-4">
         <!-- Status Filter -->
         <div class="flex-1 relative">
           <div>
             <button 
               type="button" 
               (click)="toggleDropdown('status')"
-              class="inline-flex w-full justify-between items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50">
+              class="inline-flex w-full justify-between items-center gap-x-1.5 rounded-lg bg-white px-4 py-2.5 text-sm font-medium text-gray-700 ring-1 shadow-sm ring-gray-300 ring-inset hover:bg-gray-50">
               {{filterStatus === 'all' ? 'All Statuses' : filterStatus | titlecase}}
               <svg class="-mr-1 size-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
@@ -65,31 +65,31 @@
           </div>
 
           <div *ngIf="activeDropdown === 'status'"
-               class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white ring-1 shadow-lg ring-black/5 focus:outline-hidden">
+               class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-lg bg-white ring-1 shadow-lg ring-black/5 focus:outline-hidden">
             <div class="py-1" role="none">
               <a (click)="filterStatus = 'all'; activeDropdown = null" 
-                 class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100"
-                 [class.bg-gray-100]="filterStatus === 'all'">
+                 class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-50"
+                 [class.bg-blue-50]="filterStatus === 'all'">
                 All Statuses
               </a>
               <a (click)="filterStatus = 'pending'; activeDropdown = null" 
-                 class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100"
-                 [class.bg-gray-100]="filterStatus === 'pending'">
+                 class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-50"
+                 [class.bg-blue-50]="filterStatus === 'pending'">
                 Pending
               </a>
               <a (click)="filterStatus = 'in_progress'; activeDropdown = null" 
-                 class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100"
-                 [class.bg-gray-100]="filterStatus === 'in_progress'">
+                 class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-50"
+                 [class.bg-blue-50]="filterStatus === 'in_progress'">
                 In Progress
               </a>
               <a (click)="filterStatus = 'resolved'; activeDropdown = null" 
-                 class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100"
-                 [class.bg-gray-100]="filterStatus === 'resolved'">
+                 class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-50"
+                 [class.bg-blue-50]="filterStatus === 'resolved'">
                 Resolved
               </a>
               <a (click)="filterStatus = 'closed'; activeDropdown = null" 
-                 class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100"
-                 [class.bg-gray-100]="filterStatus === 'closed'">
+                 class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-50"
+                 [class.bg-blue-50]="filterStatus === 'closed'">
                 Closed
               </a>
             </div>
@@ -103,7 +103,7 @@
               <button 
                 type="button"
                 (click)="toggleDropdown('sort')"
-                class="inline-flex w-full justify-between items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50">
+                class="inline-flex w-full justify-between items-center gap-x-1.5 rounded-lg bg-white px-4 py-2.5 text-sm font-medium text-gray-700 ring-1 shadow-sm ring-gray-300 ring-inset hover:bg-gray-50">
                 {{sortBy === 'created_at' ? 'Sort by Created Date' : 'Sort by Last Message'}}
                 <svg class="-mr-1 size-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
@@ -112,16 +112,16 @@
             </div>
 
             <div *ngIf="activeDropdown === 'sort'"
-                 class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white ring-1 shadow-lg ring-black/5 focus:outline-hidden">
+                 class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-lg bg-white ring-1 shadow-lg ring-black/5 focus:outline-hidden">
               <div class="py-1" role="none">
                 <a (click)="sortBy = 'created_at'; activeDropdown = null"
-                   class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100"
-                   [class.bg-gray-100]="sortBy === 'created_at'">
+                   class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-50"
+                   [class.bg-blue-50]="sortBy === 'created_at'">
                   Sort by Created Date
                 </a>
                 <a (click)="sortBy = 'last_message_time'; activeDropdown = null"
-                   class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100"
-                   [class.bg-gray-100]="sortBy === 'last_message_time'">
+                   class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-50"
+                   [class.bg-blue-50]="sortBy === 'last_message_time'">
                   Sort by Last Message
                 </a>
               </div>
@@ -130,7 +130,7 @@
 
           <button 
             (click)="sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'"
-            class="px-3 py-2 bg-white ring-1 ring-gray-300 ring-inset text-gray-900 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset transition duration-150">
+            class="px-4 py-2.5 bg-white ring-1 ring-gray-300 ring-inset text-gray-700 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset transition duration-150">
             <svg 
               class="w-5 h-5 transition-transform duration-200" 
               [class.rotate-180]="sortDirection === 'desc'"
@@ -141,28 +141,27 @@
             </svg>
           </button>
         </div>
-
-
       </div>
     </div>
 
-    <div class="p-4 border-b flex justify-between items-center">
+    <!-- Bulk Action Bar -->
+    <div class="mb-4 px-5 py-4 bg-white rounded-lg shadow-sm border border-gray-100 flex justify-between items-center">
       <div class="flex items-center gap-4">
         <h2 class="font-medium text-gray-900">Active Cases</h2>
         <button 
           (click)="toggleSelectMode()" 
-          class="text-sm px-3 py-1 rounded-full"
-          [ngClass]="isMultiSelectMode ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-600'">
+          class="text-sm px-3 py-1.5 rounded-lg transition-colors"
+          [ngClass]="isMultiSelectMode ? 'bg-blue-100 text-blue-700 hover:bg-blue-200' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'">
           {{ isMultiSelectMode ? 'Cancel Selection' : 'Select Multiple' }}
         </button>
         <button 
           *ngIf="isMultiSelectMode && selectedEscalations.size > 0"
           (click)="deleteSelectedEscalations()"
-          class="text-sm px-3 py-1 rounded-full bg-red-100 text-red-600 hover:bg-red-200">
+          class="text-sm px-3 py-1.5 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition-colors">
           Delete Selected ({{selectedEscalations.size}})
         </button>
       </div>
-      <button (click)="fetchEscalations()" class="text-blue-600 hover:text-blue-800">
+      <button (click)="fetchEscalations()" class="text-blue-600 hover:text-blue-800 p-1 rounded-full hover:bg-blue-50">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
         </svg>
@@ -171,20 +170,20 @@
 
     <div class="grid lg:grid-cols-3 gap-6">
       <!-- Escalations List -->
-      <section class="lg:col-span-1 bg-white rounded-xl border border-gray-200">
-        <div class="p-4 border-b flex justify-between items-center">
-          <h2 class="font-medium text-gray-900">Active Cases</h2>
-          <button (click)="fetchEscalations()" class="text-blue-600 hover:text-blue-800">
+      <section class="lg:col-span-1 bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+        <div class="p-4 border-b flex justify-between items-center bg-gray-50">
+          <h2 class="font-medium text-gray-900">Case List</h2>
+          <button (click)="fetchEscalations()" class="text-blue-600 hover:text-blue-800 p-1 rounded-full hover:bg-blue-50">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
           </button>
         </div>
         
-        <div class="overflow-y-auto h-[calc(100vh-12rem)]">
+        <div class="overflow-y-auto h-[calc(100vh-14rem)]">
           <div *ngFor="let escalation of getFilteredEscalations()">
-            <div class="p-4 border-b last:border-b-0 hover:bg-gray-100 transition duration-150"
-                 [class.bg-blue-100]="selectedEscalation?.id === escalation.id">
+            <div class="p-4 border-b last:border-b-0 hover:bg-gray-50 transition duration-150"
+                 [class.bg-blue-50]="selectedEscalation?.id === escalation.id">
               <div class="flex items-start gap-3">
                 <div class="flex-shrink-0" *ngIf="isMultiSelectMode">
                   <input 
@@ -196,23 +195,23 @@
                 <div class="flex-grow cursor-pointer" 
                      (click)="!isMultiSelectMode && selectEscalation(escalation)">
                   <div class="flex items-center justify-between mb-2">
-                    <span class="text-sm font-medium text-gray-900">#{{escalation.id}}</span>
+                    <span class="text-sm font-semibold text-gray-900">#{{escalation.id}}</span>
                     <div class="flex gap-2">
-                      <span class="inline-flex items-center rounded-full px-2 py-1 text-xs"
+                      <span class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium"
                             [ngClass]="getPriorityColor(escalation.priority)">
                         {{escalation.priority}}
                       </span>
-                      <span class="inline-flex items-center rounded-full px-2 py-1 text-xs"
+                      <span class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium"
                             [ngClass]="getStatusColor(escalation.status)">
                         {{escalation.status}}
                       </span>
                     </div>
                   </div>
-                  <div class="text-sm text-gray-600">User: {{escalation.user_id}}</div>
+                  <div class="text-sm font-medium text-gray-700">User: {{escalation.user_id}}</div>
                   <div class="text-xs text-gray-500 mt-1">
                     Created: {{escalation.created_at | date:'medium'}} ({{getTimeSince(escalation.created_at)}})
                   </div>
-                  <div class="text-sm text-gray-500" *ngIf="escalation.last_message_time">
+                  <div class="text-xs text-gray-500" *ngIf="escalation.last_message_time">
                     Last message: {{escalation.last_message_time | date:'short'}}
                   </div>
                 </div>
@@ -221,27 +220,27 @@
               <!-- Actions -->
               <div class="mt-3 flex justify-end gap-2">
                 <button 
-                (click)="handleJoinClick(escalation)"
-                *ngIf="escalation.status === 'pending'"
-                class="text-sm px-3 py-1 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500/50">
-                Join
-              </button>
+                  (click)="handleJoinClick(escalation)"
+                  *ngIf="escalation.status === 'pending'"
+                  class="text-sm px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-colors">
+                  Join
+                </button>
                 
                 <button 
                   (click)="showDeleteConfirmation(escalation.id)"
-                  class="text-sm px-3 py-1 rounded-full bg-red-100 text-red-600 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500/50">
+                  class="text-sm px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-colors">
                   Delete
                 </button>
               </div>
 
-              <!-- New: Tags -->
+              <!-- Tags -->
               <div class="flex gap-2 mt-2">
                 <span *ngIf="isUrgent(escalation)" 
-                      class="px-2 py-1 text-xs bg-red-100 text-red-600 rounded-full">
+                      class="px-2 py-1 text-xs font-medium bg-red-50 text-red-700 rounded-full">
                   Urgent
                 </span>
                 <span *ngIf="needsAttention(escalation)" 
-                      class="px-2 py-1 text-xs bg-yellow-100 text-yellow-600 rounded-full">
+                      class="px-2 py-1 text-xs font-medium bg-amber-50 text-amber-700 rounded-full">
                   Needs Attention
                 </span>
               </div>
@@ -261,8 +260,8 @@
 
       <!-- Chat Section -->
       <section class="lg:col-span-2" *ngIf="selectedEscalation">
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col h-[calc(100vh-10px)] sm:h-[calc(100vh-10px)]overflow-y-auto">
-          <div class="p-4 border-b flex justify-between items-center">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-100 flex flex-col h-[calc(100vh-12rem)]">
+          <div class="p-4 border-b flex justify-between items-center bg-gray-50">
             <div>
               <h2 class="font-medium text-gray-900">Case #{{selectedEscalation.id}}</h2>
               <p class="text-sm text-gray-500">User ID: {{selectedEscalation.user_id}}</p>
@@ -270,26 +269,26 @@
             <div class="flex gap-2">
               <button 
                 (click)="exportChatHistory()"
-                class="text-sm px-3 py-1 rounded-full bg-gray-100 text-gray-900 hover:bg-gray-200">
+                class="text-sm px-3 py-1.5 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">
                 Export Chat
               </button>
               <button 
                 *ngIf="selectedEscalation.status !== 'resolved' && selectedEscalation.status !== 'closed'"
                 (click)="updateEscalationStatus('resolved')"
-                class="text-sm px-3 py-1 rounded-full bg-green-100 text-green-600 hover:bg-green-200">
+                class="text-sm px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-colors">
                 Resolve
               </button>
               <button 
                 *ngIf="selectedEscalation.status !== 'closed'"
                 (click)="updateEscalationStatus('closed')"
-                class="text-sm px-3 py-1 rounded-full bg-gray-100 text-gray-900 hover:bg-gray-200">
+                class="text-sm px-3 py-1.5 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">
                 Close
               </button>
             </div>
           </div>
           
-          <!-- New: User Info Panel -->
-          <div class="p-4 bg-gray-100 border-b">
+          <!-- User Info Panel -->
+          <div class="p-4 bg-gray-50 border-b">
             <div class="flex justify-between items-start">
               <div>
                 <h3 class="font-medium text-gray-900">Conversation Stats</h3>
@@ -299,17 +298,20 @@
           </div>
 
           <!-- Messages -->
-          <div class="flex-1 overflow-y-auto p-4 space-y-4">
+          <div class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
             <div *ngFor="let message of messages" 
                  class="flex flex-col max-w-[75%]"
                  [ngClass]="message.sender === 'agent' ? 'ml-auto' : ''">
-              <div class="rounded-lg p-3"
-                   [ngClass]="message.sender === 'agent' ? 'bg-blue-100' : 'bg-gray-100'">
+              <div class="rounded-lg p-3 shadow-sm"
+                   [ngClass]="message.sender === 'agent' ? 'bg-blue-50 border border-blue-100' : 'bg-white border border-gray-100'">
                 <div class="flex items-center gap-2 mb-1">
-                  <span class="text-sm font-medium text-gray-900">{{message.sender}}</span>
-                  <span class="text-xs text-gray-800">{{message.timestamp | date:'short'}}</span>
+                  <span class="text-sm font-medium" 
+                        [ngClass]="message.sender === 'agent' ? 'text-blue-700' : 'text-gray-900'">
+                    {{message.sender}}
+                  </span>
+                  <span class="text-xs text-gray-500">{{message.timestamp | date:'short'}}</span>
                 </div>
-                <p class="text-sm text-gray-500">{{message.message}}</p>
+                <p class="text-sm" [ngClass]="message.sender === 'agent' ? 'text-blue-800' : 'text-gray-700'">{{message.message}}</p>
               </div>
             </div>
           </div>
@@ -320,19 +322,19 @@
           </div>
 
           <!-- Message Input -->
-          <div class="p-4 border-t bg-gray-100">
+          <div class="p-4 border-t bg-white">
             <textarea
               [(ngModel)]="newMessage"
               (input)="onTyping()"
               rows="3"
               placeholder="Type your message..."
-              class="w-full rounded-lg border-gray-200 p-3 text-sm focus:border-blue-500 focus:ring focus:ring-blue-200 text-gray-900">
+              class="w-full rounded-lg border border-gray-200 p-3 text-sm focus:border-blue-500 focus:ring focus:ring-blue-200 text-gray-700 bg-gray-50">
             </textarea>
             
             <button 
               (click)="sendMessage()"
               [disabled]="!newMessage.trim()"
-              class="mt-3 w-full sm:w-auto flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
+              class="mt-3 w-full sm:w-auto flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
               Send
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -344,13 +346,13 @@
 
       <!-- Empty State for Chat -->
       <section class="lg:col-span-2" *ngIf="!selectedEscalation">
-        <div class="h-full flex items-center justify-center bg-gray-100 rounded-lg shadow-sm">
-          <div class="text-center">
-            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="h-full flex items-center justify-center bg-white rounded-lg shadow-sm border border-gray-100 py-12">
+          <div class="text-center p-6 max-w-md">
+            <svg class="mx-auto h-16 w-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
-            <h3 class="mt-2 text-sm font-medium text-gray-900">No conversation selected</h3>
-            <p class="mt-1 text-sm text-gray-500">Select an escalation from the list to view the conversation.</p>
+            <h3 class="mt-4 text-base font-medium text-gray-900">No conversation selected</h3>
+            <p class="mt-2 text-sm text-gray-500">Select an escalation from the list to view the conversation.</p>
           </div>
         </div>
       </section>
@@ -358,20 +360,20 @@
   </div>
 
   <!-- Delete Confirmation Modal -->
-  <div *ngIf="showDeleteModal" class="fixed inset-0 bg-gray-50 bg-opacity-50 flex justify-center items-center px-4 sm:px-6 z-50">
-    <div class="bg-gray-50 rounded-xl shadow-lg p-6 w-full max-w-md">
-      <h3 class="text-lg font-normal mb-4 text-gray-800">
+  <div *ngIf="showDeleteModal" class="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center px-4 sm:px-6 z-50">
+    <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-md border border-gray-200">
+      <h3 class="text-lg font-medium mb-4 text-gray-900">
         {{ getDeleteConfirmationText() }}
       </h3>
-      <div class="flex justify-end space-x-4">
+      <div class="flex justify-end space-x-4 mt-6">
         <button 
           (click)="cancelDelete()" 
-          class="text-sm px-3 py-1 rounded-full bg-gray-300 text-gray-900 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500/50">
+          class="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500/50 transition-colors">
           Cancel
         </button>
         <button 
           (click)="confirmDelete()" 
-          class="text-sm px-3 py-1 rounded-full bg-red-50 text-red-600 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-500/50">
+          class="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-colors">
           Delete
         </button>
       </div>
@@ -379,34 +381,35 @@
   </div>
 
   <!-- Loading Overlay -->
-  <div *ngIf="isLoading" class="fixed inset-0 bg-white bg-opacity-75 flex items-center justify-center z-50">
-    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+  <div *ngIf="isLoading" class="fixed inset-0 bg-white bg-opacity-75 backdrop-blur-sm flex items-center justify-center z-50">
+    <div class="flex flex-col items-center">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <p class="mt-4 text-gray-700">Loading...</p>
+    </div>
   </div>
 
-   <!-- Toast Notifications -->
-   <div class="fixed bottom-4 right-4 z-50">
-    <div *ngFor="let notification of notifications" 
-         class="mb-2 p-4 rounded-lg shadow-lg min-w-[300px] transform transition-all duration-300 ease-in-out"
-         [ngClass]="{
-           'bg-blue-600': notification.type === 'info',
-           'bg-green-600': notification.type === 'success',
-           'bg-yellow-600': notification.type === 'warning',
-           'bg-red-600': notification.type === 'error'
-         }">
-      <div class="flex justify-between items-start">
-        <div>
-          <p class="text-sm font-medium text-white">{{notification.message}}</p>
-          <p class="text-xs text-gray-200 mt-1">{{notification.timestamp | date:'short'}}</p>
-        </div>
-        <button (click)="removeNotification(notification.id)" 
-                class="ml-4 text-white/80 hover:text-white">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
+<!-- Toast Notifications -->
+<div class="fixed bottom-4 right-4 z-50">
+  <div *ngFor="let notification of notifications" 
+       class="mb-2 p-4 rounded-lg shadow-lg min-w-[300px] transform transition-all duration-300 ease-in-out"
+       [ngClass]="{
+         'bg-blue-600': notification.type === 'info',
+         'bg-emerald-600': notification.type === 'success',
+         'bg-amber-600': notification.type === 'warning',
+         'bg-red-600': notification.type === 'error'
+       }">
+    <div class="flex justify-between items-start">
+      <div>
+        <p class="text-sm font-medium text-white">{{notification.message}}</p>
+        <p class="text-xs text-gray-200 mt-1">{{notification.timestamp | date:'short'}}</p>
       </div>
+      <button (click)="removeNotification(notification.id)" 
+              class="ml-4 text-white/80 hover:text-white">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
     </div>
   </div>
 </div>
-
-
+</div>

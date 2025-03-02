@@ -15,18 +15,21 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   username = '';
   password = '';
+  isLoading = false;
 
   constructor(private apiService: ApiService, private router: Router) {}
 
   onSubmit() {
+    this.isLoading = true;
     this.apiService.login(this.username, this.password).subscribe(
       (response) => {
         console.log('Logged in successfully');
         this.router.navigate(['/chatbots']);
-        
+        this.isLoading = false;
       },
       (error) => {
         console.error('Login failed', error);
+        this.isLoading = false;
       }
     );
   }

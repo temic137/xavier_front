@@ -1,29 +1,31 @@
 .dashboard-container {
-    @apply max-w-7xl mx-auto;
-  }
-  .stat-card {
-    @apply transition-transform duration-200 hover:scale-105;
-  }
-  .chart-card {
-    @apply h-[300px];
-  }
+  @apply max-w-7xl mx-auto;
+}
 
-  /* Custom CSS */
+.stat-card {
+  @apply transition-transform duration-200 hover:scale-105 relative;
+}
+
+.chart-card {
+  @apply h-auto;
+}
+
+/* Removed unnecessary overrides */
 .stats-section {
-  margin-bottom: 0 !important;
+  /* margin-bottom: 0 !important; */ /* Removed to allow space-y to work */
 }
 
 .charts-section {
-  margin-top: -1rem !important; /* Adjust as needed */
+  /* margin-top: 0 !important; */ /* Removed to allow space-y to work */
+  @apply space-y-8; /* Maintain internal spacing within charts section */
 }
 
 .chart-container {
-  transition: all 0.3s ease;
+  @apply transition-all duration-300;
 }
 
 .chart-container:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  @apply shadow-lg translate-y-[-2px];
 }
 
 .metric-card {
@@ -37,11 +39,46 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(to right, #3b82f6, #8b5cf6);
+  background: linear-gradient(to right, #727a88, #000000);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
 .metric-card:hover::before {
   opacity: 1;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 640px) {
+  .stat-card {
+    @apply p-4;
+  }
+  .chart-card {
+    @apply p-4;
+  }
+  .text-2xl {
+    @apply text-xl;
+  }
+  .gap-8 {
+    @apply gap-6; /* Reduce gap on small screens */
+  }
 }

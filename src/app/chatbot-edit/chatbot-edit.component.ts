@@ -230,49 +230,124 @@ export class ChatbotEditComponent implements OnInit, OnDestroy {
   }
 
   addFAQ() {
+    if (!this.newFAQ.question || !this.newFAQ.answer) {
+      this.error = "Question and answer cannot be empty";
+      return;
+    }
+  
     try {
       let parsedData: ChatbotDataItem[];
-  
-     
+      
+      // Initialize with default structure if empty
       if (!this.chatbotData || this.chatbotData.trim() === '') {
-       
         parsedData = [{ pdf_data: [] }];
       } else {
-       
         try {
           parsedData = JSON.parse(this.chatbotData);
         } catch (error) {
-          
           console.error('Error parsing chatbotData, initializing with default structure', error);
           parsedData = [{ pdf_data: [] }];
         }
       }
-  
       
+      // Ensure parsedData is an array
       if (!Array.isArray(parsedData)) {
         parsedData = [parsedData];
       }
-  
-     
-      if (!parsedData[0]) {
-        parsedData[0] = { pdf_data: [] };
-      }
-      if (!parsedData[0].pdf_data) {
-        parsedData[0].pdf_data = [];
-      }
-  
       
-      parsedData[0].pdf_data.push({
-        page: 'file', 
-        text: `Q: ${this.newFAQ.question}\nA: ${this.newFAQ.answer}` 
-      });
-  
+      const faqEntry = {
+        page: 'FAQ',
+        text: `Q: ${this.newFAQ.question}\nA: ${this.newFAQ.answer}`
+      };
       
+      // Logic to add the FAQ to the appropriate data structure
+      let added = false;
+      
+      // First, try to find and add to existing data structures in order of priority
+      for (const item of parsedData) {
+        // Option 1: Add to web_data if it exists
+        if (item.web_data?.sections && Array.isArray(item.web_data.sections)) {
+          // Try to find a FAQ section first
+          let faqSection = item.web_data.sections.find(s => 
+            s.heading.toLowerCase().includes('faq') || 
+            s.heading.toLowerCase().includes('frequently asked') ||
+            s.heading.toLowerCase().includes('questions')
+          );
+          
+          // If FAQ section exists, add to it
+          if (faqSection) {
+            if (!Array.isArray(faqSection.content)) {
+              faqSection.content = [];
+            }
+            faqSection.content.push(this.newFAQ.question + "\n" + this.newFAQ.answer);
+            added = true;
+            break;
+          } 
+          // Otherwise create a new FAQ section
+          else {
+            item.web_data.sections.push({
+              heading: "Frequently Asked Questions",
+              content: [`Q: ${this.newFAQ.question}\nA: ${this.newFAQ.answer}`]
+            });
+            added = true;
+            break;
+          }
+        }
+        
+        // Option 2: Add to pdf_data if it exists
+        else if (item.pdf_data && Array.isArray(item.pdf_data)) {
+          item.pdf_data.push(faqEntry);
+          added = true;
+          break;
+        }
+        
+        // Option 3: Add to db_data if it exists
+        else if (item.db_data && Array.isArray(item.db_data)) {
+          item.db_data.push({
+            question: this.newFAQ.question,
+            answer: this.newFAQ.answer
+          });
+          added = true;
+          break;
+        }
+        
+        // Option 4: Add to folder_data if it exists
+        else if (item.folder_data && Array.isArray(item.folder_data)) {
+          item.folder_data.push(faqEntry);
+          added = true;
+          break;
+        }
+      }
+      
+      // If no suitable existing structure was found, create a new one
+      if (!added) {
+        // Default to pdf_data if nothing else exists
+        if (!parsedData[0]) {
+          parsedData[0] = {};
+        }
+        
+        // Create pdf_data array if it doesn't exist
+        if (!parsedData[0].pdf_data) {
+          parsedData[0].pdf_data = [];
+        }
+        
+        parsedData[0].pdf_data.push(faqEntry);
+      }
+      
+      // Update the chatbot data
       this.chatbotData = JSON.stringify(parsedData, null, 2);
-  
+      
+      // Reset form
       this.newFAQ = { question: '', answer: '' };
+      
+      // Show success message (optional)
+      setTimeout(() => {
+        this.error = null;
+      }, 3000);
+      
     } catch (error) {
       console.error('Error adding FAQ', error);
+      this.error = 'Failed to add FAQ';
     }
   }
 

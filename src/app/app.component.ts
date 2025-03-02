@@ -1,20 +1,13 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterLink, RouterOutlet } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { ChatbotListComponent } from './chatbot-list/chatbot-list.component';
-import { NotificationToastComponent } from './shared/notification-toast/notification-toast.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, NotificationToastComponent],
-  template: `
-    <router-outlet></router-outlet>
-    <app-notification-toast></app-notification-toast>
-  `
+  imports: [RouterOutlet],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'chatbot-dashboard';
+  title = 'cs-chatbot1';
 }

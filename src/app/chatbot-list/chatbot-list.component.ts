@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ApiService } from '../api.service';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NotificationService, NotificationMessage } from '../notification.service';
+import { Subscription } from 'rxjs';
 
 interface Chatbot {
   id: string;
@@ -16,7 +18,7 @@ interface Chatbot {
   templateUrl: './chatbot-list.component.html',
   styleUrls: ['./chatbot-list.component.css'],
 })
-export class ChatbotListComponent implements OnInit {
+export class ChatbotListComponent implements OnInit, OnDestroy {
   chatbots: Chatbot[] = [];
   message: string = '';
   isSuccess: boolean = true;
@@ -25,12 +27,60 @@ export class ChatbotListComponent implements OnInit {
   showDeleteModal: boolean = false;
   chatbotToDeleteId: string | null = null;
   
+  // Notification related properties
+  escalationNotifications: NotificationMessage[] = [];
+  notificationCount: number = 0;
+  showNotificationDropdown: boolean = false;
+  private notificationsSubscription: Subscription | null = null;
 
-  constructor(private apiService: ApiService, private router: Router) {}
+  constructor(
+    private apiService: ApiService, 
+    private router: Router,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit() {
     this.fetchChatbots();
+    this.subscribeToNotifications();
     
+    // Click handler to close notification dropdown when clicking outside
+    if (typeof document !== 'undefined') {
+      document.addEventListener('click', this.onDocumentClick.bind(this));
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.notificationsSubscription) {
+      this.notificationsSubscription.unsubscribe();
+    }
+    
+    // Remove event listener
+    if (typeof document !== 'undefined') {
+      document.removeEventListener('click', this.onDocumentClick.bind(this));
+    }
+  }
+
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.notification-container')) {
+      this.showNotificationDropdown = false;
+    }
+  }
+
+  toggleNotificationDropdown(event: Event) {
+    event.stopPropagation();
+    this.showNotificationDropdown = !this.showNotificationDropdown;
+  }
+
+  subscribeToNotifications() {
+    this.notificationsSubscription = this.notificationService.getNotifications().subscribe(notifications => {
+      this.escalationNotifications = notifications;
+      this.notificationCount = notifications.length;
+    });
+  }
+
+  removeNotification(id: string) {
+    this.notificationService.removeNotification(id);
   }
 
   fetchChatbots() {
@@ -43,8 +93,6 @@ export class ChatbotListComponent implements OnInit {
       },
     });
   }
-
-  
 
   toggleModal() {
     this.showModal = !this.showModal;
@@ -67,7 +115,6 @@ export class ChatbotListComponent implements OnInit {
       this.showErrorMessage('Chatbot name cannot be empty');
     }
   }
-
 
   deleteChatbot(chatbotId: string) {
     this.chatbotToDeleteId = chatbotId;

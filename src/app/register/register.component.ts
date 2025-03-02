@@ -14,17 +14,21 @@ import { Router } from '@angular/router';
 export class RegisterComponent {
   username = '';
   password = '';
+  isLoading = false;
 
   constructor(private apiService: ApiService, private router: Router) {}
 
   onSubmit() {
+    this.isLoading = true;
     this.apiService.register(this.username, this.password).subscribe(
       (response) => {
         console.log('Registered successfully');
         this.router.navigate(['/login']);
+        this.isLoading = false;
       },
       (error) => {
         console.error('Registration failed', error);
+        this.isLoading = false;
       }
     );
   }

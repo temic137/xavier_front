@@ -636,14 +636,154 @@
 }
 
 /* Update the fade-in keyframes if you don't already have it */
+/* Update this keyframe to ensure full opacity */
 @keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Rest of your CSS remains unchanged */
+
+@keyframes textRotate {
+  0% { opacity: 0; transform: translateY(10px); }
+  20% { opacity: 1; transform: translateY(0); } /* Fade in quickly */
+  80% { opacity: 1; transform: translateY(0); } /* Stay visible for most of the time */
+  100% { opacity: 0; transform: translateY(-10px); } /* Fade out */
+}
+.animate-text-rotate {
+  animation: textRotate 5s infinite ease-in-out;
+}
+
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+.tagline-container {
+  height: 1.5rem; /* Adjust based on your text size */
+  position: relative;
+  overflow: hidden;
+}
+
+.tagline {
+  position: absolute;
+  width: 100%;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.tagline-entering {
+  animation: fadeIn 0.5s forwards;
+}
+
+.tagline-exiting {
+  animation: fadeOut 0.5s forwards;
+}
+
+@keyframes progress {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+.animate-progress { animation: progress 2s linear forwards; }
+
+
+
+.nav-highlight {
+  position: relative;
+}
+.nav-highlight::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: black;
+  transition: width 0.3s ease;
+}
+.nav-highlight:hover::after {
+  width: 100%;
+}
+
+#heroCanvas { pointer-events: none; }
+
+/* Existing CSS remains unchanged until the timeline section */
+
+/* Timeline Styles */
+.timeline-item {
+  transition: all 0.7s ease-out;
+}
+
+/* Central icon styling */
+.timeline-item .w-14.h-14 {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 0 4px white, 0 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-item .w-14.h-14:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 4px white, 0 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Make sure SVG paths render correctly */
+.timeline-item svg {
+  overflow: visible;
+}
+
+/* Ensure the timeline items have proper spacing */
+.timeline-item {
+  position: relative;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+/* Mobile timeline adjustments */
+@media (max-width: 767px) {
+  .timeline-item {
+    margin-bottom: 3rem;
   }
-  to {
-    opacity: 0.5;
-    transform: translateY(0);
+  
+  /* Create space for the vertical line */
+  .timeline-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 24px;
+    background-color: #e5e7eb; /* gray-300 */
   }
 }
 
+/* Fade-in animation for timeline items */
+.opacity-0 {
+  opacity: 0;
+}
+
+.opacity-100 {
+  opacity: 1;
+}
+
+.translate-y-8 {
+  transform: translateY(2rem);
+}
+
+.translate-y-0 {
+  transform: translateY(0);
+}
+
+/* Improve accessibility for point lists */
+.timeline-item ul li {
+  display: flex;
+  align-items: center;
+}
+
+.timeline-item ul li svg {
+  flex-shrink: 0;
+}

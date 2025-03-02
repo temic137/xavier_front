@@ -4,7 +4,7 @@ import { Ticket, TicketDetail, TicketsResponse } from './ticket.types';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
 import { tap } from 'rxjs/operators';
-import { jwtDecode } from 'jwt-decode'; // Change the import to use named import
+import { jwtDecode } from 'jwt-decode'; 
 
 
 // Add Dashboard Data Interface
@@ -156,7 +156,13 @@ export class ApiService {
   }
 
   getChatbot(id: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/chatbot/${id}`, { withCredentials: true });
+    return this.http.get(`${this.apiUrl}/chatbot/${id}`, { withCredentials: true })
+      .pipe(
+        catchError(error => {
+          console.error('Error fetching chatbot details:', error);
+          return throwError(() => new Error('Failed to load chatbot details. Please try again later.'));
+        })
+      );
   }
 
 
@@ -280,4 +286,3 @@ deleteTicket(ticketId: number): Observable<any> {
 
 
 }
-

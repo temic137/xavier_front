@@ -7,6 +7,7 @@ import { finalize, catchError } from 'rxjs/operators';
 import { of, Subscription } from 'rxjs';
 import { EscalationStatusService } from '../services/escalation-status.service';
 import { HttpClient } from '@angular/common/http';
+import { NotificationService, NotificationMessage } from '../notification.service';
 
 interface Chatbot {
   id: string;
@@ -41,6 +42,12 @@ export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   isMobileMenuOpen: boolean = false;
   hasPendingEscalations: boolean = false;
 
+  // Notification related properties
+  escalationNotifications: NotificationMessage[] = [];
+  notificationCount: number = 0;
+  showNotificationDropdown: boolean = false;
+  private notificationsSubscription: Subscription | null = null;
+
   private routeSub: Subscription | null = null;
   private routerEventsSub: Subscription | null = null;
   private escalationStatusSub: Subscription | null = null;
@@ -50,7 +57,8 @@ export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     private router: Router,
     private apiService: ApiService,
     private escalationStatusService: EscalationStatusService,
-    private http: HttpClient
+    private http: HttpClient,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit() {
@@ -80,10 +88,22 @@ export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy 
         console.log('Component received pending status update:', hasPending); // Debug log
         this.hasPendingEscalations = hasPending;
       });
+
+    // Subscribe to notifications
+    this.notificationsSubscription = this.notificationService.getNotifications()
+      .subscribe(notifications => {
+        this.escalationNotifications = notifications;
+        this.notificationCount = notifications.length;
+      });
   }
 
   ngAfterViewInit() {
     this.setupMobileMenu();
+    
+    // Add document click handler - check if running in browser
+    if (typeof document !== 'undefined') {
+      document.addEventListener('click', this.onDocumentClick.bind(this));
+    }
   }
 
   ngOnDestroy() {
@@ -96,6 +116,30 @@ export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     if (this.escalationStatusSub) {
       this.escalationStatusSub.unsubscribe();
     }
+    if (this.notificationsSubscription) {
+      this.notificationsSubscription.unsubscribe();
+    }
+    
+    // Remove document click handler - check if running in browser
+    if (typeof document !== 'undefined') {
+      document.removeEventListener('click', this.onDocumentClick.bind(this));
+    }
+  }
+
+  toggleNotificationDropdown(event: Event) {
+    event.stopPropagation();
+    this.showNotificationDropdown = !this.showNotificationDropdown;
+  }
+  
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.notification-container')) {
+      this.showNotificationDropdown = false;
+    }
+  }
+  
+  removeNotification(id: string) {
+    this.notificationService.removeNotification(id);
   }
 
   setupMobileMenu() {
@@ -137,11 +181,33 @@ export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy 
       finalize(() => (this.loading = false)),
       catchError(error => {
         console.error('Failed to load chatbot details', error);
+        
+        // Show a friendly error message to the user
+        if (error.status === 500) {
+          this.notificationService.showNotification(
+            'Server error: Failed to load chatbot details. Please try again later.',
+            'error'
+          );
+        } else if (error.status === 404) {
+          this.notificationService.showNotification(
+            'Chatbot not found. It may have been deleted.',
+            'error'
+          );
+        } else {
+          this.notificationService.showNotification(
+            'Failed to load chatbot details. Please check your connection.',
+            'error'
+          );
+        }
+        
         return of(null);
       })
     ).subscribe(chatbot => {
       if (chatbot) {
         this.chatbotName = chatbot.name;
+      } else {
+        // Handle case when chatbot is null (after error)
+        this.chatbotName = 'Unknown Chatbot';
       }
     });
   }

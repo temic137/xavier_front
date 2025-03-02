@@ -1,152 +1,147 @@
-<div class="min-h-screen bg-white p-4 sm:p-6">
-  <div class="max-w-7xl mx-auto space-y-4 sm:space-y-8">
+<div class="min-h-screen bg-gray-50 p-4 sm:p-6">
+  <div class="dashboard-container space-y-8 sm:space-y-10">
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
-        <h1 class="text-xl sm:text-2xl font-semibold text-gray-900">Analytics Overview</h1>
-        <p class="text-xs sm:text-sm text-gray-600 mt-1">Last updated {{dashboardData?.last_updated | date:'medium'}}</p>
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Analytics Dashboard</h1>
+        <p class="text-sm text-gray-600 mt-1">Last updated {{ dashboardData?.last_updated | date:'medium' }}</p>
       </div>
-
+      <div class="flex items-center gap-3">
+        <select class="border rounded-lg p-2 text-sm bg-white" (change)="onTimeframeChange($event)">
+          <option value="7">Last 7 Days</option>
+          <option value="30" selected>Last 30 Days</option>
+          <option value="90">Last 90 Days</option>
+        </select>
+        <button class="bg-black text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors" (click)="exportData()">
+          Export Data
+        </button>
+      </div>
     </div>
 
     <!-- Key Metrics Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-4 sm:mb-8">
-      <div class="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm font-medium text-gray-600">Total Questions</p>
-            <p class="text-2xl font-semibold text-gray-900">
-              {{dashboardData?.common_questions?.total_questions | number}}
-            </p>
-          </div>
-          <div class="p-3 bg-blue-50 rounded-full">
-            <svg class="w-6 h-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            </svg>
-          </div>
+    <div class="stats-section grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+      <div class="metric-card stat-card bg-white rounded-xl border border-gray-200 p-6">
+        <p class="text-sm font-medium text-gray-600">Total Questions</p>
+        <p class="text-2xl font-semibold text-gray-900">{{ dashboardData?.common_questions?.total_questions | number }}</p>
+        <div class="p-2 bg-blue-50 rounded-full absolute top-4 right-4">
+          <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
         </div>
       </div>
-      <!-- Add more metric cards -->
+      <div class="metric-card stat-card bg-white rounded-xl border border-gray-200 p-6">
+        <p class="text-sm font-medium text-gray-600">Satisfaction Rate</p>
+        <p class="text-2xl font-semibold text-gray-900">{{ dashboardData?.sentiment_analytics?.satisfaction_rate || 0 }}%</p>
+        <div class="p-2 bg-green-50 rounded-full absolute top-4 right-4">
+          <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+        </div>
+      </div>
+      <div class="metric-card stat-card bg-white rounded-xl border border-gray-200 p-6">
+        <p class="text-sm font-medium text-gray-600">Peak Hour</p>
+        <p class="text-2xl font-semibold text-gray-900">{{ getPeakHour() }}:00</p>
+        <div class="p-2 bg-purple-50 rounded-full absolute top-4 right-4">
+          <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3" /></svg>
+        </div>
+      </div>
+      <div class="metric-card stat-card bg-white rounded-xl border border-gray-200 p-6">
+        <p class="text-sm font-medium text-gray-600">Popular Topic</p>
+        <p class="text-2xl font-semibold text-gray-900 truncate">{{ getTopTopic() }}</p>
+        
+      </div>
     </div>
 
-    <!-- Charts -->
-    <div class="space-y-4 sm:space-y-6">
-      <!-- First Row: Question Trends and Topic Distribution -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-        <!-- Question Trends -->
-        <div class="bg-white rounded-xl p-4 sm:p-6 border border-gray-200">
-          <h3 class="text-sm sm:text-base font-semibold text-gray-900 mb-4 sm:mb-6">Question Trends</h3>
-          <div #questionTrendsChart id="questionTrendsChart" class="h-[250px] sm:h-[300px] lg:h-[350px] w-full"></div>
+    <!-- Charts Section -->
+    <div class="charts-section space-y-8">
+      <!-- First Row: Trends and Topics -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+        <div class="chart-card bg-white rounded-xl p-6 border border-gray-200 chart-container">
+          <h3 class="text-base font-semibold text-gray-900 mb-4">Question Trends</h3>
+          <div #questionTrendsChart class="h-[350px] w-full"></div>
         </div>
-
-        <!-- Topic Distribution -->
-        <div class="bg-white rounded-xl p-4 sm:p-6 border border-gray-200">
-          <h3 class="text-sm sm:text-base font-semibold text-gray-900 mb-4 sm:mb-6">Popular Topics</h3>
-          <div #topicDistributionChart id="topicDistributionChart" class="h-[250px] sm:h-[300px] lg:h-[350px] w-full"></div>
+        <div class="chart-card bg-white rounded-xl p-6 border border-gray-200 chart-container">
+          <h3 class="text-base font-semibold text-gray-900 mb-4">Topic Distribution</h3>
+          <div #topicDistributionChart class="h-[350px] w-full"></div>
         </div>
       </div>
 
-      <!-- Second Row: Hourly Activity (Full Width) -->
-      <div class="bg-white rounded-xl p-4 sm:p-6 border border-gray-200">
+      <!-- Second Row: Hourly Activity -->
+      <div class="chart-card bg-white rounded-xl p-6 border border-gray-200 chart-container">
         <div class="flex items-center justify-between mb-4">
-          <h3 class="text-sm sm:text-base font-semibold text-gray-900">Hourly Activity Distribution</h3>
-          <div class="text-xs text-gray-500">Peak activity: {{getPeakHour()}}:00</div>
+          <h3 class="text-base font-semibold text-gray-900">Hourly Activity</h3>
+          <span class="text-sm text-gray-500">Peak: {{ getPeakHour() }}:00</span>
         </div>
-        <div #hourlyActivityChart id="hourlyActivityChart" class="h-[300px] sm:h-[350px] lg:h-[400px] w-full"></div>
+        <div #hourlyActivityChart class="h-[400px] w-full"></div>
       </div>
 
       <!-- Third Row: Top Questions & Satisfaction -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-        <!-- Top Questions -->
-        <div class="bg-white rounded-xl p-4 sm:p-6 border border-gray-200">
-          <h3 class="text-sm sm:text-base font-semibold text-gray-900 mb-3 sm:mb-4">Frequently Asked Questions</h3>
-          <div class="space-y-2 sm:space-y-3">
-            <div *ngFor="let question of dashboardData?.common_questions?.top_questions?.slice(0, 5)"
-                 class="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+        <div class="bg-white rounded-xl p-6 border border-gray-200">
+          <h3 class="text-base font-semibold text-gray-900 mb-4">Top Questions</h3>
+          <div class="space-y-3">
+            <div *ngFor="let question of dashboardData?.common_questions?.top_questions?.slice(0, 5)" class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
               <div class="flex-1 min-w-0">
-                <p class="text-xs sm:text-sm font-medium text-gray-900 truncate">{{question.question}}</p>
-                <p class="text-xs text-gray-600">Asked {{question.count}} times</p>
+                <p class="text-sm font-medium text-gray-900 truncate">{{ question.question }}</p>
+                <p class="text-xs text-gray-600">Asked {{ question.count }} times</p>
               </div>
-              <div [ngClass]="getTrendClass(question.count || 0)"
-                   class="flex items-center space-x-1 ml-2">
-                <span class="text-xs sm:text-sm">{{question.count}}</span>
-                <span class="text-xs sm:text-sm">{{getTrendIcon(question.count || 0)}}</span>
+              <div [ngClass]="getTrendClass(question.count || 0)" class="flex items-center gap-1">
+                <span class="text-sm">{{ question.count }}</span>
+                <span class="text-sm">{{ getTrendIcon(question.count || 0) }}</span>
               </div>
             </div>
           </div>
         </div>
-
-        <!-- Satisfaction Overview -->
-        <div class="bg-white rounded-xl p-4 sm:p-6 border border-gray-200">
-          <h3 class="text-sm sm:text-base font-semibold text-gray-900 mb-3 sm:mb-4">User Satisfaction</h3>
-          <!-- Modern satisfaction display -->
-          <div class="flex flex-col items-center justify-center mb-6">
-            <div class="relative w-40 h-40">
-              <!-- Background gradient -->
-              <div class="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 rounded-full shadow-inner"></div>
-              
-              <!-- Progress arc -->
-              <svg class="transform -rotate-90 w-full h-full">
-                <!-- Background track -->
-                <circle
-                  cx="80"
-                  cy="80"
-                  r="68"
-                  stroke="currentColor"
-                  stroke-width="8"
-                  fill="none"
-                  class="text-gray-100"
-                ></circle>
-                
-                <!-- Progress indicator -->
-                <circle
-                  cx="80"
-                  cy="80"
-                  r="68"
-                  [attr.stroke]="getSatisfactionColor(dashboardData?.sentiment_analytics?.satisfaction_rate || 0)"
-                  stroke-width="8"
-                  fill="none"
-                  [attr.stroke-dasharray]="getCircumference()"
-                  [attr.stroke-dashoffset]="getDashOffset(dashboardData?.sentiment_analytics?.satisfaction_rate || 0)"
-                  class="transition-all duration-1000 ease-out drop-shadow-sm"
-                  stroke-linecap="round"
-                ></circle>
-              </svg>
-              
-              <!-- Center content -->
-              <div class="absolute inset-0 flex flex-col items-center justify-center">
-                <span class="text-3xl font-bold bg-gradient-to-r" 
-                      [class]="getSatisfactionGradient(dashboardData?.sentiment_analytics?.satisfaction_rate || 0)">
-                  {{dashboardData?.sentiment_analytics?.satisfaction_rate || 0}}%
-                </span>
-                <span class="text-sm text-gray-500 mt-1">Satisfaction</span>
-              </div>
+        <div class="bg-white rounded-xl p-6 border border-gray-200 hover:border-blue-300 shadow-sm hover:shadow-md transition-all duration-300">
+          <h3 class="text-base font-semibold text-gray-900 mb-4 flex items-center">
+            <span>User Satisfaction Count</span>
+            <span class="ml-2 px-2 py-0.5 text-xs bg-blue-100 text-blue-800 rounded-full">Live</span>
+          </h3>
+          <div class="flex flex-col items-center mb-6">
+            <!-- Added visual bar chart -->
+            <div class="w-full h-3 bg-gray-100 rounded-full mb-2 flex overflow-hidden">
+              <div class="bg-green-500 h-full" style="width: 45%"></div>
+              <div class="bg-gray-400 h-full" style="width: 30%"></div>
+              <div class="bg-red-500 h-full" style="width: 25%"></div>
             </div>
           </div>
-
-          <!-- Satisfaction stats -->
           <div class="grid grid-cols-3 gap-4">
-            <div class="bg-green-50 rounded-lg p-3 text-center">
+            <div class="bg-green-50 rounded-lg p-3 text-center border border-transparent hover:border-green-300 hover:bg-green-100 hover:scale-105 hover:shadow transition-all duration-300 cursor-pointer">
+              <div class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-green-100 mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-600" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
+                </svg>
+              </div>
               <p class="text-xs text-green-600 font-medium">Positive</p>
-              <p class="text-lg font-semibold text-green-700">
-                {{dashboardData?.sentiment_analytics?.positive_ratings || 0}}
-              </p>
+              <p class="text-lg font-semibold text-green-700">{{ dashboardData?.sentiment_analytics?.positive_ratings || 0 }}</p>
             </div>
-            <div class="bg-gray-50 rounded-lg p-3 text-center">
+            <div class="bg-gray-50 rounded-lg p-3 text-center border border-transparent hover:border-gray-300 hover:bg-gray-100 hover:scale-105 hover:shadow transition-all duration-300 cursor-pointer">
+              <div class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-gray-100 mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                </svg>
+              </div>
               <p class="text-xs text-gray-600 font-medium">Neutral</p>
-              <p class="text-lg font-semibold text-gray-700">
-                {{getNeutralRatings()}}
-              </p>
+              <p class="text-lg font-semibold text-gray-700">{{ getNeutralRatings() }}</p>
             </div>
-            <div class="bg-red-50 rounded-lg p-3 text-center">
+            <div class="bg-red-50 rounded-lg p-3 text-center border border-transparent hover:border-red-300 hover:bg-red-100 hover:scale-105 hover:shadow transition-all duration-300 cursor-pointer">
+              <div class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-red-100 mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-600" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M18 9.5a1.5 1.5 0 11-3 0v-6a1.5 1.5 0 013 0v6zM14 9.667v-5.43a2 2 0 00-1.105-1.79l-.05-.025A4 4 0 0011.055 2H5.64a2 2 0 00-1.962 1.608l-1.2 6A2 2 0 004.44 12H8v4a2 2 0 002 2 1 1 0 001-1v-.667a4 4 0 01.8-2.4l1.4-1.866a4 4 0 00.8-2.4z" />
+                </svg>
+              </div>
               <p class="text-xs text-red-600 font-medium">Negative</p>
-              <p class="text-lg font-semibold text-red-700">
-                {{dashboardData?.sentiment_analytics?.negative_ratings || 0}}
-              </p>
+              <p class="text-lg font-semibold text-red-700">{{ dashboardData?.sentiment_analytics?.negative_ratings || 0 }}</p>
             </div>
+          </div>
+          <!-- Added trending section -->
+          <div class="flex justify-end mt-4 text-xs text-gray-500">
+            <span class="flex items-center text-green-600">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+              </svg>
+              5% from last week
+            </span>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </div>

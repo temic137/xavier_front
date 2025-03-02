@@ -16,7 +16,8 @@
           </div>
 
           <!-- Desktop Navigation -->
-          <div class="hidden md:flex items-center space-x-4 relative">
+          <div class="hidden md:flex items-center space-x-5">
+            
             <h2 class="font-bold text-white"> ({{ chatbotName }})</h2>
             <a (click)="setActiveTab('analytics')" 
                [class.active-tab]="activeTab === 'analytics'"
@@ -176,28 +177,30 @@
     <div class="fixed top-14 left-0 right-0 h-px bg-gray-800 z-50"></div>
   </div>
 
- <!-- Support Sub-navigation -->
-<div *ngIf="activeTab === 'support' && activeSupportTab !== ''" 
-     class="fixed top-14 left-0 right-0 bg-white border-b border-gray-200 z-40">
-  <div class="max-w-7xl mx-auto px-6 py-3">
-    <div class="bg-gray-100 w-fit mx-auto rounded-full p-1.5 shadow-md border border-gray-200">
-      <div class="flex space-x-2">
-        <a (click)="setActiveTab('support', 'escalations')"
-           [class.bg-white]="activeSupportTab === 'escalations'"
-           [class.text-gray-900]="activeSupportTab === 'escalations'"
-           [class.shadow-sm]="activeSupportTab === 'escalations'"
-           class="px-6 py-2 text-sm font-medium text-gray-500 rounded-full cursor-pointer transition-all duration-200 hover:text-gray-900">
-          Live Chats
-        </a>
-
-        <a (click)="setActiveTab('support', 'tickets')"
-           [class.bg-white]="activeSupportTab === 'tickets'"
-           [class.text-gray-900]="activeSupportTab === 'tickets'"
-           [class.shadow-sm]="activeSupportTab === 'tickets'"
-           class="px-6 py-2 text-sm font-medium text-gray-500 rounded-full cursor-pointer transition-all duration-200 hover:text-gray-900">
-          Tickets
-        </a>
-      </div>
+<!-- Support Sub-navigation -->
+<div *ngIf="activeTab === 'support'" class="sticky top-14 bg-white z-40 border-b border-gray-100">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex">
+      <button 
+        (click)="setActiveTab('support', 'escalations')"
+        class="py-4 mr-8 text-sm font-medium relative transition-colors duration-200 focus:outline-none"
+        [ngClass]="activeSupportTab === 'escalations' ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'">
+        Live Chats
+        <div 
+          class="absolute bottom-0 left-0 w-full h-0.5 transition-all duration-200"
+          [ngClass]="activeSupportTab === 'escalations' ? 'bg-blue-600' : 'bg-transparent'">
+        </div>
+      </button>
+      <button 
+        (click)="setActiveTab('support', 'tickets')"
+        class="py-4 text-sm font-medium relative transition-colors duration-200 focus:outline-none"
+        [ngClass]="activeSupportTab === 'tickets' ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'">
+        Tickets
+        <div 
+          class="absolute bottom-0 left-0 w-full h-0.5 transition-all duration-200"
+          [ngClass]="activeSupportTab === 'tickets' ? 'bg-blue-600' : 'bg-transparent'">
+        </div>
+      </button>
     </div>
   </div>
 </div>

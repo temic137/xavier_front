@@ -1,15 +1,15 @@
-<div class="min-h-screen bg-white py-12">
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12">
   <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-    <!-- Loading State -->
-    <div *ngIf="isLoading" class="flex justify-center items-center py-12">
-      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-    </div>
+<!-- Loading Spinner -->
+<div *ngIf="isLoading" class="flex justify-center items-center py-12">
+  <div class="animate-spin rounded-full h-12 w-12 border-4 border-indigo-200 border-t-black"></div>
+</div>
 
     <!-- Error State -->
-    <div *ngIf="error" class="bg-red-50 p-4 rounded-lg mb-6 border border-red-200">
+    <div *ngIf="error" class="bg-red-50 p-5 rounded-xl mb-6 border border-red-200 shadow-sm">
       <div class="flex">
         <div class="flex-shrink-0">
-          <svg class="h-5 w-5 text-red-600" viewBox="0 0 20 20" fill="currentColor">
+          <svg class="h-6 w-6 text-red-500" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
           </svg>
         </div>
@@ -20,61 +20,77 @@
       </div>
     </div>
 
-    <div *ngIf="!isLoading" class="bg-white rounded-xl border border-gray-200 p-6 sm:p-8">
-      <div class="mb-6">
-        <h2 class="text-2xl font-bold text-gray-900 mb-2">Edit Chatbot's Knowledge base: {{ chatbotName }}</h2>
-        <p class="text-gray-600 text-sm">Modify your chatbot's configuration below</p>
+    <div *ngIf="!isLoading" class="bg-white rounded-2xl border border-gray-100 shadow-lg p-8">
+      <div class="mb-8 border-b border-gray-100 pb-6">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="h-8 w-8 bg-black rounded-lg flex items-center justify-center">
+            <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+            </svg>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-900">{{ chatbotName }}</h2>
+        </div>
+        <p class="text-gray-500">Manage your chatbot's knowledge base and FAQ</p>
       </div>
 
-      <!-- New: Quick Actions -->
-      <div class="mb-6 flex flex-wrap gap-4">
-        <button (click)="formatJson()" class="inline-flex items-center px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
-          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <!-- Quick Actions -->
+      <div class="mb-8 flex flex-wrap gap-3">
+        <button (click)="formatJson()" class="inline-flex items-center px-4 py-2.5 bg-white border border-gray-200 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors shadow-sm">
+          <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
           </svg>
           Format JSON
         </button>
-        <button (click)="clearData()" class="inline-flex items-center px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
-          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button (click)="clearData()" class="inline-flex items-center px-4 py-2.5 bg-white border border-gray-200 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors shadow-sm">
+          <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
           </svg>
           Clear Data
         </button>
       </div>
 
-      <div class="mb-6">
-        <h3 class="text-xl font-semibold text-gray-900 mb-4">Add FAQ</h3>
+      <!-- Add FAQ Section -->
+      <div class="mb-8 bg-gray-50 p-6 rounded-xl">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Add New FAQ</h3>
         <div class="space-y-4">
           <div>
-            <label for="question" class="block text-sm font-medium text-gray-600">Question</label>
-            <input [(ngModel)]="newFAQ.question" type="text" id="question" name="question"
-              class="mt-1 block w-full px-4 py-2 border border-gray-200 rounded-lg shadow-sm focus:ring-blue-600 focus:border-blue-600">
+            <label for="question" class="block text-sm font-medium text-gray-700">Question</label>
+            <input [(ngModel)]="newFAQ.question" type="text" id="question" name="question" placeholder="Enter a frequently asked question"
+              class="mt-1.5 block w-full px-4 py-2.5 bg-white border border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-black focus:border-transparent">
           </div>
           <div>
-            <label for="answer" class="block text-sm font-medium text-gray-600">Answer</label>
-            <textarea [(ngModel)]="newFAQ.answer" id="answer" name="answer" rows="3"
-              class="mt-1 block w-full px-4 py-2 border border-gray-200 rounded-lg shadow-sm focus:ring-blue-600 focus:border-blue-600"></textarea>
+            <label for="answer" class="block text-sm font-medium text-gray-700">Answer</label>
+            <textarea [(ngModel)]="newFAQ.answer" id="answer" name="answer" rows="3" placeholder="Provide a detailed answer"
+              class="mt-1.5 block w-full px-4 py-2.5 bg-white border border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-black focus:border-transparent"></textarea>
           </div>
-          <button (click)="addFAQ()"
-            class="inline-flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium shadow-sm">
-            Add FAQ
-          </button>
+          <div class="flex items-center justify-between">
+            <div class="text-sm text-gray-600">
+              <span *ngIf="getFAQCount() > 0">Current FAQs: {{ getFAQCount() }}</span>
+            </div>
+            <button (click)="addFAQ()" [disabled]="!newFAQ.question || !newFAQ.answer"
+              class="inline-flex items-center justify-center px-5 py-2.5 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
+              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+              </svg>
+              Add FAQ
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Enhanced Chatbot Data Section -->
-      <div class="mb-6">
+      <!-- Chatbot Data Section -->
+      <div class="mb-8">
         <div class="flex justify-between items-center mb-4">
-          <h3 class="text-xl font-semibold text-gray-900">Chatbot Data</h3>
-          <div class="text-sm text-gray-500">
-            Size: {{ getDataSize() }} KB
+          <h3 class="text-lg font-semibold text-gray-900">Chatbot Knowledge Base</h3>
+          <div class="text-sm py-1 px-3 bg-gray-100 rounded-full text-gray-600 font-medium">
+            {{ getDataSize() }} KB
           </div>
         </div>
         <div class="relative">
-          <textarea [(ngModel)]="chatbotData" rows="15"
-            class="w-full px-4 py-3 rounded-lg border text-black  focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all resize-none text-sm font-mono"></textarea>
-          <div class="absolute top-2 right-2">
-            <button (click)="copyToClipboard()" class="p-2 text-gray-500 hover:text-gray-300">
+          <textarea [(ngModel)]="chatbotData" rows="14"
+            class="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-800 focus:ring-2 focus:ring-black focus:border-transparent transition-all resize-none text-sm font-mono bg-gray-50"></textarea>
+          <div class="absolute top-3 right-3">
+            <button (click)="copyToClipboard()" class="p-2 bg-white rounded-lg shadow-sm text-gray-500 hover:text-black transition-colors">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
               </svg>
@@ -83,17 +99,20 @@
         </div>
       </div>
 
-      <!-- Enhanced Save Button -->
+      <!-- Action Buttons -->
       <div class="flex flex-col sm:flex-row gap-4">
         <button (click)="saveChatbot()" [disabled]="isLoading || !hasChanges()"
-          class="inline-flex items-center justify-center px-4 py-2 w-full sm:w-auto bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
+          class="inline-flex items-center justify-center px-6 py-3 w-full sm:w-auto bg-black text-white rounded-xl hover:bg-gray-800 transition-colors font-medium shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/>
           </svg>
           {{ isLoading ? 'Saving...' : 'Save Changes' }}
         </button>
         <button (click)="revertChanges()" [disabled]="!hasChanges()"
-          class="inline-flex items-center justify-center px-4 py-2 w-full sm:w-auto border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
+          class="inline-flex items-center justify-center px-6 py-3 w-full sm:w-auto border border-gray-200 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
+          <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
           Revert Changes
         </button>
       </div>
