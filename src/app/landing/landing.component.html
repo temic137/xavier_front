@@ -1,3 +1,4 @@
+<!-- Loading Overlay -->
 <div *ngIf="isLoading" 
      class="fixed inset-0 bg-white z-50 flex items-center justify-center transition-opacity duration-500"
      [class.opacity-0]="!isLoading">
@@ -18,11 +19,6 @@
       <div class="w-2 h-2 bg-black rounded-full animate-typing-dot" style="animation-delay: 0.4s"></div>
     </div>
 
-    <!-- Loading progress Bar -->
-    <!-- <div class="w-32 h-1 bg-gray-200 rounded-full mx-auto overflow-hidden">
-      <div class="h-full bg-black animate-progress"></div>
-    </div> -->
-
     <!-- Xavier AI Text -->
     <div class="mt-8">
       <p class="text-black text-sm font-light tracking-widest animate-fade-in-delayed-3 opacity-50">
@@ -32,22 +28,24 @@
   </div>
 </div>
 
-<div class="min-h-screen bg-white transition-opacity duration-500"
+<!-- Main Content -->
+<div class="min-h-screen relative transition-opacity duration-500"
      [class.opacity-0]="isLoading">
-<!-- Navbar -->
-<nav class="fixed top-0 w-full z-50 backdrop-blur-lg bg-white/95 border-b border-gray-200 shadow-sm">
-  <div class="container mx-auto flex justify-between items-center px-6 py-4">
-    <!-- Logo -->
-    <div class="flex items-center gap-3">
-      <span class="text-xl font-bold text-black">
-        Xavier AI
-      </span>
+     
+  <!-- Full-page particle canvas - positioned absolutely to cover the entire viewport -->
+  <canvas id="particleCanvas" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
 
-      <!-- <p class="text-black text-sm font-light tracking-widest animate-text-rotate">{{ currentTagline }}</p>
-        -->
+  <!-- Navbar -->
+  <nav class="fixed top-0 w-full z-50 backdrop-blur-lg bg-white/95 border-b border-gray-200 shadow-sm">
+    <div class="container mx-auto flex justify-between items-center px-6 py-4">
+      <!-- Logo -->
+      <div class="flex items-center gap-3">
+        <span class="text-xl font-bold text-black">
+          Xavier AI
+        </span>
 
         <div class="tagline-container">
-          <p *ngFor="let tagline of loadingTaglines; let i = index" 
+          <p *ngFor="let tagline of loadingTaglines; let i = index"
              class="text-black text-sm font-light tracking-widest tagline"
              [class.tagline-entering]="isTaglineActive(i) && !isTaglineExiting(i)"
              [class.tagline-exiting]="isTaglineExiting(i)"
@@ -55,199 +53,183 @@
             {{ tagline }}
           </p>
         </div>
-    </div>
+      </div>
 
-    <!-- Mobile Menu Button -->
-    <button
-      class="md:hidden p-2 focus:outline-none focus:ring-2 focus:ring-black/50 rounded-lg"
-      (click)="toggleMobileMenu()"
-      aria-label="Toggle mobile menu"
-    >
-      <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          *ngIf="!isMobileMenuOpen"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M4 6h16M4 12h16M4 18h16"
-        ></path>
-        <path
-          *ngIf="isMobileMenuOpen"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M6 18L18 6M6 6l12 12"
-        ></path>
-      </svg>
-    </button>
-
-    <!-- Desktop Navigation -->
-    <div class="hidden md:flex items-center gap-8">
-      <a
-        routerLink="/features"
-        class="text-sm text-gray-600 hover:text-black transition-colors font-medium hover:scale-105"
-      >
-        Features
-      </a>
-      <a
-        routerLink="/pricing"
-        class="text-sm text-gray-600 hover:text-black transition-colors font-medium hover:scale-105"
-      >
-        Pricing
-      </a>
-      <a
-        routerLink="/contact"
-        class="text-sm text-gray-600 hover:text-black transition-colors font-medium hover:scale-105"
-      >
-        Contact Us
-      </a>
-      <a
-        routerLink="admin/dashboard"
-        class="text-sm text-gray-600 hover:text-black transition-colors font-medium hover:scale-105"
-      >
-        Feedbacks
-      </a>
+      <!-- Mobile Menu Button -->
       <button
-        routerLink="/login"
-        class="text-sm text-gray-600 hover:text-black transition-colors font-medium hover:scale-105"
+        class="md:hidden p-2 focus:outline-none focus:ring-2 focus:ring-black/50 rounded-lg"
+        (click)="toggleMobileMenu()"
+        aria-label="Toggle mobile menu"
       >
-        Login
+        <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            *ngIf="!isMobileMenuOpen"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          ></path>
+          <path
+            *ngIf="isMobileMenuOpen"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
       </button>
-      <button
-        routerLink="/register"
-        class="bg-black hover:bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-lg hover:scale-105"
-      >
-        Get Started
-      </button>
-    </div>
-  </div>
 
-  <!-- Mobile Navigation -->
-  <div
-    *ngIf="isMobileMenuOpen"
-    class="md:hidden fixed top-16 inset-x-0 bg-white/95 backdrop-blur-lg border-t border-gray-200 shadow-lg"
-  >
-    <div class="px-6 py-4 space-y-4">
-      <a
-        routerLink="/features" (click)="toggleMobileMenu()"
-        class="block py-2 text-sm text-gray-600 hover:text-black transition-colors"
-      >
-        Features
-      </a>
-      <a
-        routerLink="/pricing" (click)="toggleMobileMenu()"
-        class="block py-2 text-sm text-gray-600 hover:text-black transition-colors"
-      >
-        Pricing
-      </a>
-      <a
-        routerLink="/contact" (click)="toggleMobileMenu()"
-        class="block py-2 text-sm text-gray-600 hover:text-black transition-colors"
-      >
-        Contact Us
-      </a>
-      <a
-        routerLink="admin/dashboard" (click)="toggleMobileMenu()"
-        class="block py-2 text-sm text-gray-600 hover:text-black transition-colors"
-      >
-        Feedbacks
-      </a>
-      <a
-        routerLink="/login" (click)="toggleMobileMenu()"
-        class="block py-2 text-sm text-gray-600 hover:text-black transition-colors"
-      >
-        Login
-      </a>
-      <div class="pt-2">
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center gap-8">
+        <a
+          routerLink="/features"
+          class="text-sm text-gray-600 hover:text-black transition-colors font-medium hover:scale-105"
+        >
+          Features
+        </a>
+        <a
+          routerLink="/pricing"
+          class="text-sm text-gray-600 hover:text-black transition-colors font-medium hover:scale-105"
+        >
+          Pricing
+        </a>
+
+        <a
+          routerLink="admin/dashboard"
+          class="text-sm text-gray-600 hover:text-black transition-colors font-medium hover:scale-105"
+        >
+          Feedbacks
+        </a>
+        <button
+          routerLink="/login"
+          class="text-sm text-gray-600 hover:text-black transition-colors font-medium hover:scale-105"
+        >
+          Login
+        </button>
         <button
           routerLink="/register"
-          class="w-full bg-black hover:bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-lg"
+          class="bg-black hover:bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-lg hover:scale-105"
         >
           Get Started
         </button>
       </div>
     </div>
-  </div>
-</nav>
 
-
-<section class="pt-32 pb-20 px-4 bg-white relative"> <!-- Add 'relative' to position the canvas -->
-  <canvas id="heroCanvas" class="absolute inset-0 -z-10"></canvas> <!-- Add this line -->
-  <div class="container mx-auto max-w-6xl">
-    <div class="text-center space-y-8 animate-fade-in">
-      <div class="inline-block px-4 py-2 bg-gray-100 rounded-full animate-slide-in-left">
-        <span class="text-sm text-gray-700 font-medium">✨ Try Xavier AI for free during beta</span>
-      </div>
-      
-      <h1 class="text-5xl md:text-7xl font-extralight text-black animate-slide-in-right">
-        Transform Support with
-        <span class="bg-gradient-to-r font-extralight from-black to-gray-800 bg-clip-text text-transparent">
-          Artificial Intelligence
-        </span>
-      </h1>
-      
-      <p class="text-xl text-gray-600 max-w-2xl mx-auto animate-fade-in">
-        Deliver exceptional customer experiences with our intelligent chatbot platform.
-        Available 24/7, powered by cutting-edge AI.
-      </p>
-      
-      <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in">
-        <button routerLink="/register" 
-                class="group px-8 py-4 bg-black hover:bg-gray-900 text-white rounded-xl font-medium 
-                       transition-all flex items-center justify-center gap-2 shadow-lg hover:scale-105 
-                       animate-pulse">
-          Start Free Trial
-          <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" 
-               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
-               stroke-linejoin="round">
-            <path d="M5 12h14"></path>
-            <path d="M12 5l7 7-7 7"></path>
-          </svg>
-        </button>
-        
+    <!-- Mobile Navigation -->
+    <div
+      *ngIf="isMobileMenuOpen"
+      class="md:hidden fixed top-16 inset-x-0 bg-white/95 backdrop-blur-lg border-t border-gray-200 shadow-lg"
+    >
+      <div class="px-6 py-4 space-y-4">
+        <a
+          routerLink="/features" (click)="toggleMobileMenu()"
+          class="block py-2 text-sm text-gray-600 hover:text-black transition-colors"
+        >
+          Features
+        </a>
+        <a
+          routerLink="/pricing" (click)="toggleMobileMenu()"
+          class="block py-2 text-sm text-gray-600 hover:text-black transition-colors"
+        >
+          Pricing
+        </a>
+        <a
+          routerLink="admin/dashboard" (click)="toggleMobileMenu()"
+          class="block py-2 text-sm text-gray-600 hover:text-black transition-colors"
+        >
+          Feedbacks
+        </a>
+        <a
+          routerLink="/login" (click)="toggleMobileMenu()"
+          class="block py-2 text-sm text-gray-600 hover:text-black transition-colors"
+        >
+          Login
+        </a>
+        <div class="pt-2">
+          <button
+            routerLink="/register"
+            class="w-full bg-black hover:bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-lg"
+          >
+            Get Started
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="pt-32 pb-20 px-4 bg-white/80 relative">
+    <div class="container mx-auto max-w-6xl">
+      <div class="text-center space-y-8 animate-fade-in">
+        <div class="inline-block px-4 py-2 bg-gray-100 rounded-full animate-slide-in-left">
+          <span class="text-sm text-gray-700 font-medium">✨ Try Xavier AI for free during beta</span>
+        </div>
+        
+        <h1 class="text-5xl md:text-7xl font-extralight text-black animate-slide-in-right">
+          Transform Support with
+          <span class="bg-gradient-to-r font-extralight from-black to-gray-800 bg-clip-text text-transparent">
+            Artificial Intelligence
+          </span>
+        </h1>
+        
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto animate-fade-in">
+          Deliver exceptional customer experiences with our intelligent chatbot platform.
+          Available 24/7, powered by cutting-edge AI.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in">
+          <button routerLink="/register" 
+                  class="group px-8 py-4 bg-black hover:bg-gray-900 text-white rounded-xl font-medium 
+                         transition-all flex items-center justify-center gap-2 shadow-lg hover:scale-105 
+                         ">
+            Start Free Trial
+            <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" 
+                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+                 stroke-linejoin="round">
+              <path d="M5 12h14"></path>
+              <path d="M12 5l7 7-7 7"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Features Grid -->
-  <section class="py-20">
+  <section class="py-20 bg-white/70">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
         <!-- Feature 1 -->
-        <div class="group p-8 rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-300">
+        <div class="group p-8 rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-300 backdrop-blur-sm shadow-sm">
           <div class="space-y-6">
-            <div class="w-16 h-16 rounded-xl bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform">
-             
+            <div class="w-16 h-16 rounded-xl bg-white/10 flex items-center justify-center group-hover:scale-110 transition-transform">
               <svg class="w-8 h-8 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"></circle>
                 <path d="M12 6v6l4 2"></path>
               </svg>
             </div>
             <h3 class="text-xl font-semibold">24/7 Availability</h3>
-            <p class="text-gray-400">Never miss a customer query with round-the-clock AI support</p>
+            <p class="text-gray-600">Never miss a customer query with round-the-clock AI support</p>
           </div>
         </div>
 
         <!-- Feature 2 -->
-        <div class="group p-8 rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-300">
+        <div class="group p-8 rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-300 backdrop-blur-sm shadow-sm">
           <div class="space-y-6">
-            <div class="w-16 h-16 rounded-xl bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform">
-              
+            <div class="w-16 h-16 rounded-xl bg-white/10 flex items-center justify-center group-hover:scale-110 transition-transform">
               <svg class="w-8 h-8 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M13 2L3 14h9l-1 8L21 10h-9l1-8z"></path>
               </svg>
             </div>
             <h3 class="text-xl font-semibold">Smart Responses</h3>
-            <p class="text-gray-400">AI-powered responses that understand context and provide accurate solutions</p>
+            <p class="text-gray-600">AI-powered responses that understand context and provide accurate solutions</p>
           </div>
         </div>
 
         <!-- Feature 3 -->
-        <div class="group p-8 rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-300">
+        <div class="group p-8 rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-300 backdrop-blur-sm shadow-sm">
           <div class="space-y-6">
-            <div class="w-16 h-16 rounded-xl bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform">
-              
+            <div class="w-16 h-16 rounded-xl bg-white/10 flex items-center justify-center group-hover:scale-110 transition-transform">
               <svg class="w-8 h-8 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M18 20V10"></path>
                 <path d="M12 20V4"></path>
@@ -255,36 +237,80 @@
               </svg>
             </div>
             <h3 class="text-xl font-semibold">Analytics & Insights</h3>
-            <p class="text-gray-400">Detailed analytics to help you understand customer needs better</p>
+            <p class="text-gray-600">Detailed analytics to help you understand customer needs better</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-<!-- Feature Showcase Section -->
-<section id="features" class="py-20 bg-gradient-to-b from-white to-gray-50">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-16 animate-fade-in">
-      <h2 class="text-3xl md:text-4xl font-extralight mb-4 text-black">Experience AI-Powered Support</h2>
-      <p class="text-gray-600">See how Xavier AI transforms customer interactions</p>
-    </div>
+  <!-- Feature Showcase Section -->
+  <section id="features" class="py-20 bg-gradient-to-b from-white/70 to-gray-50/70 backdrop-blur-none">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16 animate-fade-in">
+        <h2 class="text-3xl md:text-4xl font-extralight mb-4 text-black">Experience AI-Powered Support</h2>
+        <p class="text-gray-600">See how Xavier AI transforms customer interactions</p>
+      </div>
 
-    <div class="relative max-w-4xl mx-auto">
-      <!-- Timeline Line - hidden on mobile -->
-      <div class="absolute left-1/2 w-px h-full bg-gray-300 transform -translate-x-1/2 hidden md:block"></div>
+      <div class="relative max-w-4xl mx-auto">
+        <!-- Timeline Line - hidden on mobile -->
+        <div class="absolute left-1/2 w-px h-full bg-gray-300 transform -translate-x-1/2 hidden md:block"></div>
 
-      <!-- Timeline Items -->
-      <div *ngFor="let feature of detailedFeatures; let i = index" class="relative mb-16 timeline-item opacity-0 translate-y-8" #timelineItem>
-        <!-- Desktop Layout -->
-        <div class="hidden md:flex items-center justify-between" [class.flex-row-reverse]="i % 2 === 1">
-          <!-- Content Side -->
-          <div class="w-5/12">
-            <div [class.pr-8]="i % 2 === 0" [class.pl-8]="i % 2 === 1">
+        <!-- Timeline Items -->
+        <div *ngFor="let feature of detailedFeatures; let i = index" class="relative mb-16 timeline-item opacity-0 translate-y-8" #timelineItem>
+          <!-- Desktop Layout -->
+          <div class="hidden md:flex items-center justify-between" [class.flex-row-reverse]="i % 2 === 1">
+            <!-- Content Side -->
+            <div class="w-5/12">
+              <div [class.pr-8]="i % 2 === 0" [class.pl-8]="i % 2 === 1">
+                <h3 class="text-xl font-semibold text-black">{{ feature.title }}</h3>
+                <p class="text-gray-600 mt-2">{{ feature.description }}</p>
+                <ul class="space-y-3 mt-4">
+                  <li *ngFor="let point of feature.points" class="flex items-center gap-2 text-gray-600">
+                    <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>{{ point }}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Central Icon - Centered on the timeline -->
+            <div class="w-14 h-14 bg-black rounded-full flex items-center justify-center z-10 absolute left-1/2 transform -translate-x-1/2">
+              <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path [attr.d]="feature.iconPath"></path>
+              </svg>
+            </div>
+
+            <!-- Image Side -->
+            <div class="w-5/12">
+              <div [class.pl-8]="i % 2 === 0" [class.pr-8]="i % 2 === 1">
+                <div class="relative aspect-video bg-white rounded-lg overflow-hidden shadow-md group">
+                  <img [src]="feature.imageSrc" [alt]="feature.title" class="w-full h-full object-contain p-4 transition-transform duration-300 group-hover:scale-110">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile Layout -->
+          <div class="md:hidden flex flex-col items-center">
+            <!-- Mobile Timeline Line -->
+            <div class="w-px h-full bg-gray-300 absolute left-1/2 transform -translate-x-1/2 z-0"></div>
+            
+            <!-- Icon - Centered on mobile -->
+            <div class="w-14 h-14 bg-black rounded-full flex items-center justify-center z-10 mb-4">
+              <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path [attr.d]="feature.iconPath"></path>
+              </svg>
+            </div>
+            
+            <!-- Content -->
+            <div class="text-center px-4 mb-6 z-10 bg-white rounded-lg p-4 shadow-sm w-full">
               <h3 class="text-xl font-semibold text-black">{{ feature.title }}</h3>
               <p class="text-gray-600 mt-2">{{ feature.description }}</p>
               <ul class="space-y-3 mt-4">
-                <li *ngFor="let point of feature.points" class="flex items-center gap-2 text-gray-600">
+                <li *ngFor="let point of feature.points" class="flex items-center justify-center gap-2 text-gray-600">
                   <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                   </svg>
@@ -292,66 +318,21 @@
                 </li>
               </ul>
             </div>
-          </div>
-
-          <!-- Central Icon - Centered on the timeline -->
-          <div class="w-14 h-14 bg-black rounded-full flex items-center justify-center z-10 absolute left-1/2 transform -translate-x-1/2">
-            <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path [attr.d]="feature.iconPath"></path>
-            </svg>
-          </div>
-
-          <!-- Image Side -->
-          <div class="w-5/12">
-            <div [class.pl-8]="i % 2 === 0" [class.pr-8]="i % 2 === 1">
-              <div class="relative aspect-video bg-gray-50 rounded-lg overflow-hidden shadow-md group">
+            
+            <!-- Image -->
+            <div class="w-full px-4 z-10">
+              <div class="relative aspect-video bg-white rounded-lg overflow-hidden shadow-md group">
                 <img [src]="feature.imageSrc" [alt]="feature.title" class="w-full h-full object-contain p-4 transition-transform duration-300 group-hover:scale-110">
               </div>
             </div>
           </div>
         </div>
-
-        <!-- Mobile Layout -->
-        <div class="md:hidden flex flex-col items-center">
-          <!-- Mobile Timeline Line -->
-          <div class="w-px h-full bg-gray-300 absolute left-1/2 transform -translate-x-1/2 z-0"></div>
-          
-          <!-- Icon - Centered on mobile -->
-          <div class="w-14 h-14 bg-black rounded-full flex items-center justify-center z-10 mb-4">
-            <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path [attr.d]="feature.iconPath"></path>
-            </svg>
-          </div>
-          
-          <!-- Content -->
-          <div class="text-center px-4 mb-6 z-10 bg-white rounded-lg p-4 shadow-sm w-full">
-            <h3 class="text-xl font-semibold text-black">{{ feature.title }}</h3>
-            <p class="text-gray-600 mt-2">{{ feature.description }}</p>
-            <ul class="space-y-3 mt-4">
-              <li *ngFor="let point of feature.points" class="flex items-center justify-center gap-2 text-gray-600">
-                <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span>{{ point }}</span>
-              </li>
-            </ul>
-          </div>
-          
-          <!-- Image -->
-          <div class="w-full px-4 z-10">
-            <div class="relative aspect-video bg-gray-50 rounded-lg overflow-hidden shadow-md group">
-              <img [src]="feature.imageSrc" [alt]="feature.title" class="w-full h-full object-contain p-4 transition-transform duration-300 group-hover:scale-110">
-            </div>
-          </div>
-        </div>
       </div>
     </div>
-  </div>
-</section>
-
+  </section>
 
   <!-- Pricing Section -->
-  <section class="py-20 bg-white">
+  <section class="py-20 bg-white/80 ">
     <div class="container mx-auto px-4">
       <div class="text-center mb-16 animate-fade-in">
         <h2 class="text-3xl md:text-4xl font-extralight mb-4 text-black">Simple, Transparent Pricing</h2>
@@ -397,7 +378,7 @@
             </ul>
   
             <!-- CTA Button -->
-            <button class="w-full py-4 rounded-lg bg-black hover:bg-gray-900 transition-colors text-lg font-medium text-white group flex items-center justify-center gap-2 shadow-lg hover:scale-105 animate-pulse">
+            <button routerLink="/register" class="w-full py-4 rounded-lg bg-black hover:bg-gray-900 transition-colors text-lg font-medium text-white group flex items-center justify-center gap-2 shadow-lg hover:scale-105 ">
               Get Started Free
               <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12h14"></path>
@@ -413,19 +394,99 @@
     </div>
   </section>
 
-  <!-- CTA Section -->
-  <section class="py-20 bg-white">
-    <div class="container mx-auto px-4 max-w-4xl">
-      <div class="text-center p-12 rounded-3xl bg-gray-100 border border-gray-200 animate-fade-in">
-        <h2 class="text-4xl font-extralight mb-4 text-black">Ready to Transform Your Support?</h2>
-        <button routerLink="/register" class="group px-8 py-4 bg-black hover:bg-gray-900 text-white rounded-xl font-medium transition-all flex items-center gap-2 mx-auto shadow-lg hover:scale-105 animate-pulse">
-          Get Started Now
-          <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14"></path>
-            <path d="M12 5l7 7-7 7"></path>
-          </svg>
-        </button>
+ <!-- Footer Section -->
+<footer class="py-16 bg-gray-50/80 backdrop-blur-sm border-t border-gray-200">
+  <div class="container mx-auto px-4 max-w-6xl">
+    <!-- Footer Content Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+      <!-- Company Info -->
+      <div class="space-y-4">
+        <h3 class="text-xl font-semibold mb-4">Xavier AI</h3>
+        <p class="text-gray-600">Transforming customer support with AI-powered solutions that deliver exceptional experiences.</p>
+      </div>
+      
+      <!-- Quick Links -->
+      <div class="space-y-4">
+        <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+        <ul class="space-y-2">
+          <li><a routerLink="/features" class="text-gray-600 hover:text-black transition-colors">Features</a></li>
+          <li><a routerLink="/pricing" class="text-gray-600 hover:text-black transition-colors">Pricing</a></li>
+          <li><a routerLink="/contact" class="text-gray-600 hover:text-black transition-colors">Contact Us</a></li>
+          <li><a routerLink="/login" class="text-gray-600 hover:text-black transition-colors">Login</a></li>
+        </ul>
+      </div>
+      
+      <!-- Resources -->
+      <div class="space-y-4">
+        <h3 class="text-lg font-semibold mb-4">Resources</h3>
+        <ul class="space-y-2">
+          <li><a routerLink="/blog" class="text-gray-600 hover:text-black transition-colors">Blog</a></li>
+          <li><a routerLink="/docs" class="text-gray-600 hover:text-black transition-colors">Documentation</a></li>
+          <li><a routerLink="/faq" class="text-gray-600 hover:text-black transition-colors">FAQs</a></li>
+          <li><a routerLink="/privacy" class="text-gray-600 hover:text-black transition-colors">Privacy Policy</a></li>
+        </ul>
+      </div>
+      
+      <!-- Contact & Social -->
+      <div class="space-y-4">
+        <h3 class="text-lg font-semibold mb-4">Connect With Us</h3>
+        <p class="text-gray-600">Follow us on social media for updates and insights.</p>
+        
+        <!-- Social Media Icons -->
+        <div class="flex space-x-4">
+          <!-- Twitter/X -->
+          <a href="https://x.com/Temi0724"  class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm border border-gray-200 hover:border-black/50 transition-all hover:scale-110">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/>
+            </svg>
+          </a>
+          
+          <!-- WhatsApp -->
+          <a href="https://wa.me/2349024703209"  class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm border border-gray-200 hover:border-black/50 transition-all hover:scale-110">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+            </svg>
+          </a>
+          
+          <!-- LinkedIn -->
+          <a href="https://www.linkedin.com/in/temi-olakanmi-627a06226/" class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm border border-gray-200 hover:border-black/50 transition-all hover:scale-110">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+              <rect x="2" y="9" width="4" height="12"/>
+              <circle cx="4" cy="4" r="2"/>
+            </svg>
+          </a>
+        </div>
+        
+        <!-- Contact Info -->
+        <div class="space-y-2 mt-6">
+          <p class="flex items-center gap-2 text-gray-600">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            <a href="mailto:temi1010100@gmail.com" class="hover:text-black transition-colors">xavierai.com</a>
+          </p>
+          <p class="flex items-center gap-2 text-gray-600">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <a href="tel:+13443463209" class="hover:text-black transition-colors">+1 (234) 567-890</a>
+          </p>
+        </div>
       </div>
     </div>
-  </section>
+    
+    
+    <!-- Bottom Bar -->
+    <div class="pt-8 border-t border-gray-200 flex flex-col md:flex-row md:justify-between items-center gap-4">
+      <p class="text-gray-500 text-sm">© 2025 Xavier AI. All rights reserved.</p>
+      <div class="flex gap-4">
+        <a routerLink="/terms" class="text-gray-500 hover:text-black text-sm transition-colors">Terms of Service</a>
+        <a routerLink="/privacy" class="text-gray-500 hover:text-black text-sm transition-colors">Privacy Policy</a>
+        <a routerLink="/cookies" class="text-gray-500 hover:text-black text-sm transition-colors">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
 </div>
