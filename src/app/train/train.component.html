@@ -99,14 +99,49 @@
           </div>
         </div>
 
+        <!-- Progress bar when uploading -->
+        <div *ngIf="isLoading" class="mt-4 space-y-2">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-sm font-medium text-gray-700">{{ trainingStatus }}</span>
+            <span class="text-sm font-medium text-gray-700">{{ uploadProgress }}%</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
+            <div 
+              class="bg-blue-600 h-2.5 rounded-full transition-all duration-300 ease-out" 
+              [style.width.%]="uploadProgress">
+            </div>
+          </div>
+        </div>
         
         <button 
           type="submit"
-          class="w-full flex items-center justify-center px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+          [disabled]="isLoading"
+          class="w-full flex items-center justify-center px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed">
+          <span *ngIf="!isLoading" class="flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+            Train Chatbot
+          </span>
+          <span *ngIf="isLoading" class="flex items-center">
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            {{ trainingStatus || 'Processing...' }}
+          </span>
+        </button>
+
+        <!-- Cancel button -->
+        <button 
+          type="button"
+          *ngIf="isLoading"
+          (click)="cancelTraining()"
+          class="w-full flex items-center justify-center px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors">
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
-          Train Chatbot
+          Cancel Training
         </button>
       </form>
     </div>
@@ -147,4 +182,3 @@
     </div>
   </div>
 </div>
-<!-- Add this at the end of each component's template -->
