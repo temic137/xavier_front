@@ -284,5 +284,38 @@ deleteTicket(ticketId: number): Observable<any> {
 }
 
 
+trainChatbotWithProgress(
+  chatbotId: string,
+  file: File | null,
+  apiUrl: string | null,
+  folderPath: string | null,
+  websiteUrl: string | null
+) {
+  const formData = new FormData();
+  
+  if (file) {
+    formData.append('file', file);
+  }
+  if (apiUrl) {
+    formData.append('apiUrl', apiUrl);
+  }
+  if (folderPath) {
+    formData.append('folderPath', folderPath);
+  }
+  if (websiteUrl) {
+    formData.append('websiteUrl', websiteUrl);
+  }
+  
+  // Use the chatbotId in the URL
+  const url = `${this.apiUrl}/train_chatbot/${chatbotId}`;
+  
+  // Return the observable with progress events
+  return this.http.post(url, formData, {
+    reportProgress: true,
+    observe: 'events',
+    withCredentials: true
+  });
+}
+  
 
 }
