@@ -62,10 +62,10 @@ export interface DashboardData {
   providedIn: 'root'
 })
 export class ApiService {
-  // private apiUrl = 'https://xavier-ai-backend.onrender.com'; 
 
   
-  private apiUrl ='https://xavier-back.onrender.com';
+  // private apiUrl ='https://xavier-back.onrender.com';
+  private apiUrl= 'https://xavierback-production.up.railway.app';
   
    
   constructor(private http: HttpClient) { }
