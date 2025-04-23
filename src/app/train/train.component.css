@@ -1,0 +1,175 @@
+/* Modern Navbar Styles */
+
+/* Gradient animation for navbar */
+.bg-gradient-to-r {
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
+}
+
+/* Navbar scroll effect */
+nav {
+  transition: all 0.3s ease;
+}
+
+nav.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Hover animations for nav items */
+.nav-item-hover {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.nav-item-hover::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 50%;
+  background-color: white;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+  opacity: 0;
+}
+
+.nav-item-hover:hover::after {
+  width: 70%;
+  opacity: 1;
+}
+
+/* Mobile menu animation */
+.mobile-menu-enter {
+  transform: translateY(-20px);
+  opacity: 0;
+}
+
+.mobile-menu-enter-active {
+  transform: translateY(0);
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-exit {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.mobile-menu-exit-active {
+  transform: translateY(-20px);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+/* Back button animation */
+.back-button-hover:hover svg {
+  transform: translateX(-4px);
+  transition: transform 0.2s ease;
+}
+
+/* Settings button animation */
+.settings-button-hover:hover svg {
+  transform: rotate(90deg);
+  transition: transform 0.5s ease;
+}
+
+/* Active nav item indicator */
+.active-nav-item {
+  position: relative;
+}
+
+.active-nav-item::before {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: white;
+}
+
+/* Train Component Styles */
+
+/* Slow pulse animation for icons */
+.animate-pulse-slow {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Slide up animation for notifications */
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Progress bar animation for toast notifications */
+.animate-shrink-width {
+  animation: shrinkWidth 5s linear forwards;
+  width: 100%;
+  transform-origin: left;
+}
+
+@keyframes shrinkWidth {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  }
+}
+
+/* Card hover effects */
+.hover-card-effect {
+  transition: all 0.3s ease;
+}
+
+.hover-card-effect:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Input focus effects */
+input:focus {
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  outline: none;
+}
+
+/* Button hover animation */
+button:not([disabled]) {
+  transition: all 0.3s ease;
+}
+
+button:not([disabled]):hover {
+  transform: translateY(-2px);
+}
+
+button:not([disabled]):active {
+  transform: translateY(1px);
+}

@@ -2,15 +2,14 @@
   
 
 export interface Ticket {
-    id: number;
-    subject: string;
-    description?: string;
-    status: string;
-    priority: string;
-    account_details?: {
-        [key: string]: any; 
-    };
-    created_at: string;
+  id: number;
+  subject: string;
+  description?: string;
+  status: string;
+  priority: string;
+  created_at: string;
+  customer_name: string;
+  account_details?: string;
 }
 
   export interface TicketResponse {

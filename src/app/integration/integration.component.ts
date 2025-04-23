@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule,ActivatedRoute } from '@angular/router';
+import { RouterModule, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../api.service';
 import { Router } from '@angular/router';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 interface Chatbot {
   id: string;
@@ -13,9 +14,20 @@ interface Chatbot {
 @Component({
   selector: 'app-integration',
   standalone: true,
-  imports: [CommonModule, FormsModule , RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './integration.component.html',
-  styleUrl: './integration.component.css'
+  styleUrl: './integration.component.css',
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('300ms', style({ opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('300ms', style({ opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class IntegrationComponent implements OnInit {
 
@@ -24,13 +36,13 @@ export class IntegrationComponent implements OnInit {
   show=true;
 
   constructor(
-    private apiService: ApiService, 
+    private apiService: ApiService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    
+
     this.route.paramMap.subscribe(params => {
       this.chatbotId = params.get('id') || '';
     });
@@ -39,20 +51,32 @@ export class IntegrationComponent implements OnInit {
     }
 
     this.fetchChatbots();
-  } 
+  }
 
   generateCode(chatbotId: string) {
+    this.isProcessing = true;
+    this.message = '';
 
-    this.apiService.getIntegration_code(chatbotId).subscribe(
-            (response) =>{
-              this.integrationCode = response.integration_code;
-              console.log("Integration code generated");
-            },
-            (error) =>{
-              console.error('failed to fet integration code', error);
-              console.log("Integration code generation failed ");
-            }
-          );
+    console.log(`Generating code for chatbot: ${chatbotId}`);
+
+    this.apiService.getIntegration_code(chatbotId).subscribe({
+      next: (response) => {
+        console.log('Integration code response:', response);
+        if (response && response.integration_code) {
+          this.integrationCode = response.integration_code;
+          this.showSuccessMessage('Integration code generated successfully');
+        } else {
+          this.showErrorMessage('Invalid response format from server');
+          console.error('Invalid response format:', response);
+        }
+        this.isProcessing = false;
+      },
+      error: (error) => {
+        console.error('Failed to fetch integration code', error);
+        this.showErrorMessage('Failed to generate integration code. Please try again.');
+        this.isProcessing = false;
+      }
+    });
   }
 
 
@@ -61,7 +85,7 @@ export class IntegrationComponent implements OnInit {
     this.show = false;
   }
 
-  chatbots: Chatbot[] = []; 
+  chatbots: Chatbot[] = [];
   selectedChatbot: string | null = null;
   message: string = '';
   isSuccess: boolean = true;
@@ -126,7 +150,7 @@ export class IntegrationComponent implements OnInit {
   }
 
   private clearMessageAfterDelay() {
-    setTimeout(() => (this.message = ''), 3000);
+    setTimeout(() => (this.message = ''), 5000);
   }
 
   codeCopied: boolean = false;
@@ -136,7 +160,7 @@ copyToClipboard(text: string) {
     this.codeCopied = true;
     setTimeout(() => {
       this.codeCopied = false;
-    }, 2000); 
+    }, 2000);
   });
 }
 }

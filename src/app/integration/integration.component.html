@@ -1,63 +1,145 @@
-<div class="min-h-screen bg-white py-8">
-  <div class="max-w-4xl mx-auto">
-    
-    <div class="bg-gray-50 rounded-t-2xl border border-gray-200 px-6 py-5">
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-12">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Page Header with Animation -->
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-xl p-8 mb-8 transform transition-all duration-300 hover:shadow-2xl glass-card">
       <div class="flex items-center justify-between">
-        <h1 class="text-2xl font-bold text-gray-900">Website Integration</h1>
-        <div class="flex items-center space-x-2">
-          <span *ngIf="isProcessing" class="flex items-center text-sm text-gray-600">
+        <div class="flex items-center gap-3">
+          <div class="h-12 w-12 bg-gradient-to-br from-indigo-600 to-blue-500 rounded-lg flex items-center justify-center shadow-md transform transition-transform duration-300 hover:scale-105">
+            <i class="fas fa-code text-white text-xl"></i>
+          </div>
+          <h1 class="text-2xl font-bold gradient-text">Website Integration</h1>
+        </div>
+        <div class="flex items-center space-x-3">
+          <span *ngIf="isProcessing" class="flex items-center text-sm text-gray-600 bg-gray-100 px-3 py-1.5 rounded-full shadow-sm">
             <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-indigo-500 mr-2"></div>
             Processing...
           </span>
-          <button 
+          <button
             *ngIf="integrationCode"
             (click)="copyToClipboard(integrationCode)"
-            [ngClass]="{'bg-green-100 text-green-800 hover:bg-green-200': codeCopied, 'bg-gray-100 text-gray-700 hover:bg-gray-200': !codeCopied}"
-            class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
-            <svg *ngIf="!codeCopied" class="h-5 w-5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
-            </svg>
-            <svg *ngIf="codeCopied" class="h-5 w-5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg>
+            [ngClass]="{'bg-green-100 text-green-800 hover:bg-green-200': codeCopied, 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200': !codeCopied}"
+            class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 shadow-sm transform hover:-translate-y-0.5">
+            <i *ngIf="!codeCopied" class="fas fa-copy mr-2"></i>
+            <i *ngIf="codeCopied" class="fas fa-check-circle mr-2"></i>
             {{ codeCopied ? 'Copied!' : 'Copy Code' }}
           </button>
         </div>
       </div>
+      <p class="text-gray-500 mt-2 flex items-center">
+        <i class="fas fa-info-circle text-indigo-400 mr-2"></i>
+        Add your chatbot to any website with the integration code below
+      </p>
     </div>
 
-    <div *ngIf="message" 
+    <!-- Alert Message -->
+    <div *ngIf="message"
          [@fadeInOut]
-         class="mx-6 mt-4 rounded-lg p-4 flex items-center"
-         [ngClass]="{'bg-green-50 border-green-500 text-green-700': isSuccess, 'bg-red-50 border-red-500 text-red-700': !isSuccess}">
-      <div class="flex-shrink-0">
-        <svg *ngIf="isSuccess" class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-        </svg>
-        <svg *ngIf="!isSuccess" class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M10 18a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
-        </svg>
+         class="mb-6 rounded-xl p-4 flex items-center border shadow-sm"
+         [ngClass]="{'bg-green-50 border-green-200 text-green-700': isSuccess, 'bg-red-50 border-red-200 text-red-700': !isSuccess}">
+      <div class="flex-shrink-0 text-xl">
+        <i *ngIf="isSuccess" class="fas fa-check-circle text-green-500"></i>
+        <i *ngIf="!isSuccess" class="fas fa-exclamation-circle text-red-500"></i>
       </div>
       <div class="ml-3">
         <p class="text-sm font-medium">{{ message }}</p>
       </div>
+      <button class="ml-auto text-gray-400 hover:text-gray-500" (click)="message = ''">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
-    
-    <div class="bg-white shadow-md rounded-b-2xl border border-gray-200">
-      
-      <div *ngIf="integrationCode" class="p-6 border-b border-gray-200">
-        <h3 class="text-lg font-medium text-gray-900 mb-4">Integration Code</h3>
-        <div class="bg-gray-50 rounded-lg p-4">
-          <pre class="text-sm text-gray-700 overflow-x-auto"><code>{{ integrationCode }}</code></pre>
+
+    <!-- Main Content Card -->
+    <div class="bg-white rounded-xl border border-gray-100 shadow-lg overflow-hidden">
+
+      <!-- Integration Code Section -->
+      <div class="border-b border-gray-100">
+        <div class="bg-gradient-to-r from-indigo-600 to-blue-500 py-3 px-6">
+          <h3 class="text-lg font-semibold text-white flex items-center">
+            <i class="fas fa-code mr-2"></i>
+            Integration Code
+          </h3>
+        </div>
+
+        <div class="p-6">
+          <!-- Loading State -->
+          <div *ngIf="isProcessing" class="flex justify-center items-center py-12">
+            <div class="flex flex-col items-center">
+              <div class="animate-spin rounded-full h-12 w-12 border-4 border-indigo-200 border-t-indigo-600 shadow-md"></div>
+              <span class="mt-4 text-gray-600 font-medium">Generating integration code...</span>
+            </div>
+          </div>
+
+          <!-- Error State -->
+          <div *ngIf="!isProcessing && !integrationCode" class="bg-yellow-50 rounded-xl p-5 text-yellow-700 border border-yellow-200 shadow-sm">
+            <div class="flex items-start">
+              <i class="fas fa-exclamation-triangle text-yellow-500 text-xl mt-0.5 mr-3"></i>
+              <div>
+                <p class="font-medium">No integration code available</p>
+                <p class="mt-1 text-sm">Please try refreshing the page or contact support if the issue persists.</p>
+                <button (click)="generateCode(chatbotId)" class="mt-4 px-4 py-2 bg-gradient-to-r from-yellow-500 to-amber-500 text-white rounded-lg hover:from-yellow-600 hover:to-amber-600 transition-all duration-300 text-sm font-medium shadow-md transform hover:-translate-y-0.5 flex items-center">
+                  <i class="fas fa-sync-alt mr-2"></i>
+                  Retry
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Code Display -->
+          <div *ngIf="!isProcessing && integrationCode" class="relative">
+            <div class="bg-gray-50 rounded-xl p-5 border border-gray-200 shadow-inner">
+              <div class="absolute top-3 right-3 flex gap-2">
+                <button (click)="copyToClipboard(integrationCode)" class="p-2 bg-white rounded-lg shadow-md text-indigo-500 hover:text-indigo-700 hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105" title="Copy to clipboard">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </div>
+              <pre class="text-sm text-gray-700 overflow-x-auto font-mono pt-2"><code>{{ integrationCode }}</code></pre>
+            </div>
+
+            <div class="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-100 flex items-center">
+              <i class="fas fa-lightbulb text-blue-500 text-xl mr-3"></i>
+              <p class="text-sm text-blue-700">Add this code to your website's HTML just before the closing <code>&lt;/body&gt;</code> tag for best performance.</p>
+            </div>
+          </div>
         </div>
       </div>
 
+      <!-- Additional Integration Options -->
       <div class="p-6 space-y-6">
-        <div class="inline-block">
-          <h1 class="text-2xl font-bold text-gray-900">Gmail Integration</h1>
-          <h3 class="text-sm font-medium text-gray-500">(coming soon)</h3>
+        <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+          <i class="fas fa-plug text-indigo-500 mr-2"></i>
+          Additional Integration Options
+        </h3>
+
+        <!-- Gmail Integration Card -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5 card-hover">
+          <div class="flex items-center">
+            <div class="h-10 w-10 bg-red-100 rounded-lg flex items-center justify-center mr-4">
+              <i class="fas fa-envelope text-red-500"></i>
+            </div>
+            <div>
+              <h2 class="text-lg font-semibold text-gray-900">Gmail Integration</h2>
+              <div class="flex items-center mt-1">
+                <span class="text-sm font-medium text-gray-500 flex items-center">
+                  <i class="fas fa-clock text-gray-400 mr-1"></i>
+                  Coming soon
+                </span>
+                <span class="ml-3 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                  <i class="fas fa-star-half-alt mr-1"></i>
+                  Beta
+                </span>
+              </div>
+            </div>
+            <button disabled class="ml-auto px-3 py-1.5 bg-gray-100 text-gray-400 rounded-lg text-sm font-medium cursor-not-allowed">
+              <i class="fas fa-lock mr-1"></i>
+              Setup
+            </button>
+          </div>
         </div>
+
       </div>
     </div>
+
+   
   </div>
 </div>

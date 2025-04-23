@@ -28,9 +28,9 @@
 //     { path: 'contact', component:ContactComponent},
 //     { path: 'careers', component:CareersComponent},
 //     { path: 'about', component:AboutComponent},
-    
-//     { 
-//         path: 'chatbot/:id', 
+
+//     {
+//         path: 'chatbot/:id',
 //         component: ChatbotDetailComponent,
 //         children: [
 //             { path: '', redirectTo: 'analyticsdash', pathMatch: 'full' },
@@ -42,9 +42,9 @@
 //             { path: 'gmail-integration/:id', component: GmailIntegrationComponent },
 //             { path: 'tickets/:id', component: TicketManagementComponent },
 //             { path: 'agent-dash/:id', component: AgentDashboardComponent },
-                    
+
 //         ]
-//     },   
+//     },
 // ];
 
 // export const routeProviders = [
@@ -73,6 +73,8 @@ import { AboutComponent } from './about/about.component';
 import { TicketManagementComponent } from './ticket-management/ticket-management.component';
 import { AgentDashboardComponent } from './agent-dashboard/agent-dashboard.component';
 import { ChatbotCustomizeComponent } from './chatbot-customize/chatbot-customize.component';
+import { LeadsManagementComponent } from './leads-management/leads-management.component';
+
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -95,19 +97,20 @@ export const routes: Routes = [
       { path: 'integration/:id', component: IntegrationComponent },
       { path: 'gmail-integration/:id', component: GmailIntegrationComponent },
       { path: 'chatbot-customize/:id', component: ChatbotCustomizeComponent },
-      { 
+      { path: 'leads/:id', component: LeadsManagementComponent },
+      {
         path: 'support',
         children: [
           { path: '', redirectTo: 'agent-dash/:id', pathMatch: 'full' },
           { path: 'agent-dash/:id', component: AgentDashboardComponent },
           { path: 'tickets/:id', component: TicketManagementComponent },
-          
+
         ]
       },
       // Keep these for backward compatibility
       { path: 'agent-dash/:id', component: AgentDashboardComponent },
       { path: 'tickets/:id', component: TicketManagementComponent },
-      
+
     ]
   },
 ];

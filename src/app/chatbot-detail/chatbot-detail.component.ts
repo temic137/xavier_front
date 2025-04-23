@@ -21,7 +21,7 @@ interface Chatbot {
   imports: [CommonModule, FormsModule, RouterModule, RouterOutlet],
   providers: [EscalationStatusService],
   templateUrl: './chatbot-detail.component.html',
-  styleUrls: ['./chatbot-detail.component.css'], 
+  styleUrls: ['./chatbot-detail.component.css'],
 })
 export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   chatbots: Chatbot[] = [];
@@ -99,7 +99,7 @@ export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy 
 
   ngAfterViewInit() {
     this.setupMobileMenu();
-    
+
     // Add document click handler - check if running in browser
     if (typeof document !== 'undefined') {
       document.addEventListener('click', this.onDocumentClick.bind(this));
@@ -119,7 +119,7 @@ export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     if (this.notificationsSubscription) {
       this.notificationsSubscription.unsubscribe();
     }
-    
+
     // Remove document click handler - check if running in browser
     if (typeof document !== 'undefined') {
       document.removeEventListener('click', this.onDocumentClick.bind(this));
@@ -130,14 +130,14 @@ export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     event.stopPropagation();
     this.showNotificationDropdown = !this.showNotificationDropdown;
   }
-  
+
   onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
     if (!target.closest('.notification-container')) {
       this.showNotificationDropdown = false;
     }
   }
-  
+
   removeNotification(id: string) {
     this.notificationService.removeNotification(id);
   }
@@ -158,8 +158,8 @@ export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy 
       });
 
       document.addEventListener('click', (event) => {
-        if (this.isMobileMenuOpen && 
-            !mobileMenu.contains(event.target as Node) && 
+        if (this.isMobileMenuOpen &&
+            !mobileMenu.contains(event.target as Node) &&
             !mobileMenuToggle.contains(event.target as Node)) {
           this.closeMobileMenu();
         }
@@ -181,7 +181,7 @@ export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy 
       finalize(() => (this.loading = false)),
       catchError(error => {
         console.error('Failed to load chatbot details', error);
-        
+
         // Show a friendly error message to the user
         if (error.status === 500) {
           this.notificationService.showNotification(
@@ -199,7 +199,7 @@ export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy 
             'error'
           );
         }
-        
+
         return of(null);
       })
     ).subscribe(chatbot => {
@@ -240,17 +240,18 @@ export class ChatbotDetailComponent implements OnInit, AfterViewInit, OnDestroy 
       case 'customize':
           this.router.navigate(['/chatbot', this.chatbotId, 'chatbot-customize', this.chatbotId]);
           break;
+
         case 'support':
-          // If no subtab is specified, default to escalations
+          // If no subtab is specified, default to leads
           if (!subtab) {
-            this.activeSupportTab = 'escalations';
-            this.router.navigate(['/chatbot', this.chatbotId, 'agent-dash', this.chatbotId]);
+            this.activeSupportTab = 'escalations'; // Keep the name for backward compatibility
+            this.router.navigate(['/chatbot', this.chatbotId, 'leads', this.chatbotId]);
           } else {
             this.activeSupportTab = subtab;
             if (subtab === 'tickets') {
               this.router.navigate(['/chatbot', this.chatbotId, 'tickets', this.chatbotId]);
             } else {
-              this.router.navigate(['/chatbot', this.chatbotId, 'agent-dash', this.chatbotId]);
+              this.router.navigate(['/chatbot', this.chatbotId, 'leads', this.chatbotId]);
             }
           }
           break;

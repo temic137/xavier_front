@@ -1,121 +1,480 @@
-<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12">
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-<!-- Loading Spinner -->
-<div *ngIf="isLoading" class="flex justify-center items-center py-12">
-  <div class="animate-spin rounded-full h-12 w-12 border-4 border-indigo-200 border-t-black"></div>
-</div>
+<div class="min-h-screen bg-gray-50 py-12 relative overflow-hidden">
+  <!-- Simple background elements -->
+  <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+    <!-- Subtle gradient background -->
+    <div class="absolute inset-0 bg-gradient-to-b from-white to-gray-50"></div>
 
-    <!-- Error State -->
-    <div *ngIf="error" class="bg-red-50 p-5 rounded-xl mb-6 border border-red-200 shadow-sm">
-      <div class="flex">
-        <div class="flex-shrink-0">
-          <svg class="h-6 w-6 text-red-500" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
-          </svg>
+    <!-- Minimal decorative elements -->
+    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-100 to-purple-100"></div>
+    <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-purple-100 to-indigo-100"></div>
+  </div>
+  <!-- Modal Backdrop -->
+  <div *ngIf="showEditModal || showAddDataTypeModal || showJsonSearch" class="modal-backdrop" (click)="closeAllModals()"></div>
+  <!-- JSON Search Modal - Positioned in the top-left corner -->
+  <div *ngIf="showJsonSearch" class="modal-top-left">
+    <div class="bg-white rounded-md shadow-md border border-gray-200 p-5 max-w-md w-full max-h-[90vh] overflow-auto" (click)="$event.stopPropagation()">
+      <div class="flex justify-between items-center mb-4 border-b border-gray-200 pb-3">
+        <div class="flex items-center gap-2">
+          <i class="fas fa-search text-indigo-500"></i>
+          <h3 class="text-base font-medium text-gray-800">Search JSON</h3>
         </div>
-        <div class="ml-3">
-          <h3 class="text-sm font-medium text-red-800">Error</h3>
-          <p class="text-sm text-red-700 mt-1">{{ error }}</p>
+        <button (click)="closeJsonSearch()" class="p-1 text-gray-500 hover:text-gray-700 transition-colors">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4">
+        <div class="flex items-center space-x-2">
+          <input [(ngModel)]="jsonSearchQuery" type="text" placeholder="Search in JSON..."
+            class="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-700 placeholder-gray-400">
+          <button (click)="executeJsonSearch()"
+            class="px-3 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+
+        <div class="flex flex-wrap gap-3 mb-2 bg-gray-50 border border-gray-200 p-3 rounded-md">
+          <label class="inline-flex items-center">
+            <input type="checkbox" [(ngModel)]="jsonSearchOptions.caseSensitive" class="form-checkbox h-4 w-4 text-indigo-600 rounded border-gray-300">
+            <span class="ml-2 text-sm text-gray-700">Case Sensitive</span>
+          </label>
+          <label class="inline-flex items-center">
+            <input type="checkbox" [(ngModel)]="jsonSearchOptions.wholeWord" class="form-checkbox h-4 w-4 text-indigo-600 rounded border-gray-300">
+            <span class="ml-2 text-sm text-gray-700">Whole Word</span>
+          </label>
+          <label class="inline-flex items-center">
+            <input type="checkbox" [(ngModel)]="jsonSearchOptions.regex" class="form-checkbox h-4 w-4 text-indigo-600 rounded border-gray-300">
+            <span class="ml-2 text-sm text-gray-700">Regex</span>
+          </label>
+        </div>
+
+        <div *ngIf="hasExecutedSearch && jsonSearchResults.length === 0" class="p-3 bg-gray-50 border border-gray-200 rounded-md text-center text-gray-600">
+          No results found
+        </div>
+
+        <div *ngIf="jsonSearchResults.length > 0" class="max-h-60 overflow-y-auto border border-gray-200 rounded-md bg-white">
+          <div *ngFor="let result of jsonSearchResults; let i = index"
+              (click)="selectSearchResult(i)"
+              class="p-3 border-b border-gray-200 hover:bg-gray-50 cursor-pointer flex justify-between items-start"
+              [class.bg-gray-100]="i === currentSearchResultIndex">
+            <div>
+              <div class="text-xs text-gray-500 mb-1">Line {{ result.line }}</div>
+              <div class="text-sm font-mono text-gray-700">{{ result.preview }}</div>
+            </div>
+            <div class="flex space-x-2">
+              <button (click)="editSearchResult(result, $event)" class="p-1.5 bg-white border border-gray-300 rounded-md text-gray-600 hover:bg-gray-50 transition-colors">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button (click)="deleteSearchResult(result, $event)" class="p-1.5 bg-white border border-red-200 rounded-md text-red-600 hover:bg-red-50 transition-colors">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="jsonSearchResults.length > 0" class="flex justify-between items-center bg-gray-50 border border-gray-200 p-2 rounded-md">
+          <button (click)="navigateToPreviousSearchResult()" [disabled]="currentSearchResultIndex === 0"
+            class="p-2 bg-white border border-gray-300 rounded-md text-gray-600 disabled:opacity-30 hover:bg-gray-50 transition-colors">
+            <i class="fas fa-chevron-up"></i>
+          </button>
+          <span class="text-sm text-gray-700">{{ currentSearchResultIndex + 1 }} of {{ jsonSearchResults.length }}</span>
+          <button (click)="navigateToNextSearchResult()" [disabled]="currentSearchResultIndex === jsonSearchResults.length - 1"
+            class="p-2 bg-white border border-gray-300 rounded-md text-gray-600 disabled:opacity-30 hover:bg-gray-50 transition-colors">
+            <i class="fas fa-chevron-down"></i>
+          </button>
         </div>
       </div>
     </div>
+  </div>
 
-    <div *ngIf="!isLoading" class="bg-white rounded-2xl border border-gray-100 shadow-lg p-8">
-      <div class="mb-8 border-b border-gray-100 pb-6">
-        <div class="flex items-center gap-3 mb-2">
-          <div class="h-8 w-8 bg-black rounded-lg flex items-center justify-center">
-            <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
-            </svg>
-          </div>
-          <h2 class="text-2xl font-bold text-gray-900">{{ chatbotName }}</h2>
+  <!-- Edit Modal - Positioned in the bottom-left corner -->
+  <div *ngIf="showEditModal" class="modal-bottom-left">
+    <div class="bg-white rounded-md shadow-md border border-gray-200 p-5 max-w-md w-full max-h-[90vh] overflow-auto" (click)="$event.stopPropagation()">
+      <div class="flex justify-between items-center mb-4 border-b border-gray-200 pb-3">
+        <div class="flex items-center gap-2">
+          <i class="fas fa-edit text-indigo-500"></i>
+          <h3 class="text-base font-medium text-gray-800">Edit Content</h3>
         </div>
-        <p class="text-gray-500">Manage your chatbot's knowledge base and FAQ</p>
-      </div>
-
-      <!-- Quick Actions -->
-      <div class="mb-8 flex flex-wrap gap-3">
-        <button (click)="formatJson()" class="inline-flex items-center px-4 py-2.5 bg-white border border-gray-200 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors shadow-sm">
-          <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
-          </svg>
-          Format JSON
-        </button>
-        <button (click)="clearData()" class="inline-flex items-center px-4 py-2.5 bg-white border border-gray-200 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors shadow-sm">
-          <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-          </svg>
-          Clear Data
+        <button (click)="closeEditModal()" class="p-1 text-gray-500 hover:text-gray-700 transition-colors">
+          <i class="fas fa-times"></i>
         </button>
       </div>
 
-      <!-- Add FAQ Section -->
-      <div class="mb-8 bg-gray-50 p-6 rounded-xl">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Add New FAQ</h3>
-        <div class="space-y-4">
-          <div>
-            <label for="question" class="block text-sm font-medium text-gray-700">Question</label>
-            <input [(ngModel)]="newFAQ.question" type="text" id="question" name="question" placeholder="Enter a frequently asked question"
-              class="mt-1.5 block w-full px-4 py-2.5 bg-white border border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-black focus:border-transparent">
+      <div class="space-y-4">
+        <div class="border border-gray-300 rounded-md overflow-hidden">
+          <!-- Editor toolbar -->
+          <div class="flex items-center px-3 py-2 bg-gray-100 border-b border-gray-300">
+            <i class="fas fa-code text-gray-600 mr-2 text-sm"></i>
+            <span class="text-gray-700 text-sm">JSON Editor</span>
           </div>
-          <div>
-            <label for="answer" class="block text-sm font-medium text-gray-700">Answer</label>
-            <textarea [(ngModel)]="newFAQ.answer" id="answer" name="answer" rows="3" placeholder="Provide a detailed answer"
-              class="mt-1.5 block w-full px-4 py-2.5 bg-white border border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-black focus:border-transparent"></textarea>
-          </div>
-          <div class="flex items-center justify-between">
-            <div class="text-sm text-gray-600">
-              <span *ngIf="getFAQCount() > 0">Current FAQs: {{ getFAQCount() }}</span>
-            </div>
-            <button (click)="addFAQ()" [disabled]="!newFAQ.question || !newFAQ.answer"
-              class="inline-flex items-center justify-center px-5 py-2.5 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-              </svg>
-              Add FAQ
-            </button>
-          </div>
+
+          <!-- Textarea with custom styling -->
+          <textarea [(ngModel)]="editingContent" rows="8"
+            class="w-full px-4 py-3 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all resize-none text-sm font-mono bg-white border-0"></textarea>
+        </div>
+
+        <div class="flex justify-end space-x-3">
+          <button (click)="closeEditModal()"
+            class="px-3 py-2 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">
+            Cancel
+          </button>
+
+          <button (click)="saveEditedContent()"
+            class="px-3 py-2 bg-indigo-600 border border-transparent text-white rounded-md hover:bg-indigo-700 transition-colors">
+            <i class="fas fa-save mr-2"></i>
+            Save
+          </button>
         </div>
       </div>
-
-      <!-- Chatbot Data Section -->
-      <div class="mb-8">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-lg font-semibold text-gray-900">Chatbot Knowledge Base</h3>
-          <div class="text-sm py-1 px-3 bg-gray-100 rounded-full text-gray-600 font-medium">
-            {{ getDataSize() }} KB
-          </div>
+    </div>
+  </div>
+  <!-- Add Data Type Modal - Positioned in the top-right corner -->
+  <div *ngIf="showAddDataTypeModal" class="modal-top-right flex items-start justify-end">
+    <div class="bg-white rounded-md shadow-md border border-gray-200 p-5 max-w-md w-full max-h-[90vh] overflow-auto" (click)="$event.stopPropagation()">
+      <div class="flex justify-between items-center mb-4 border-b border-gray-200 pb-3">
+        <div class="flex items-center gap-2">
+          <i class="fas fa-plus text-indigo-500"></i>
+          <h3 class="text-base font-medium text-gray-800">Add Data Type</h3>
         </div>
-        <div class="relative">
-          <textarea [(ngModel)]="chatbotData" rows="14"
-            class="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-800 focus:ring-2 focus:ring-black focus:border-transparent transition-all resize-none text-sm font-mono bg-gray-50"></textarea>
-          <div class="absolute top-3 right-3">
-            <button (click)="copyToClipboard()" class="p-2 bg-white rounded-lg shadow-sm text-gray-500 hover:text-black transition-colors">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="flex flex-col sm:flex-row gap-4">
-        <button (click)="saveChatbot()" [disabled]="isLoading || !hasChanges()"
-          class="inline-flex items-center justify-center px-6 py-3 w-full sm:w-auto bg-black text-white rounded-xl hover:bg-gray-800 transition-colors font-medium shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
-          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/>
-          </svg>
-          {{ isLoading ? 'Saving...' : 'Save Changes' }}
+        <button (click)="closeAddDataTypeModal()" class="p-1 text-gray-500 hover:text-gray-700 transition-colors">
+          <i class="fas fa-times"></i>
         </button>
-        <button (click)="revertChanges()" [disabled]="!hasChanges()"
-          class="inline-flex items-center justify-center px-6 py-3 w-full sm:w-auto border border-gray-200 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
-          <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-          </svg>
-          Revert Changes
+      </div>
+
+      <div class="space-y-3">
+        <!-- PDF Data Option -->
+        <button (click)="addDataTypeToSource('pdf_data')"
+          class="w-full p-3 bg-white border border-gray-200 rounded-md flex items-center hover:bg-gray-50 transition-colors">
+          <div class="bg-red-100 p-2 rounded-md mr-3">
+            <i class="fas fa-file-pdf text-red-600"></i>
+          </div>
+          <div class="text-left">
+            <h4 class="font-medium text-gray-800">PDF Data</h4>
+            <p class="text-sm text-gray-600">Add content from PDF documents</p>
+          </div>
+        </button>
+
+        <!-- Web Data Option -->
+        <button (click)="addDataTypeToSource('web_data')"
+          class="w-full p-3 bg-white border border-gray-200 rounded-md flex items-center hover:bg-gray-50 transition-colors">
+          <div class="bg-blue-100 p-2 rounded-md mr-3">
+            <i class="fas fa-globe text-blue-600"></i>
+          </div>
+          <div class="text-left">
+            <h4 class="font-medium text-gray-800">Web Data</h4>
+            <p class="text-sm text-gray-600">Add content from websites</p>
+          </div>
+        </button>
+
+        <!-- Database Data Option -->
+        <button (click)="addDataTypeToSource('db_data')"
+          class="w-full p-3 bg-white border border-gray-200 rounded-md flex items-center hover:bg-gray-50 transition-colors">
+          <div class="bg-green-100 p-2 rounded-md mr-3">
+            <i class="fas fa-database text-green-600"></i>
+          </div>
+          <div class="text-left">
+            <h4 class="font-medium text-gray-800">Database Data</h4>
+            <p class="text-sm text-gray-600">Add content from databases</p>
+          </div>
+        </button>
+
+        <!-- Folder Data Option -->
+        <button (click)="addDataTypeToSource('folder_data')"
+          class="w-full p-3 bg-white border border-gray-200 rounded-md flex items-center hover:bg-gray-50 transition-colors">
+          <div class="bg-yellow-100 p-2 rounded-md mr-3">
+            <i class="fas fa-folder-open text-yellow-600"></i>
+          </div>
+          <div class="text-left">
+            <h4 class="font-medium text-gray-800">Folder Data</h4>
+            <p class="text-sm text-gray-600">Add content from folders</p>
+          </div>
         </button>
       </div>
     </div>
   </div>
-</div>
+
+  <!-- Background decorative elements -->
+  <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+    <div class="absolute top-20 left-10 w-64 h-64 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+    <div class="absolute top-40 right-10 w-72 h-72 bg-yellow-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+    <div class="absolute bottom-20 left-1/3 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
+    <div class="absolute -bottom-20 right-1/4 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-6000"></div>
+  </div>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
+    <!-- Page Header -->
+    <header *ngIf="!isLoading" class="relative mb-12 border-b border-gray-200 pb-6">
+      <div class="flex items-center gap-5">
+        <div class="h-16 w-16 bg-indigo-100 rounded-lg flex items-center justify-center shadow-sm">
+          <i class="fas fa-robot text-indigo-600 text-2xl"></i>
+        </div>
+
+        <div>
+          <h2 class="text-3xl font-bold text-gray-800">{{ chatbotName }}</h2>
+          <p class="text-gray-600 flex items-center gap-2 mt-1">
+            <i class="fas fa-database"></i>
+            Manage your chatbot's knowledge base and FAQ
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Loading Spinner -->
+    <div *ngIf="isLoading" class="flex justify-center items-center py-12">
+      <div class="relative">
+        <div class="animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-indigo-600 shadow-sm"></div>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error" class="bg-red-50 border border-red-200 rounded-md p-4 mb-8">
+      <div class="flex items-start">
+        <div class="flex-shrink-0 mt-0.5">
+          <i class="fas fa-exclamation-triangle text-red-500 text-lg"></i>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-base font-medium text-gray-800">Error Detected</h3>
+          <p class="text-sm text-red-600 mt-1">{{ error }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <div *ngIf="!isLoading" class="grid grid-cols-12 gap-8">
+      <!-- Quick Actions - Right side panel -->
+      <div class="col-span-12 md:col-span-3 order-2 md:order-2">
+        <div class="sticky top-6 space-y-6">
+          <!-- Quick Actions Panel -->
+          <section class="bg-white border border-gray-200 rounded-md shadow-sm">
+            <div class="p-5">
+              <h3 class="text-base font-medium text-gray-800 mb-4 flex items-center">
+                <i class="fas fa-bolt text-indigo-500 mr-2"></i>
+                Quick Actions
+              </h3>
+
+              <div class="space-y-3">
+                <button (click)="formatJson()" class="w-full inline-flex items-center px-4 py-2 bg-indigo-50 border border-indigo-200 text-indigo-700 rounded-md hover:bg-indigo-100 transition-colors">
+                  <i class="fas fa-code text-indigo-500 mr-2"></i>
+                  <span>Format JSON</span>
+                </button>
+
+                <button (click)="clearData()" class="w-full inline-flex items-center px-4 py-2 bg-red-50 border border-red-200 text-red-700 rounded-md hover:bg-red-100 transition-colors">
+                  <i class="fas fa-trash-alt text-red-500 mr-2"></i>
+                  <span>Clear Data</span>
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Data Size Indicator -->
+          <section class="bg-white border border-gray-200 rounded-md shadow-sm">
+            <div class="p-5">
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="text-base font-medium text-gray-800 flex items-center">
+                  <i class="fas fa-database text-blue-500 mr-2"></i>
+                  Data Size
+                </h3>
+                <div class="text-sm py-1 px-3 bg-blue-50 border border-blue-200 text-blue-700 rounded-md">
+                  {{ getDataSize() }} KB
+                </div>
+              </div>
+
+              <div class="mt-2">
+                <!-- Progress bar -->
+                <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div class="h-full bg-blue-500 rounded-full" [style.width]="(+getDataSize() / 100) + '%'"></div>
+                </div>
+              </div>
+
+              <div class="flex justify-between items-center mt-2">
+                <span class="text-xs text-gray-500">{{ getFAQCount() }} FAQs</span>
+                <span class="text-xs text-gray-500">{{ (+getDataSize() / 100) | percent }}</span>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!-- Main Content Area -->
+      <div class="col-span-12 md:col-span-9 order-1 md:order-1 space-y-10">
+        <!-- Add FAQ Section -->
+        <section class="bg-white border border-gray-200 rounded-md shadow-sm mb-6">
+          <div class="p-6">
+            <div class="flex items-center gap-3 mb-6 border-b border-gray-200 pb-4">
+              <i class="fas fa-question-circle text-indigo-500 text-lg"></i>
+              <h3 class="text-lg font-medium text-gray-800">Add New FAQ</h3>
+            </div>
+
+            <div class="space-y-5">
+              <div>
+                <label for="question" class="block text-sm font-medium text-gray-700 mb-1">
+                  Question
+                </label>
+                <input [(ngModel)]="newFAQ.question" type="text" id="question" name="question" placeholder="Enter a frequently asked question"
+                  class="block w-full px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-700 placeholder-gray-400">
+              </div>
+
+              <div>
+                <label for="answer" class="block text-sm font-medium text-gray-700 mb-1">
+                  Answer
+                </label>
+                <textarea [(ngModel)]="newFAQ.answer" id="answer" name="answer" rows="4" placeholder="Provide a detailed answer"
+                  class="block w-full px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-700 placeholder-gray-400 resize-none"></textarea>
+              </div>
+
+              <div class="flex items-center justify-end pt-2">
+                <button (click)="addFAQ()" [disabled]="!newFAQ.question || !newFAQ.answer"
+                  class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                  <i class="fas fa-plus mr-2 text-xs"></i>
+                  Add FAQ
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Knowledge Base Editor Section -->
+        <section class="bg-white border border-gray-200 rounded-md shadow-sm mb-6">
+          <div class="p-6">
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-6 border-b border-gray-200 pb-4">
+              <div class="flex items-center gap-3">
+                <i class="fas fa-database text-indigo-500 text-lg"></i>
+                <h3 class="text-lg font-medium text-gray-800">Knowledge Base</h3>
+              </div>
+
+              <!-- Editor Mode Toggle -->
+              <div class="flex bg-gray-100 rounded-md overflow-hidden">
+                <button (click)="setEditorMode('json')"
+                  [class.bg-indigo-600]="editorMode === 'json'"
+                  [class.text-white]="editorMode === 'json'"
+                  [class.text-gray-700]="editorMode !== 'json'"
+                  class="px-3 py-1.5 text-sm font-medium flex items-center hover:bg-gray-200 transition-colors">
+                  <i class="fas fa-code mr-2"></i>
+                  JSON
+                </button>
+                <button (click)="setEditorMode('structured')"
+                  [class.bg-indigo-600]="editorMode === 'structured'"
+                  [class.text-white]="editorMode === 'structured'"
+                  [class.text-gray-700]="editorMode !== 'structured'"
+                  class="px-3 py-1.5 text-sm font-medium flex items-center hover:bg-gray-200 transition-colors">
+                  <i class="fas fa-list-ul mr-2"></i>
+                  Structured
+                </button>
+              </div>
+            </div>
+
+            <!-- JSON Editor Mode -->
+            <div *ngIf="editorMode === 'json'" class="relative">
+              <!-- JSON Search Component -->
+              <app-json-search-simple
+                [jsonData]="chatbotData"
+                (onEdit)="handleJsonEdit($event)"
+                (onDelete)="directDeleteJson($event)"
+                #jsonSearchComponent>
+              </app-json-search-simple>
+
+              <div class="relative mt-4">
+                <!-- Editor toolbar -->
+                <div class="flex items-center justify-between px-4 py-2 bg-gray-100 border border-gray-300 rounded-t-md">
+                  <div class="flex items-center">
+                    <i class="fas fa-code text-gray-600 mr-2"></i>
+                    <span class="text-gray-700 text-sm font-medium">JSON Editor</span>
+                  </div>
+
+                  <div class="flex items-center gap-2">
+                    <button (click)="searchInJson()" class="p-1.5 bg-white border border-gray-300 rounded-md text-gray-700 text-sm flex items-center hover:bg-gray-50 transition-colors">
+                      <i class="fas fa-search mr-1"></i>
+                      Search
+                    </button>
+                    <button (click)="validateJson()" class="p-1.5 bg-white border border-gray-300 rounded-md text-gray-700 text-sm flex items-center hover:bg-gray-50 transition-colors">
+                      <i class="fas fa-check-circle mr-1"></i>
+                      Validate
+                    </button>
+                  </div>
+                </div>
+
+                <!-- JSON textarea with custom styling -->
+                <div class="relative border border-gray-300 border-t-0 rounded-b-md">
+                  <div class="relative">
+                    <textarea [(ngModel)]="chatbotData" rows="16" (input)="onJsonChange()"
+                      class="w-full px-4 pt-2 pb-4 pl-14 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all resize-none text-sm font-mono bg-white border-0"></textarea>
+
+                    <!-- Floating action buttons -->
+                    <div class="absolute bottom-4 right-4 flex gap-2">
+                      <button (click)="copyToClipboard()" class="p-2 bg-white border border-gray-300 rounded-md text-gray-600 hover:bg-gray-50 transition-colors" title="Copy to clipboard">
+                        <i class="fas fa-copy"></i>
+                      </button>
+                      <button (click)="formatJson()" class="p-2 bg-white border border-gray-300 rounded-md text-gray-600 hover:bg-gray-50 transition-colors" title="Format JSON">
+                        <i class="fas fa-indent"></i>
+                      </button>
+                      <button (click)="openAddDataTypeModal()" class="p-2 bg-white border border-gray-300 rounded-md text-gray-600 hover:bg-gray-50 transition-colors" title="Add Data Source">
+                        <i class="fas fa-plus"></i>
+                      </button>
+                    </div>
+
+                    <!-- Line numbers -->
+                    <div class="absolute top-0 left-0 bottom-0 w-10 bg-gray-50 flex flex-col items-center pt-2 text-xs text-gray-400 font-mono border-r border-gray-200">
+                      <div class="w-full h-full overflow-hidden">
+                        <div *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]" class="text-right pr-2 leading-5">{{i}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- JSON Validation Error -->
+              <div *ngIf="jsonError" class="mt-4 bg-red-50 border border-red-200 rounded-md p-4">
+                <div class="flex items-start">
+                  <div class="flex-shrink-0 mt-0.5">
+                    <i class="fas fa-exclamation-circle text-red-500 text-lg"></i>
+                  </div>
+                  <div class="ml-3">
+                    <p class="font-medium text-red-800">JSON Error:</p>
+                    <p class="mt-1 text-sm text-red-600">{{ jsonError }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Structured Mode would go here -->
+            <div *ngIf="editorMode === 'structured'" class="bg-gray-50 border border-gray-300 rounded-md p-6 mt-4">
+              <p class="text-gray-600 text-center py-8 italic">Structured view components would be displayed here</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Action Buttons -->
+        <section class="bg-white border border-gray-200 rounded-md shadow-sm mb-6">
+          <div class="p-6">
+            <div class="flex flex-col sm:flex-row gap-3 mb-4">
+              <button (click)="saveChatbot()" [disabled]="isLoading || !hasChanges()"
+                class="inline-flex items-center justify-center px-4 py-2 w-full sm:w-auto bg-indigo-600 border border-transparent text-white rounded-md hover:bg-indigo-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed">
+                <i class="fas fa-save mr-2"></i>
+                {{ isLoading ? 'Saving...' : 'Save Changes' }}
+              </button>
+
+              <button (click)="revertChanges()" [disabled]="!hasChanges()"
+                class="inline-flex items-center justify-center px-4 py-2 w-full sm:w-auto bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed">
+                <i class="fas fa-undo mr-2"></i>
+                Revert Changes
+              </button>
+            </div>
+
+            <!-- Unsaved Changes notification -->
+            <div *ngIf="hasChanges()" class="bg-green-50 border border-green-200 rounded-md p-4">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 mt-0.5">
+                  <i class="fas fa-info-circle text-green-500 text-lg"></i>
+                </div>
+                <div class="ml-3">
+                  <p class="font-medium text-green-800">Unsaved Changes</p>
+                  <p class="text-sm text-green-600">Don't forget to save your changes!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div> <!-- End of main content area -->
+    </div> <!-- End of main content container -->
+  </div> <!-- End of container -->
+</div> <!-- End of min-h-screen -->

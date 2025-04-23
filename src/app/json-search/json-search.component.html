@@ -1,0 +1,89 @@
+<div class="json-search-container">
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <div class="search-input-container">
+      <input 
+        [(ngModel)]="searchQuery" 
+        type="text" 
+        placeholder="Search in JSON..." 
+        class="search-input"
+        (keyup.enter)="searchInJson()">
+      <button 
+        *ngIf="searchQuery" 
+        (click)="clearSearch()" 
+        class="clear-button">
+        <i class="fas fa-times-circle"></i>
+      </button>
+    </div>
+    <button 
+      (click)="searchInJson()" 
+      class="search-button">
+      <i class="fas fa-search"></i>
+      Search
+    </button>
+  </div>
+
+  <!-- Search Results -->
+  <div *ngIf="searchResults.length > 0" class="search-results">
+    <p class="results-count">{{ searchResults.length }} results found</p>
+    <div class="results-list">
+      <div 
+        *ngFor="let result of searchResults; let i = index" 
+        [class.selected]="i === selectedResultIndex"
+        class="result-item" 
+        (click)="selectResult(i)">
+        <div class="result-header">
+          <span class="line-number">Line {{ result.line }}</span>
+          <div class="result-actions">
+            <button 
+              (click)="editResult(result, $event)" 
+              class="edit-button" 
+              title="Edit this content">
+              <i class="fas fa-pencil-alt"></i>
+            </button>
+            <button 
+              (click)="deleteResult(result, $event)" 
+              class="delete-button" 
+              title="Delete this content">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
+        </div>
+        <div class="result-preview">{{ result.preview }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Results Message -->
+  <div *ngIf="searchQuery && searchResults.length === 0" class="no-results">
+    <i class="fas fa-search"></i>
+    <p>No results found for "{{ searchQuery }}"</p>
+  </div>
+
+  <!-- Edit Modal -->
+  <div *ngIf="showEditModal" class="edit-modal-overlay">
+    <div class="edit-modal">
+      <div class="modal-header">
+        <h3>Edit Content</h3>
+        <button (click)="closeEditModal()" class="close-button">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <label>Content</label>
+        <textarea [(ngModel)]="editingContent" rows="5" class="edit-textarea"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button (click)="closeEditModal()" class="cancel-button">
+          Cancel
+        </button>
+        <button (click)="saveEditedContent()" class="save-button">
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Hidden textarea for highlighting -->
+<textarea #jsonTextarea style="position: absolute; left: -9999px; top: -9999px;"></textarea>

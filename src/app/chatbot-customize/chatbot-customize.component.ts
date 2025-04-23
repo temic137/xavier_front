@@ -7,7 +7,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 interface CustomizationData {
   theme_color: string;
   avatar_url: string;
-  enable_escalation: boolean;
   enable_tickets: boolean;
 }
 
@@ -20,11 +19,11 @@ interface CustomizationData {
 })
 export class ChatbotCustomizeComponent {
   // private apiUrl = 'https://xavier-back.onrender.com'; // Update this with your Flask backend URL
-  private apiUrl= 'https://xavierback-production.up.railway.app';
+  private apiUrl = 'http://127.0.0.1:5000';
   themeColor: string = '#0084ff';
   avatarUrl: string = '';
   avatarPreview: string | null = null;
-  enableEscalation: boolean = false;
+  // Removed escalation feature
   enableTickets: boolean = false;
   isSaving: boolean = false;
   message: string = '';
@@ -48,31 +47,34 @@ export class ChatbotCustomizeComponent {
     this.isSaving = true;
     console.log('Loading customization for chatbot:', this.chatbotId);
 
-    this.http.get<CustomizationData>(`${this.apiUrl}/chatbot/${this.chatbotId}/customize`, { 
-      withCredentials: true 
+    this.http.get<CustomizationData>(`${this.apiUrl}/chatbot/${this.chatbotId}/customize`, {
+      withCredentials: true
     }).subscribe({
       next: (response) => {
         console.log('Raw API Response:', response);
-        
+
         try {
-          if (response) {
-            // Explicitly convert to boolean using double negation
+          if (response && typeof response === 'object') {
+            // Safely extract values with defaults
             this.themeColor = response.theme_color || '#0084ff';
-            this.enableEscalation = !!response.enable_escalation;
-            this.enableTickets = !!response.enable_tickets;
-            
+            this.enableTickets = response.enable_tickets !== undefined ? !!response.enable_tickets : true;
+
             console.log('Processed values:', {
               themeColor: this.themeColor,
-              enableEscalation: this.enableEscalation,
               enableTickets: this.enableTickets
             });
-            
-            if (response.avatar_url) {
+
+            // Handle avatar URL safely
+            if (response.avatar_url && typeof response.avatar_url === 'string') {
               this.avatarUrl = response.avatar_url;
               this.avatarPreview = response.avatar_url;
               console.log('Avatar URL set to:', this.avatarUrl);
+            } else {
+              this.avatarUrl = '';
+              this.avatarPreview = null;
+              console.log('No avatar URL found or invalid format');
             }
-            
+
             this.showMessage('Customization loaded successfully', 'success');
           } else {
             console.warn('Empty or invalid response received');
@@ -84,14 +86,14 @@ export class ChatbotCustomizeComponent {
           this.resetToDefaults();
           this.showMessage('Error processing customization data', 'error');
         }
-        
+
         this.isSaving = false;
       },
       error: (error) => {
         console.error('API Error:', error);
         this.resetToDefaults();
         this.showMessage(
-          error.error?.message || 'Failed to load customization settings', 
+          error.error?.message || 'Failed to load customization settings',
           'error'
         );
         this.isSaving = false;
@@ -111,7 +113,7 @@ export class ChatbotCustomizeComponent {
   onDrop(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
-    
+
     // Check if the dropped content is text (URL)
     if (event.dataTransfer?.items) {
       const items = event.dataTransfer.items;
@@ -152,33 +154,41 @@ export class ChatbotCustomizeComponent {
       return;
     }
 
+    this.isSaving = true;
+    this.showMessage('Uploading image...', 'success');
+
     // Create FormData
     const formData = new FormData();
     formData.append('avatar', file);
 
     // Upload image to server
-    this.http.post<{avatar_url: string}>(`${this.apiUrl}/chatbot/${this.chatbotId}/upload-avatar`, 
+    this.http.post<{avatar_url: string}>(`${this.apiUrl}/chatbot/${this.chatbotId}/upload-avatar`,
       formData,
       { withCredentials: true }
     ).subscribe({
       next: (response) => {
-        this.avatarPreview = response.avatar_url;
-        this.avatarUrl = response.avatar_url;
-        
-        // Save the customization with the new avatar URL
-        const customization = {
-          theme_color: this.themeColor,
-          avatar_url: response.avatar_url,
-          enable_escalation: this.enableEscalation,
-          enable_tickets: this.enableTickets
-        };
-        
-        this.saveCustomization();
-        this.showMessage('Image uploaded successfully', 'success');
+        console.log('Upload response:', response);
+
+        if (response && response.avatar_url) {
+          this.avatarPreview = response.avatar_url;
+          this.avatarUrl = response.avatar_url;
+
+          // Save the customization with the new avatar URL
+          setTimeout(() => {
+            this.saveCustomization();
+            this.showMessage('Image uploaded and saved successfully', 'success');
+            this.isSaving = false;
+          }, 500); // Small delay to ensure the avatar URL is properly set
+        } else {
+          console.error('Invalid upload response:', response);
+          this.showMessage('Failed to process uploaded image', 'error');
+          this.isSaving = false;
+        }
       },
       error: (error) => {
         console.error('Upload error:', error);
         this.showMessage('Failed to upload image', 'error');
+        this.isSaving = false;
       }
     });
   }
@@ -190,24 +200,36 @@ export class ChatbotCustomizeComponent {
 
   saveCustomization() {
     this.isSaving = true;
-    
+
+    // Ensure we have valid values
     const customization: CustomizationData = {
       theme_color: this.themeColor || '#0084ff',
       avatar_url: this.avatarUrl || '',
-      enable_escalation: Boolean(this.enableEscalation),
       enable_tickets: Boolean(this.enableTickets)
     };
 
     console.log('Saving customization:', customization);
 
-    this.http.put<CustomizationData>(`${this.apiUrl}/chatbot/${this.chatbotId}/customize`, 
-      customization, 
+    this.http.put<any>(`${this.apiUrl}/chatbot/${this.chatbotId}/customize`,
+      customization,
       { withCredentials: true }
     ).subscribe({
       next: (response) => {
         console.log('Save Response:', response);
-        
-        if (response) {
+
+        if (response && response.customization) {
+          // Update local values with what was actually saved
+          if (response.customization.theme_color) {
+            this.themeColor = response.customization.theme_color;
+          }
+          if (response.customization.avatar_url !== undefined) {
+            this.avatarUrl = response.customization.avatar_url;
+            this.avatarPreview = response.customization.avatar_url || null;
+          }
+          if (response.customization.enable_tickets !== undefined) {
+            this.enableTickets = !!response.customization.enable_tickets;
+          }
+
           this.showMessage('Customization saved successfully', 'success');
         } else {
           this.showMessage('Failed to save customization', 'error');
@@ -217,7 +239,7 @@ export class ChatbotCustomizeComponent {
       error: (error) => {
         console.error('Save Error:', error);
         this.showMessage(
-          error.error?.message || 'Failed to save customization', 
+          error.error?.message || 'Failed to save customization',
           'error'
         );
         this.isSaving = false;
@@ -237,16 +259,16 @@ export class ChatbotCustomizeComponent {
   isValidImageUrl(url: string): boolean {
     // Check for common image extensions
     const hasImageExtension = url.match(/\.(jpeg|jpg|gif|png)$/i) != null;
-    
+
     // Check for data URLs
     const isDataUrl = url.startsWith('data:image/');
-    
+
     // Check for Google Images URLs
     const isGoogleImageUrl = url.includes('encrypted-tbn') && url.includes('gstatic.com');
-    
+
     // Check for URLs with image-related query parameters
     const hasImageParams = url.includes('image') || url.includes('img') || url.includes('photo');
-    
+
     return hasImageExtension || isDataUrl || isGoogleImageUrl || hasImageParams;
   }
 
@@ -286,7 +308,7 @@ export class ChatbotCustomizeComponent {
     this.themeColor = '#0084ff';
     this.avatarUrl = '';
     this.avatarPreview = null;
-    this.enableEscalation = false;
+    // Removed escalation
     this.enableTickets = false;
   }
 

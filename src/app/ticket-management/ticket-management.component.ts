@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, Input } from '@angular/core';
 import { ApiService} from '../api.service';
 import { FormsModule } from '@angular/forms';
-import { Ticket,TicketDetail } from '../ticket.types';
-import { Console } from 'node:console';
-import { ActivatedRoute,RouterModule } from '@angular/router';
+import { Ticket, TicketDetail } from '../ticket.types';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
 
 type PriorityClass = {
@@ -14,28 +13,30 @@ type PriorityClass = {
 @Component({
   selector: 'app-ticket-management',
   standalone: true,
-  imports: [CommonModule,FormsModule,RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './ticket-management.component.html',
   styleUrl: './ticket-management.component.css',
   animations: [
     trigger('dropdownAnimation', [
       transition(':enter', [
-        style({ transform: 'scale(0.95)', opacity: 0 }),
-        animate('100ms ease-out', style({ transform: 'scale(1)', opacity: 1 }))
+        style({ opacity: 0, transform: 'translateY(-10px)' }),
+        animate('200ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
       ]),
       transition(':leave', [
-        animate('75ms ease-in', style({ transform: 'scale(0.95)', opacity: 0 }))
+        animate('200ms ease-in', style({ opacity: 0, transform: 'translateY(-10px)' }))
       ])
     ])
   ]
 })
 export class TicketManagementComponent {
 
-  chatbotId: string = '';
+  @Input() chatbotId: string = '';
   tickets: Ticket[] = [];
   selectedTicket: TicketDetail | null = null;
+  editingTicket: Ticket | null = null;
   loading = false;
   errorMessage = '';
+  successMessage = '';
   currentChatbotId: string | null = null;
   searchTerm: string = '';
   filterStatus: string = '';
@@ -47,25 +48,42 @@ export class TicketManagementComponent {
   filterPriority: string = '';
   showPriorityFilter = false;
 
+  // Email related properties
+  showEmailModal = false;
+  emailData = {
+    from_email: '',
+    to_email: '',
+    reply_to: '',
+    subject: '',
+    html_content: ''
+  };
+  sendingEmail = false;
+
   constructor(private ticketService: ApiService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.chatbotId = this.route.snapshot.paramMap.get('id') || '';
+    if (!this.chatbotId) {
+      this.chatbotId = this.route.snapshot.paramMap.get('id') || '';
+    }
     this.loadTickets();
   }
 
   loadTickets() {
     this.loading = true;
     this.errorMessage = '';
-  
+
     if (!this.chatbotId) {
       this.loading = false;
       return;
     }
-  
+
     this.ticketService.getTicketsByChatbotId(this.chatbotId).subscribe({
       next: (tickets) => {
-        this.tickets = tickets;
+        // Add customer_name property if it doesn't exist
+        this.tickets = tickets.map(ticket => ({
+          ...ticket,
+          customer_name: ticket.customer_name || 'Customer'
+        }));
         this.loading = false;
       },
       error: (error) => {
@@ -79,6 +97,10 @@ export class TicketManagementComponent {
 
   clearError() {
     this.errorMessage = '';
+  }
+
+  clearSuccess() {
+    this.successMessage = '';
   }
 
   viewDetails(ticketId: number) {
@@ -96,7 +118,7 @@ export class TicketManagementComponent {
   updateStatus(ticketId: number, status: string) {
     this.ticketService.updateTicketStatus(ticketId, status).subscribe({
       next: () => {
-       
+
         const ticket = this.tickets.find(t => t.id === ticketId);
         if (ticket) {
           ticket.status = status;
@@ -157,14 +179,14 @@ export class TicketManagementComponent {
 
     // Status filter
     if (this.filterStatus) {
-      filtered = filtered.filter(ticket => 
+      filtered = filtered.filter(ticket =>
         ticket.status.toLowerCase() === this.filterStatus.toLowerCase()
       );
     }
 
     // Priority filter
     if (this.filterPriority) {
-      filtered = filtered.filter(ticket => 
+      filtered = filtered.filter(ticket =>
         ticket.priority.toLowerCase() === this.filterPriority.toLowerCase()
       );
     }
@@ -253,7 +275,7 @@ export class TicketManagementComponent {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     if (!event.target) return;
-    
+
     const clickedElement = event.target as HTMLElement;
     if (!clickedElement.closest('.relative.inline-block')) {
       this.activeDropdownId = null;
@@ -261,6 +283,126 @@ export class TicketManagementComponent {
       this.showPriorityFilter = false;
       this.activePriorityDropdownId = null;
     }
+  }
+
+  createNewTicket() {
+    // This is a placeholder for the new ticket creation functionality
+    // You would typically open a modal or navigate to a new ticket form
+    alert('New ticket creation functionality will be implemented here.');
+    // Example implementation could be:
+    // this.router.navigate(['/tickets/new'], { queryParams: { chatbotId: this.chatbotId } });
+  }
+
+  openEditModal(ticket: Ticket, event?: MouseEvent) {
+    if (event) {
+      event.stopPropagation();
+    }
+    // Create a copy of the ticket to avoid direct mutation
+    this.editingTicket = { ...ticket };
+  }
+
+  closeEditModal() {
+    this.editingTicket = null;
+  }
+
+  saveTicketChanges() {
+    if (!this.editingTicket) return;
+
+    // Update status if changed
+    if (this.editingTicket.status !== this.tickets.find(t => t.id === this.editingTicket!.id)?.status) {
+      this.updateStatus(this.editingTicket.id, this.editingTicket.status);
+    }
+
+    // Update priority if changed
+    if (this.editingTicket.priority !== this.tickets.find(t => t.id === this.editingTicket!.id)?.priority) {
+      this.updatePriority(this.editingTicket.id, this.editingTicket.priority);
+    }
+
+    // Close the modal
+    this.closeEditModal();
+
+    // If we're viewing the details, refresh them
+    if (this.selectedTicket && this.selectedTicket.ticket.id === this.editingTicket.id) {
+      this.viewDetails(this.editingTicket.id);
+    }
+  }
+
+  get totalTickets(): number {
+    return this.tickets.length;
+  }
+
+  get openTicketsCount(): number {
+    return this.tickets.filter(t => t.status === 'open').length;
+  }
+
+  get inProgressTicketsCount(): number {
+    return this.tickets.filter(t => t.status === 'in_progress').length;
+  }
+
+  get resolvedTicketsCount(): number {
+    return this.tickets.filter(t => t.status === 'resolved').length;
+  }
+
+  // Email related methods
+  openEmailModal(ticket: Ticket) {
+    // Initialize email data with default values
+    this.emailData = {
+      from_email: 'Support Team', // Default sender name (will be shown as the sender)
+      to_email: '', // Will be filled by the user
+      reply_to: 'support@yourbusiness.com', // Default reply-to address
+      subject: `Regarding Ticket #${ticket.id}: ${ticket.subject}`,
+      html_content: this.generateDefaultEmailContent(ticket)
+    };
+    this.showEmailModal = true;
+  }
+
+  closeEmailModal() {
+    this.showEmailModal = false;
+    this.sendingEmail = false;
+  }
+
+  generateDefaultEmailContent(ticket: Ticket): string {
+    return `
+      <p>Dear Customer,</p>
+      <p>Thank you for contacting our support team. We are writing regarding your ticket:</p>
+      <p><strong>Ticket #${ticket.id}: ${ticket.subject}</strong></p>
+      <p><strong>Status:</strong> ${ticket.status}</p>
+      <p><strong>Priority:</strong> ${ticket.priority}</p>
+      <p>We appreciate your patience as we work to address your concerns.</p>
+      <p>Best regards,<br>Support Team</p>
+    `;
+  }
+
+  sendEmail() {
+    this.sendingEmail = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    if (!this.selectedTicket) {
+      this.errorMessage = 'No ticket selected';
+      this.sendingEmail = false;
+      return;
+    }
+
+    // Validate email data
+    if (!this.emailData.from_email || !this.emailData.to_email) {
+      this.errorMessage = 'Sender and recipient emails are required';
+      this.sendingEmail = false;
+      return;
+    }
+
+    this.ticketService.sendTicketEmail(this.selectedTicket.ticket.id, this.emailData).subscribe({
+      next: (response) => {
+        this.successMessage = 'Email sent successfully';
+        this.sendingEmail = false;
+        // Close the modal after a short delay
+        setTimeout(() => this.closeEmailModal(), 2000);
+      },
+      error: (error) => {
+        this.errorMessage = `Failed to send email: ${error}`;
+        this.sendingEmail = false;
+      }
+    });
   }
 }
 

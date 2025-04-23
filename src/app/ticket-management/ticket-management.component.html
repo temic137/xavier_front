@@ -1,139 +1,187 @@
-<div class="min-h-screen bg-gradient-to-br p-4 sm:p-6 md:p-8">
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 sm:p-6 md:p-8">
   <div class="max-w-7xl mx-auto">
+    <!-- Stats Cards Row -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <!-- Total Tickets -->
+      <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-gray-500 font-medium">Total Tickets</p>
+            <h3 class="text-2xl font-bold text-gray-900 mt-1">{{totalTickets}}</h3>
+          </div>
+          <div class="bg-blue-50 p-3 rounded-lg">
+            <i class="fas fa-ticket-alt text-blue-600 text-xl"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Open Tickets -->
+      <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-gray-500 font-medium">Open Tickets</p>
+            <h3 class="text-2xl font-bold text-gray-900 mt-1">{{openTicketsCount}}</h3>
+          </div>
+          <div class="bg-green-50 p-3 rounded-lg">
+            <i class="fas fa-envelope-open text-green-600 text-xl"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- In Progress -->
+      <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-gray-500 font-medium">In Progress</p>
+            <h3 class="text-2xl font-bold text-gray-900 mt-1">{{inProgressTicketsCount}}</h3>
+          </div>
+          <div class="bg-purple-50 p-3 rounded-lg">
+            <i class="fas fa-spinner text-purple-600 text-xl"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resolved -->
+      <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-gray-500 font-medium">Resolved</p>
+            <h3 class="text-2xl font-bold text-gray-900 mt-1">{{resolvedTicketsCount}}</h3>
+          </div>
+          <div class="bg-emerald-50 p-3 rounded-lg">
+            <i class="fas fa-check-circle text-emerald-600 text-xl"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Main Card -->
     <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200">
       <!-- Header -->
       <div class="px-6 py-5 border-b border-gray-200 bg-white">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div class="flex items-center gap-3">
-            <div class="bg-indigo-100 p-2 rounded-lg">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
-              </svg>
+            <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-2.5 rounded-lg shadow-md">
+              <i class="fas fa-headset text-white text-xl"></i>
             </div>
-            <h2 class="text-xl sm:text-2xl font-bold text-gray-800">Ticket Management</h2>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-gray-800">Support Tickets</h2>
+              <p class="text-sm text-gray-500 mt-1">Manage and track customer support requests</p>
+            </div>
           </div>
-          <div class="flex items-center gap-3">
-            <span class="bg-black text-white px-4 py-2 rounded-full text-sm font-medium">
-              Total Tickets: {{tickets.length}}
-            </span>
-          </div>
+
+            <span *ngIf="totalTickets > 0" class="ml-2 bg-white text-blue-600 rounded-full px-2 py-0.5 text-xs font-bold">Tickets: {{totalTickets}}</span>
+
         </div>
       </div>
 
       <!-- Search and Filter Controls -->
       <div class="p-4 sm:p-6 border-b border-gray-100 bg-white">
         <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-          <!-- Search Input - Full width on mobile -->
+          <!-- Search Input -->
           <div class="w-full sm:flex-1 min-w-[200px]">
             <div class="relative">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                </svg>
+                <i class="fas fa-search text-gray-400"></i>
               </div>
               <input
                 type="text"
                 [(ngModel)]="searchTerm"
-                placeholder="Search tickets..."
-                class="block w-full pl-10 pr-3 py-2 sm:py-3 border-0 rounded-xl bg-gray-50 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm transition-colors"
+                placeholder="Search tickets by ID, subject, or customer..."
+                class="block w-full pl-10 pr-3 py-2.5 border-0 rounded-xl bg-gray-50 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm transition-colors"
               >
             </div>
           </div>
-      
-          <!-- Filters Container - Adjusted for mobile -->
+
+          <!-- Filters -->
           <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
-            <!-- Status Filter - Full width on mobile -->
-            <div class="relative inline-block text-left w-full sm:min-w-[160px] sm:w-auto">
-              <div>
-                <button type="button" 
-                  (click)="toggleStatusFilter()"
-                  class="inline-flex justify-between items-center w-full rounded-xl border-0 shadow-sm px-4 py-2 sm:py-3 bg-gray-50 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
-                >
+            <!-- Status Filter -->
+            <div class="relative inline-block text-left w-full sm:w-40">
+              <button type="button"
+                (click)="toggleStatusFilter()"
+                class="inline-flex justify-between items-center w-full rounded-xl border border-gray-200 px-4 py-2.5 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+              >
+                <span class="flex items-center gap-2">
+                  <i class="fas fa-filter text-gray-400"></i>
                   {{ filterStatus ? (filterStatus | titlecase) : 'Status' }}
-                  <svg class="-mr-1 ml-2 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                  </svg>
-                </button>
-              </div>
-      
+                </span>
+                <i class="fas fa-chevron-down text-gray-400"></i>
+              </button>
+
               <div *ngIf="showStatusFilter"
-                class="origin-top-right absolute right-0 mt-2 w-full sm:w-48 rounded-xl shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none divide-y divide-gray-100 z-10"
-                style="max-height: 200px; overflow-y: auto;"
-                role="menu"
+                class="origin-top-right absolute right-0 mt-2 w-full rounded-xl shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 z-10"
                 @dropdownAnimation>
-                <div class="py-1" role="none">
+                <div class="p-1">
                   <button
                     (click)="setStatusFilter('')"
-                    class="block w-full text-left px-4 py-2 sm:py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                    class="group flex items-center w-full px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg"
                     [class.bg-gray-50]="filterStatus === ''"
-                    role="menuitem"
                   >
+                    <i class="fas fa-times-circle mr-3 text-gray-400 group-hover:text-gray-500"></i>
                     All Statuses
                   </button>
                 </div>
-                <div class="py-1">
+                <div class="p-1">
                   <button
                     *ngFor="let status of ['open', 'in_progress', 'resolved', 'closed']"
                     (click)="setStatusFilter(status)"
-                    class="block w-full text-left px-4 py-2 sm:py-3 text-sm hover:bg-gray-50 transition-colors"
+                    class="group flex items-center w-full px-4 py-2.5 text-sm hover:bg-gray-50 rounded-lg"
                     [class.bg-gray-50]="filterStatus === status"
-                    [ngClass]="{
-                      'text-blue-600': status === 'open',
-                      'text-purple-600': status === 'in_progress',
-                      'text-green-600': status === 'resolved',
-                      'text-gray-600': status === 'closed'
-                    }"
-                    role="menuitem"
                   >
+                    <i class="fas mr-3" [class.text-blue-500]="status === 'open'"
+                       [class.text-purple-500]="status === 'in_progress'"
+                       [class.text-green-500]="status === 'resolved'"
+                       [class.text-gray-500]="status === 'closed'"
+                       [ngClass]="{
+                         'fa-envelope-open': status === 'open',
+                         'fa-spinner': status === 'in_progress',
+                         'fa-check-circle': status === 'resolved',
+                         'fa-times-circle': status === 'closed'
+                       }"></i>
                     {{status | titlecase}}
                   </button>
                 </div>
               </div>
             </div>
-      
-            <!-- Priority Filter - Full width on mobile -->
-            <div class="relative inline-block text-left w-full sm:min-w-[160px] sm:w-auto">
-              <div>
-                <button type="button" 
-                  (click)="togglePriorityFilter()"
-                  class="inline-flex justify-between items-center w-full rounded-xl border-0 shadow-sm px-4 py-2 sm:py-3 bg-gray-50 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
-                >
+
+            <!-- Priority Filter -->
+            <div class="relative inline-block text-left w-full sm:w-40">
+              <button type="button"
+                (click)="togglePriorityFilter()"
+                class="inline-flex justify-between items-center w-full rounded-xl border border-gray-200 px-4 py-2.5 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+              >
+                <span class="flex items-center gap-2">
+                  <i class="fas fa-flag text-gray-400"></i>
                   {{ filterPriority ? (filterPriority | titlecase) : 'Priority' }}
-                  <svg class="-mr-1 ml-2 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                  </svg>
-                </button>
-              </div>
-      
+                </span>
+                <i class="fas fa-chevron-down text-gray-400"></i>
+              </button>
+
+              <!-- Priority Dropdown Content -->
               <div *ngIf="showPriorityFilter"
-                class="origin-top-right absolute right-0 mt-2 w-full sm:w-48 rounded-xl shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none divide-y divide-gray-100 z-10"
-                style="max-height: 200px; overflow-y: auto;"
-                role="menu"
+                class="origin-top-right absolute right-0 mt-2 w-full rounded-xl shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 z-10"
                 @dropdownAnimation>
-                <div class="py-1" role="none">
+                <div class="p-1">
                   <button
                     (click)="setPriorityFilter('')"
-                    class="block w-full text-left px-4 py-2 sm:py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                    class="group flex items-center w-full px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg"
                     [class.bg-gray-50]="filterPriority === ''"
-                    role="menuitem"
                   >
+                    <i class="fas fa-times-circle mr-3 text-gray-400 group-hover:text-gray-500"></i>
                     All Priorities
                   </button>
                 </div>
-                <div class="py-1">
+                <div class="p-1">
                   <button
                     *ngFor="let priority of ['high', 'medium', 'low']"
                     (click)="setPriorityFilter(priority)"
-                    class="block w-full text-left px-4 py-2 sm:py-3 text-sm hover:bg-gray-50 transition-colors"
+                    class="group flex items-center w-full px-4 py-2.5 text-sm hover:bg-gray-50 rounded-lg"
                     [class.bg-gray-50]="filterPriority === priority"
-                    [ngClass]="{
-                      'text-red-600': priority === 'high',
-                      'text-amber-600': priority === 'medium',
-                      'text-green-600': priority === 'low'
-                    }"
-                    role="menuitem"
                   >
+                    <i class="fas fa-flag mr-3"
+                       [class.text-red-500]="priority === 'high'"
+                       [class.text-yellow-500]="priority === 'medium'"
+                       [class.text-green-500]="priority === 'low'"></i>
                     {{priority | titlecase}}
                   </button>
                 </div>
@@ -143,362 +191,348 @@
         </div>
       </div>
 
-      <!-- Error Alert -->
-      <div *ngIf="errorMessage" class="mx-5 mt-4">
-        <div class="flex items-start gap-3 bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
-          <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <p class="text-sm text-red-700 flex-1">{{errorMessage}}</p>
-          <button (click)="clearError()" class="text-red-500 hover:text-red-700 transition-colors">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-      </div>
+      <!-- Tickets List -->
+      <div class="divide-y divide-gray-100">
+        <div *ngFor="let ticket of filteredTickets()"
+             (click)="viewDetails(ticket.id)"
+             class="p-4 sm:p-6 hover:bg-gray-50 transition-colors cursor-pointer">
+          <div class="flex items-start justify-between gap-4">
+            <div class="flex-1">
+              <div class="flex items-center gap-3">
+                <span [ngClass]="{
+                  'bg-blue-100 text-blue-800': ticket.status === 'open',
+                  'bg-purple-100 text-purple-800': ticket.status === 'in_progress',
+                  'bg-green-100 text-green-800': ticket.status === 'resolved',
+                  'bg-gray-100 text-gray-800': ticket.status === 'closed'
+                }" class="px-3 py-1 rounded-full text-xs font-semibold">
+                  {{ ticket.status | titlecase }}
+                </span>
+                <div class="relative inline-block">
+                  <span
+                    (click)="togglePriorityDropdown(ticket.id); $event.stopPropagation();"
+                    [ngClass]="{
+                      'bg-red-100 text-red-800': ticket.priority === 'high',
+                      'bg-yellow-100 text-yellow-800': ticket.priority === 'medium',
+                      'bg-gray-100 text-gray-800': ticket.priority === 'low'
+                    }"
+                    class="px-3 py-1 rounded-full text-xs font-semibold cursor-pointer hover:opacity-80 transition-opacity flex items-center gap-1">
+                    {{ ticket.priority | titlecase }}
+                    <i class="fas fa-caret-down text-xs"></i>
+                  </span>
 
-      <!-- Loading Spinner -->
-      <div *ngIf="loading" class="flex justify-center items-center py-12">
-        <div class="animate-spin rounded-full h-12 w-12 border-4 border-indigo-200 border-t-indigo-600"></div>
-      </div>
-
-      <!-- Tickets Container -->
-      <div *ngIf="!loading" class="p-5">
-        <!-- Desktop Table (lg screens and up) -->
-        <div class="hidden lg:block overflow-x-auto rounded-lg border border-gray-200">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-              <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Priority</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              <tr *ngFor="let ticket of filteredTickets()" class="hover:bg-gray-50 transition-colors">
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#{{ticket.id}}</td>
-                <td class="px-6 py-4">
-                  <div class="text-sm font-medium text-gray-900">{{ticket.subject}}</div>
-                  <div class="text-sm text-gray-500 line-clamp-1 max-w-xs">{{ticket.description}}</div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="relative inline-block text-left">
-                    <button type="button" 
-                      (click)="toggleDropdown(ticket.id)"
-                      class="inline-flex w-24 justify-between items-center gap-x-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition-colors"
-                      [ngClass]="{
-                        'bg-blue-50 text-blue-600': ticket.status === 'open',
-                        'bg-purple-50 text-purple-600': ticket.status === 'in_progress',
-                        'bg-green-50 text-green-600': ticket.status === 'resolved',
-                        'bg-gray-50 text-gray-600': ticket.status === 'closed'
-                      }">
-                      {{ticket.status | titlecase}}
-                      <svg class="-mr-1 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
-                      </svg>
-                    </button>
-
-                    <div *ngIf="activeDropdownId === ticket.id"
-                      class="absolute left-0 z-10 mt-2 w-36 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                      style="max-height: 200px; overflow-y: auto;"
-                      role="menu">
-                      <div class="py-1">
-                        <button
-                          *ngFor="let status of ['open', 'in_progress', 'resolved', 'closed']"
-                          (click)="updateStatus(ticket.id, status)"
-                          class="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100 transition-colors"
-                          [class.bg-gray-100]="ticket.status === status"
-                          [ngClass]="{
-                            'text-blue-600': status === 'open',
-                            'text-purple-600': status === 'in_progress',
-                            'text-green-600': status === 'resolved',
-                            'text-gray-600': status === 'closed'
-                          }"
-                          role="menuitem">
-                          {{status | titlecase}}
-                        </button>
-                      </div>
+                  <!-- Priority Dropdown for Ticket -->
+                  <div *ngIf="activePriorityDropdownId === ticket.id"
+                    class="absolute left-0 mt-1 w-32 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10"
+                    @dropdownAnimation>
+                    <div class="py-1">
+                      <button
+                        *ngFor="let p of ['high', 'medium', 'low']"
+                        (click)="updatePriority(ticket.id, p); $event.stopPropagation();"
+                        class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        [class.font-semibold]="ticket.priority === p"
+                      >
+                        <span [ngClass]="{
+                          'text-red-600': p === 'high',
+                          'text-yellow-600': p === 'medium',
+                          'text-green-600': p === 'low'
+                        }">
+                          {{ p | titlecase }}
+                        </span>
+                      </button>
                     </div>
                   </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="relative inline-block text-left">
-                    <button type="button" 
-                      (click)="togglePriorityDropdown(ticket.id)"
-                      class="inline-flex w-20 justify-between items-center gap-x-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition-colors"
-                      [ngClass]="{
-                        'bg-red-50 text-red-600': ticket.priority === 'high',
-                        'bg-amber-50 text-amber-600': ticket.priority === 'medium',
-                        'bg-green-50 text-green-600': ticket.priority === 'low'
-                      }">
-                      {{ticket.priority | titlecase}}
-                      <svg class="-mr-1 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
-                      </svg>
-                    </button>
+                </div>
+              </div>
 
-                    <div *ngIf="activePriorityDropdownId === ticket.id"
-                      class="absolute left-0 z-10 mt-2 w-32 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                      style="max-height: 200px; overflow-y: auto;"
-                      role="menu">
-                      <div class="py-1">
-                        <button
-                          *ngFor="let priority of ['high', 'medium', 'low']"
-                          (click)="updatePriority(ticket.id, priority)"
-                          class="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100 transition-colors"
-                          [class.bg-gray-100]="ticket.priority === priority"
-                          [ngClass]="{
-                            'text-red-600': priority === 'high',
-                            'text-amber-600': priority === 'medium',
-                            'text-green-600': priority === 'low'
-                          }"
-                          role="menuitem">
-                          {{priority | titlecase}}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-900">{{ticket.created_at | date:'MMM d, y'}}</div>
-                  <div class="text-xs text-gray-500">{{ticket.created_at | date:'h:mm a'}}</div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="flex items-center gap-3">
-                    <button 
-                      (click)="viewDetails(ticket.id)" 
-                      class="text-gray-500 hover:text-gray-700 transition-colors p-1.5 hover:bg-gray-100 rounded-lg"
-                      aria-label="View details">
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                      </svg>
-                    </button>
-                    <button 
-                      (click)="deleteTicket(ticket.id)" 
-                      class="text-red-500 hover:text-red-700 transition-colors p-1.5 hover:bg-red-50 rounded-lg"
-                      aria-label="Delete ticket">
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                      </svg>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+              <h3 class="text-lg font-semibold text-gray-900 mt-2">{{ ticket.subject }}</h3>
+              <p class="text-sm text-gray-500 mt-1">{{ ticket.description }}</p>
 
-        <!-- Mobile/Tablet Card View -->
-        <div class="lg:hidden space-y-4">
-          <div *ngFor="let ticket of filteredTickets()" class="bg-white rounded-lg border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow">
-            <div class="flex justify-between items-start">
-              <div>
-                <div class="text-sm font-medium text-gray-500">#{{ticket.id}}</div>
-                <h3 class="text-lg font-semibold text-gray-800 mt-1">{{ticket.subject}}</h3>
+              <div class="flex items-center gap-4 mt-3">
+                <div class="flex items-center text-sm text-gray-500">
+                  <i class="far fa-clock mr-2"></i>
+                  {{ ticket.created_at | date:'medium' }}
+                </div>
+                <div class="flex items-center text-sm text-gray-500">
+                  <i class="far fa-user mr-2"></i>
+                  {{ ticket.customer_name }}
+                </div>
               </div>
             </div>
 
-            <p class="text-sm text-gray-600 mt-2 line-clamp-2">{{ticket.description}}</p>
-
-            <div class="mt-4 flex flex-col gap-4">
-              <!-- Status Dropdown -->
-              <div class="relative inline-block text-left">
-                <button type="button" 
-                  (click)="toggleDropdown(ticket.id)"
-                  class="inline-flex w-full sm:w-24 justify-between items-center gap-x-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition-colors"
-                  [ngClass]="{
-                    'bg-blue-50 text-blue-600': ticket.status === 'open',
-                    'bg-purple-50 text-purple-600': ticket.status === 'in_progress',
-                    'bg-green-50 text-green-600': ticket.status === 'resolved',
-                    'bg-gray-50 text-gray-600': ticket.status === 'closed'
-                  }">
-                  {{ticket.status | titlecase}}
-                  <svg class="-mr-1 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
-                  </svg>
-                </button>
-
-                <div *ngIf="activeDropdownId === ticket.id"
-                  class="absolute left-0 z-10 mt-2 w-36 origin-top-left rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                  style="max-height: 200px; overflow-y: auto;"
-                  role="menu">
-                  <div class="py-1">
-                    <button
-                      *ngFor="let status of ['open', 'in_progress', 'resolved', 'closed']"
-                      (click)="updateStatus(ticket.id, status)"
-                      class="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100 transition-colors"
-                      [class.bg-gray-100]="ticket.status === status"
-                      [ngClass]="{
-                        'text-blue-600': status === 'open',
-                        'text-purple-600': status === 'in_progress',
-                        'text-green-600': status === 'resolved',
-                        'text-gray-600': status === 'closed'
-                      }"
-                      role="menuitem">
-                      {{status | titlecase}}
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Priority Dropdown -->
-              <div class="relative inline-block text-left">
-                <button type="button" 
-                  (click)="togglePriorityDropdown(ticket.id)"
-                  class="inline-flex w-full sm:w-20 justify-between items-center gap-x-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition-colors"
-                  [ngClass]="{
-                    'bg-red-50 text-red-600': ticket.priority === 'high',
-                    'bg-amber-50 text-amber-600': ticket.priority === 'medium',
-                    'bg-green-50 text-green-600': ticket.priority === 'low'
-                  }">
-                  {{ticket.priority | titlecase}}
-                  <svg class="-mr-1 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
-                  </svg>
-                </button>
-
-                <div *ngIf="activePriorityDropdownId === ticket.id"
-                  class="absolute left-0 z-auto mt-2 w-32 origin-top-left rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none "
-                  style="max-height: 200px; overflow-y: auto;"
-                  role="menu">
-                  <div class="py-1">
-                    <button
-                      *ngFor="let priority of ['high', 'medium', 'low']"
-                      (click)="updatePriority(ticket.id, priority)"
-                      class="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100 transition-colors"
-                      [class.bg-gray-100]="ticket.priority === priority"
-                      [ngClass]="{
-                        'text-red-600': priority === 'high',
-                        'text-amber-600': priority === 'medium',
-                        'text-green-600': priority === 'low'
-                      }"
-                      role="menuitem">
-                      {{priority | titlecase}}
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Actions and Date -->
-              <div class="flex items-center justify-between">
-                <span class="text-xs text-gray-500">
-                  {{ticket.created_at | date:'MMM d, y'}}
-                </span>
-                <div class="flex items-center gap-2">
-                  <button (click)="viewDetails(ticket.id)" class="text-gray-500 hover:text-gray-700 p-1.5 hover:bg-gray-100 rounded-lg">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                    </svg>
-                  </button>
-                  <button (click)="deleteTicket(ticket.id)" class="text-red-500 hover:text-red-700 p-1.5 hover:bg-red-50 rounded-lg">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                    </svg>
-                  </button>
-                </div>
-              </div>
+            <div class="flex items-center gap-2">
+              <button (click)="openEditModal(ticket, $event)" class="p-2 text-gray-400 hover:text-blue-600 transition-colors">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button (click)="deleteTicket(ticket.id); $event.stopPropagation();" class="p-2 text-gray-400 hover:text-red-600 transition-colors">
+                <i class="fas fa-trash"></i>
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Ticket Details Modal -->
-    <div *ngIf="selectedTicket" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <div class="bg-white rounded-xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col">
-        <!-- Modal Header -->
-        <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="bg-indigo-100 p-1.5 rounded-lg">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-            </div>
-            <h3 class="text-lg font-bold text-gray-800">Ticket Details</h3>
-          </div>
-          <button (click)="closeDetails()" class="text-gray-400 hover:text-gray-600 p-1 hover:bg-gray-100 rounded-lg transition-colors">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-          </button>
+  <!-- Ticket Details Modal -->
+  <div *ngIf="selectedTicket" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 max-w-2xl w-full mx-4 shadow-xl">
+      <div class="flex justify-between items-start mb-4">
+        <h3 class="text-xl font-bold text-gray-900">Ticket Details</h3>
+        <button (click)="closeDetails()" class="text-gray-500 hover:text-gray-700">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <span [ngClass]="{
+            'bg-blue-100 text-blue-800': selectedTicket.ticket.status === 'open',
+            'bg-purple-100 text-purple-800': selectedTicket.ticket.status === 'in_progress',
+            'bg-green-100 text-green-800': selectedTicket.ticket.status === 'resolved',
+            'bg-gray-100 text-gray-800': selectedTicket.ticket.status === 'closed'
+          }" class="px-3 py-1 rounded-full text-xs font-semibold">
+            {{ selectedTicket.ticket.status | titlecase }}
+          </span>
+          <span [ngClass]="{
+            'bg-red-100 text-red-800': selectedTicket.ticket.priority === 'high',
+            'bg-yellow-100 text-yellow-800': selectedTicket.ticket.priority === 'medium',
+            'bg-gray-100 text-gray-800': selectedTicket.ticket.priority === 'low'
+          }" class="px-3 py-1 rounded-full text-xs font-semibold">
+            {{ selectedTicket.ticket.priority | titlecase }}
+          </span>
         </div>
 
-        <!-- Modal Content -->
-        <div class="px-6 py-4 overflow-y-auto flex-1">
-          <div class="space-y-4">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div class="bg-gray-50 p-4 rounded-lg">
-                <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider">Created</label>
-                <p class="mt-1 text-sm text-gray-900 font-medium">{{selectedTicket.ticket.created_at | date:'medium'}}</p>
-              </div>
-              <div class="bg-gray-50 p-4 rounded-lg">
-                <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider">Status</label>
-                <div class="mt-1">
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize"
-                    [ngClass]="{
-                      'bg-blue-100 text-blue-800': selectedTicket.ticket.status === 'open',
-                      'bg-purple-100 text-purple-800': selectedTicket.ticket.status === 'in_progress',
-                      'bg-green-100 text-green-800': selectedTicket.ticket.status === 'resolved',
-                      'bg-gray-100 text-gray-800': selectedTicket.ticket.status === 'closed'
-                    }">
-                    {{selectedTicket.ticket.status}}
-                  </span>
-                </div>
-              </div>
-            </div>
+        <div>
+          <h4 class="text-lg font-semibold text-gray-900">{{ selectedTicket.ticket.subject }}</h4>
+          <p class="text-sm text-gray-600 mt-2">{{ selectedTicket.ticket.description }}</p>
+        </div>
 
-            <div class="space-y-1">
-              <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</label>
-              <p class="text-sm text-gray-900 font-medium">{{selectedTicket.ticket.subject}}</p>
-            </div>
-
-            <div class="space-y-1">
-              <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider">Description</label>
-              <div class="bg-gray-50 p-4 rounded-lg">
-                <p class="text-sm text-gray-800 whitespace-pre-wrap">{{selectedTicket.ticket.description}}</p>
-              </div>
-            </div>
-
-            <div class="space-y-1">
-              <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider">Priority</label>
-              <div class="mt-1">
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize"
-                  [ngClass]="{
-                    'bg-red-100 text-red-800': selectedTicket.ticket.priority === 'high',
-                    'bg-amber-100 text-amber-800': selectedTicket.ticket.priority === 'medium',
-                    'bg-green-100 text-green-800': selectedTicket.ticket.priority === 'low'
-                  }">
-                  {{selectedTicket.ticket.priority}}
-                </span>
-              </div>
-            </div>
-
-            <div class="space-y-1">
-              <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider">Contact Details</label>
-              <div class="bg-gray-50 p-4 rounded-lg flex items-center gap-3">
-                <div class="bg-indigo-100 p-1.5 rounded-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                </div>
-                <p class="text-sm text-gray-900">{{selectedTicket.ticket.account_details}}</p>
-              </div>
-            </div>
+        <div class="flex flex-wrap gap-4 text-sm text-gray-500">
+          <div class="flex items-center">
+            <i class="far fa-clock mr-2"></i>
+            <span>{{ selectedTicket.ticket.created_at | date:'medium' }}</span>
+          </div>
+          <div class="flex items-center">
+            <i class="far fa-user mr-2"></i>
+            <span>{{ selectedTicket.ticket.customer_name || 'Customer' }}</span>
           </div>
         </div>
 
-        <!-- Modal Footer -->
-        <div class="px-6 py-4 border-t border-gray-200 flex justify-end">
-          <button (click)="closeDetails()" 
-            class="px-4 py-2 bg-black text-white text-sm font-medium rounded-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition-colors shadow-sm">
-            Close
-          </button>
+        <div *ngIf="selectedTicket.ticket.account_details" class="bg-gray-50 p-4 rounded-lg">
+          <h5 class="font-medium text-gray-700 mb-2">Account Details</h5>
+          <pre class="text-xs text-gray-600 whitespace-pre-wrap">{{ selectedTicket.ticket.account_details | json }}</pre>
+        </div>
+
+        <div *ngIf="selectedTicket.responses && selectedTicket.responses.length > 0" class="border-t pt-4 mt-4">
+          <h5 class="font-medium text-gray-700 mb-2">Responses</h5>
+          <div *ngFor="let response of selectedTicket.responses" class="bg-gray-50 p-3 rounded-lg mb-2">
+            <div class="flex justify-between text-xs text-gray-500 mb-1">
+              <span>User ID: {{ response.user_id }}</span>
+              <span>{{ response.created_at | date:'short' }}</span>
+            </div>
+            <p class="text-sm">{{ response.message }}</p>
+          </div>
         </div>
       </div>
+
+      <div class="flex justify-end gap-3 mt-6">
+        <button (click)="closeDetails()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors">
+          Close
+        </button>
+        <button (click)="openEmailModal(selectedTicket.ticket)" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+          <i class="fas fa-envelope mr-2"></i>Send Email
+        </button>
+        <button (click)="openEditModal(selectedTicket.ticket, $event)" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+          <i class="fas fa-edit mr-2"></i>Edit
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Ticket Modal -->
+  <div *ngIf="editingTicket" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4 shadow-xl" (click)="$event.stopPropagation();">
+      <div class="flex justify-between items-start mb-4">
+        <h3 class="text-xl font-bold text-gray-900">Edit Ticket</h3>
+        <button (click)="closeEditModal()" class="text-gray-500 hover:text-gray-700">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+          <select [(ngModel)]="editingTicket.status" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <option value="open">Open</option>
+            <option value="in_progress">In Progress</option>
+            <option value="resolved">Resolved</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+          <select [(ngModel)]="editingTicket.priority" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3 mt-6">
+        <button (click)="closeEditModal()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors">
+          Cancel
+        </button>
+        <button (click)="saveTicketChanges()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Email Modal -->
+<div *ngIf="showEmailModal && selectedTicket" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-lg p-5 max-w-2xl w-full mx-4 shadow-xl max-h-[90vh] flex flex-col">
+    <div class="flex justify-between items-start mb-3">
+      <h3 class="text-xl font-bold text-gray-900">Send Email</h3>
+      <button (click)="closeEmailModal()" class="text-gray-500 hover:text-gray-700">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div *ngIf="successMessage" class="mb-3 p-2 bg-green-100 text-green-800 rounded-lg">
+      <div class="flex items-center">
+        <i class="fas fa-check-circle mr-2"></i>
+        <span>{{ successMessage }}</span>
+        <button (click)="clearSuccess()" class="ml-auto text-green-700">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="errorMessage" class="mb-3 p-2 bg-red-100 text-red-800 rounded-lg">
+      <div class="flex items-center">
+        <i class="fas fa-exclamation-circle mr-2"></i>
+        <span>{{ errorMessage }}</span>
+        <button (click)="clearError()" class="ml-auto text-red-700">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Scrollable Content Area -->
+    <div class="overflow-y-auto flex-grow pr-1 custom-scrollbar">
+      <!-- Email Form Sections -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <!-- Left Column - Sender Info -->
+        <div class="space-y-3">
+          <!-- From Email (Sender Name) -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">From (Sender Name)</label>
+            <div class="relative">
+              <i class="fas fa-user absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+              <input
+                type="text"
+                [(ngModel)]="emailData.from_email"
+                class="w-full pl-9 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Your Business Name"
+              >
+            </div>
+          </div>
+
+          <!-- Reply-To Email -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Reply-To Email</label>
+            <div class="relative">
+              <i class="fas fa-reply absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+              <input
+                type="email"
+                [(ngModel)]="emailData.reply_to"
+                class="w-full pl-9 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="your@business.com"
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column - Recipient Info -->
+        <div class="space-y-3">
+          <!-- To Email -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">To Email</label>
+            <div class="relative">
+              <i class="fas fa-envelope absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+              <input
+                type="email"
+                [(ngModel)]="emailData.to_email"
+                class="w-full pl-9 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="customer@example.com"
+              >
+            </div>
+          </div>
+
+          <!-- Subject -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+            <div class="relative">
+              <i class="fas fa-heading absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+              <input
+                type="text"
+                [(ngModel)]="emailData.subject"
+                class="w-full pl-9 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Email Content - Full Width -->
+      <div>
+        <div class="flex justify-between items-center mb-1">
+          <label class="block text-sm font-medium text-gray-700">Email Content (HTML)</label>
+          <div class="text-xs text-gray-500">
+            <i class="fas fa-info-circle mr-1"></i>Supports HTML formatting
+          </div>
+        </div>
+        <textarea
+          [(ngModel)]="emailData.html_content"
+          rows="6"
+          class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm"
+        ></textarea>
+      </div>
+
+      <!-- Help Text -->
+      <div class="mt-3 text-xs text-gray-500 bg-gray-50 p-2 rounded-lg">
+        <div class="flex items-start">
+          <i class="fas fa-lightbulb text-yellow-500 mt-0.5 mr-2"></i>
+          <div>
+            <p><strong>Sender Name</strong> will appear as the sender in the recipient's inbox.</p>
+            <p><strong>Reply-To</strong> is where responses will be directed when recipients reply.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons - Fixed at Bottom -->
+    <div class="flex justify-end gap-3 mt-4 pt-3 border-t border-gray-100">
+      <button
+        (click)="closeEmailModal()"
+        class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
+      >
+        Cancel
+      </button>
+      <button
+        (click)="sendEmail()"
+        class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center"
+        [disabled]="sendingEmail"
+      >
+        <i class="fas fa-paper-plane mr-2"></i>
+        <span *ngIf="!sendingEmail">Send Email</span>
+        <span *ngIf="sendingEmail">Sending...</span>
+      </button>
     </div>
   </div>
 </div>

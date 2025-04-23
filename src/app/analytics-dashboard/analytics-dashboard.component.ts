@@ -136,11 +136,11 @@ export class AnalyticsDashboardComponent implements OnInit, AfterViewInit {
         tooltip: {
           trigger: 'axis',
           formatter: (params: any) => `${format(new Date(params[0].value[0]), 'MMM d, yyyy')}: ${params[0].value[1]} questions`,
-          backgroundColor: 'rgba(255, 255, 255, 0.95)', // Original white tooltip
+          backgroundColor: 'rgba(255, 255, 255, 0.95)',
           borderColor: '#e5e7eb',
           borderWidth: 1,
           padding: [8, 12],
-          textStyle: { color: '#374151' }, // Original dark gray text
+          textStyle: { color: '#374151' },
         },
         dataZoom: [
           {
@@ -148,14 +148,14 @@ export class AnalyticsDashboardComponent implements OnInit, AfterViewInit {
             start: 0,
             end: 100,
             height: 20,
-            backgroundColor: '#d1d5db', // Light gray background
+            backgroundColor: '#e0f2fe', // Light blue background
             fillerColor: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-              { offset: 0, color: '#9ca3af' }, // Gray-400
-              { offset: 1, color: '#6b7280' }  // Gray-500
-            ]), // Greyish gradient for slider fill
-            borderColor: '#e5e7eb',
-            textStyle: { color: '#374151' }, // Original dark gray
-            handleStyle: { color: '#9ca3af' }, // Gray handle
+              { offset: 0, color: '#60a5fa' }, // Blue-400
+              { offset: 1, color: '#3b82f6' }  // Blue-500
+            ]),
+            borderColor: '#93c5fd', // Blue-300
+            textStyle: { color: '#374151' },
+            handleStyle: { color: '#60a5fa' }, // Blue-400
           },
           { type: 'inside' }
         ],
@@ -184,13 +184,13 @@ export class AnalyticsDashboardComponent implements OnInit, AfterViewInit {
           symbol: 'none',
           data: trendsData,
           lineStyle: { 
-            color: '#000000', // Black line
+            color: '#3b82f6', // Blue-500
             width: 2 
           },
           areaStyle: { 
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: 'rgba(107, 114, 128, 0.3)' }, // Gray-500 with opacity
-              { offset: 1, color: 'rgba(107, 114, 128, 0)' }   // Fade to transparent
+              { offset: 0, color: 'rgba(59, 130, 246, 0.3)' }, // Blue-500 with opacity
+              { offset: 1, color: 'rgba(59, 130, 246, 0)' }   // Fade to transparent
             ]) 
           },
         }],
@@ -210,11 +210,24 @@ export class AnalyticsDashboardComponent implements OnInit, AfterViewInit {
       const othersCount = otherClusters.reduce((sum, cluster) => sum + cluster.question_count, 0);
 
       const pieData = [
-        ...topClusters.map(cluster => ({
+        ...topClusters.map((cluster, index) => ({
           value: cluster.question_count,
-          name: cluster.topic_terms[0], 
+          name: cluster.topic_terms[0],
+          itemStyle: {
+            color: [
+              '#3b82f6', // Blue-500
+              '#60a5fa', // Blue-400
+              '#93c5fd', // Blue-300
+              '#bfdbfe', // Blue-200
+              '#dbeafe', // Blue-100
+            ][index]
+          }
         })),
-        ...(othersCount > 0 ? [{ value: othersCount, name: 'Others' }] : []),
+        ...(othersCount > 0 ? [{ 
+          value: othersCount, 
+          name: 'Others',
+          itemStyle: { color: '#eff6ff' } // Blue-50
+        }] : []),
       ];
 
       const option = {
@@ -248,7 +261,7 @@ export class AnalyticsDashboardComponent implements OnInit, AfterViewInit {
             smooth: true,
           },
           emphasis: {
-            itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0, 0, 0, 0.5)' },
+            itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(59, 130, 246, 0.25)' },
           },
         }],
       };
@@ -293,8 +306,21 @@ export class AnalyticsDashboardComponent implements OnInit, AfterViewInit {
           type: 'bar',
           data: hourlyData,
           barWidth: '60%',
-          itemStyle: { color: '#000000', borderRadius: [4, 4, 0, 0] },
-          emphasis: { itemStyle: { color: '#333333' } },
+          itemStyle: { 
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: '#3b82f6' }, // Blue-500
+              { offset: 1, color: '#60a5fa' }  // Blue-400
+            ]),
+            borderRadius: [4, 4, 0, 0] 
+          },
+          emphasis: { 
+            itemStyle: { 
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: '#2563eb' }, // Blue-600
+                { offset: 1, color: '#3b82f6' }  // Blue-500
+              ])
+            } 
+          },
         }],
       };
       this.hourlyActivityChart.setOption(option);

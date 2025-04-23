@@ -4,7 +4,6 @@ import { Ticket, TicketDetail, TicketsResponse } from './ticket.types';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
 import { tap } from 'rxjs/operators';
-import { jwtDecode } from 'jwt-decode'; 
 
 
 // Add Dashboard Data Interface
@@ -63,11 +62,11 @@ export interface DashboardData {
 })
 export class ApiService {
 
-  
-  // private apiUrl ='https://xavier-back.onrender.com';
-  private apiUrl= 'https://xavierback-production.up.railway.app';
-  
-   
+
+  public apiUrl ='https://xavieraiback.onrender.com';
+  // public apiUrl = 'http://127.0.0.1:5000';
+
+
   constructor(private http: HttpClient) { }
 
   login(username: string, password: string): Observable<any> {
@@ -80,8 +79,8 @@ export class ApiService {
   logout(){
     return this.http.post(`${this.apiUrl}/logout`,{}, { withCredentials: true });
   }
-  
-  
+
+
 
   register(username: string, password: string): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -119,22 +118,33 @@ export class ApiService {
 
 
 
-  askChatbot(chatbotId: string, question: string | File, inputType: 'text' | 'audio' = 'text'): Observable<any> {
+  askChatbot(chatbotId: string, question: string | File, inputType: 'text' | 'audio' = 'text', conversationId?: string): Observable<any> {
     if (inputType === 'text') {
-      return this.http.post(`${this.apiUrl}/chatbot/${chatbotId}/ask`, { question }, { withCredentials: true });
+      return this.http.post(`${this.apiUrl}/chatbot/${chatbotId}/ask`, { question, conversation_id: conversationId }, { withCredentials: true });
     } else {
       const formData = new FormData();
       formData.append('audio', question as File);
       formData.append('input_type', 'audio');
+      if (conversationId) {
+        formData.append('conversation_id', conversationId);
+      }
       return this.http.post(`${this.apiUrl}/chatbot/${chatbotId}/ask`, formData, { withCredentials: true });
     }
   }
-  
+
   getChatbots(): Observable<any> {
     return this.http.get(`${this.apiUrl}/chatbots`, { withCredentials: true });
   }
   getIntegration_code(chatbotId: string): Observable<any>{
-    return this.http.get(`${this.apiUrl}/get_chatbot_script/${chatbotId}`,{ withCredentials: true });
+    console.log(`Fetching integration code for chatbot: ${chatbotId}`);
+    return this.http.get(`${this.apiUrl}/get_chatbot_script/${chatbotId}`, { withCredentials: false })
+      .pipe(
+        tap(response => console.log('Integration code response:', response)),
+        catchError(error => {
+          console.error('Error fetching integration code:', error);
+          return throwError(() => new Error('Failed to load integration code. Please try again later.'));
+        })
+      );
   }
 
   submitFeedback(chatbotId: string, feedback: string): Observable<any> {
@@ -144,15 +154,15 @@ export class ApiService {
         'User-ID': "temi1"
     });
     const body = { feedback };
-    return this.http.post(url, body, { 
-        headers, 
-        withCredentials: true  
+    return this.http.post(url, body, {
+        headers,
+        withCredentials: true
     });
 }
-  
+
   viewFeedback(): Observable<any>{
     return this.http.get(`${this.apiUrl}/chatbot/all-feedback`);
-   
+
   }
 
   getChatbot(id: string): Observable<any> {
@@ -181,7 +191,7 @@ export class ApiService {
   disableGmailIntegration(chatbotId: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/disable_integration/${chatbotId}`, {}, { withCredentials: true });
   }
-  
+
 
   getAnalyticsDashboard(chatbotId: string, days?: number): Observable<DashboardData> {
     const params = days ? `?days=${days}` : '';
@@ -215,7 +225,7 @@ export class ApiService {
     );
   }
 
- 
+
 getChatbot1(chatbotId: string): Observable<any> {
   return this.http.get(`${this.apiUrl}/chatbots/${chatbotId}`, { withCredentials: true });
 }
@@ -227,13 +237,13 @@ getChatbotById(chatbotId: string) {
 
 private handleError(error: HttpErrorResponse) {
   let errorMessage = 'An error occurred';
-  
+
   if (error.error instanceof ErrorEvent) {
     errorMessage = `Error: ${error.error.message}`;
   } else {
     errorMessage = error.error?.error || error.message;
   }
-  
+
   return throwError(() => errorMessage);
 }
 
@@ -252,7 +262,7 @@ getTicketDetails(ticketId: number): Observable<TicketDetail> {
   );
 }
 
-  
+
   getTicketsByChatbotId(chatbotId: string): Observable<Ticket[]> {
     return this.http.get<TicketsResponse>(`${this.apiUrl}/tickets/${chatbotId}`, { withCredentials: true }).pipe(
       map(response => response.tickets),
@@ -292,7 +302,7 @@ trainChatbotWithProgress(
   websiteUrl: string | null
 ) {
   const formData = new FormData();
-  
+
   if (file) {
     formData.append('file', file);
   }
@@ -305,10 +315,10 @@ trainChatbotWithProgress(
   if (websiteUrl) {
     formData.append('websiteUrl', websiteUrl);
   }
-  
+
   // Use the chatbotId in the URL
   const url = `${this.apiUrl}/train_chatbot/${chatbotId}`;
-  
+
   // Return the observable with progress events
   return this.http.post(url, formData, {
     reportProgress: true,
@@ -316,6 +326,54 @@ trainChatbotWithProgress(
     withCredentials: true
   });
 }
-  
+
+// Lead Management Methods
+submitLead(leadData: any): Observable<any> {
+  return this.http.post(`${this.apiUrl}/api/leads/submit`, leadData, { withCredentials: true })
+    .pipe(catchError(this.handleError));
+}
+
+getLeads(params: any = {}): Observable<any> {
+  return this.http.get(`${this.apiUrl}/api/leads`, { params, withCredentials: true })
+    .pipe(catchError(this.handleError));
+}
+
+getLead(leadId: number): Observable<any> {
+  return this.http.get(`${this.apiUrl}/api/leads/${leadId}`, { withCredentials: true })
+    .pipe(catchError(this.handleError));
+}
+
+updateLead(leadId: number, data: any): Observable<any> {
+  return this.http.patch(`${this.apiUrl}/api/leads/${leadId}`, data, { withCredentials: true })
+    .pipe(catchError(this.handleError));
+}
+
+deleteLead(leadId: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/api/leads/${leadId}`, { withCredentials: true })
+    .pipe(catchError(this.handleError));
+}
+
+// Email Service Methods
+sendEmail(emailData: {
+  from_email: string;
+  to_email: string;
+  reply_to: string;
+  subject: string;
+  html_content: string;
+}): Observable<any> {
+  return this.http.post(`${this.apiUrl}/email/send-email`, emailData, { withCredentials: true })
+    .pipe(catchError(this.handleError));
+}
+
+sendTicketEmail(ticketId: number, emailData: {
+  from_email: string;
+  to_email: string;
+  reply_to: string;
+  subject?: string;
+  html_content?: string;
+}): Observable<any> {
+  return this.http.post(`${this.apiUrl}/email/send-ticket-email/${ticketId}`, emailData, { withCredentials: true })
+    .pipe(catchError(this.handleError));
+}
 
 }

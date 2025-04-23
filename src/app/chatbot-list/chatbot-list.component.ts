@@ -14,18 +14,21 @@ interface Chatbot {
 @Component({
   selector: 'app-chatbot-list',
   standalone: true,
-  imports: [CommonModule,FormsModule,RouterLink,RouterModule],
+  imports: [CommonModule, FormsModule, RouterLink, RouterModule],
   templateUrl: './chatbot-list.component.html',
   styleUrls: ['./chatbot-list.component.css'],
 })
 export class ChatbotListComponent implements OnInit, OnDestroy {
   chatbots: Chatbot[] = [];
+  filteredChatbots: Chatbot[] = [];
   message: string = '';
   isSuccess: boolean = true;
   showModal: boolean = false;
   newChatbotName: string = '';
   showDeleteModal: boolean = false;
   chatbotToDeleteId: string | null = null;
+  isLoading: boolean = true;
+  searchTerm: string = '';
   
   // Notification related properties
   escalationNotifications: NotificationMessage[] = [];
@@ -84,14 +87,31 @@ export class ChatbotListComponent implements OnInit, OnDestroy {
   }
 
   fetchChatbots() {
+    this.isLoading = true;
     this.apiService.getChatbots().subscribe({
       next: (response) => {
         this.chatbots = response;
+        this.filteredChatbots = [...this.chatbots];
+        this.isLoading = false;
       },
       error: () => {
         this.showErrorMessage('Failed to fetch chatbots');
+        this.isLoading = false;
       },
     });
+  }
+
+  searchChatbots(event: Event) {
+    const searchValue = (event.target as HTMLInputElement).value.toLowerCase();
+    this.searchTerm = searchValue;
+    this.filteredChatbots = this.chatbots.filter(chatbot => 
+      chatbot.name.toLowerCase().includes(searchValue)
+    );
+  }
+
+  clearSearch() {
+    this.searchTerm = '';
+    this.filteredChatbots = [...this.chatbots];
   }
 
   toggleModal() {
@@ -122,13 +142,11 @@ export class ChatbotListComponent implements OnInit, OnDestroy {
   }
 
   toggleDeleteModal(show: boolean) {
-    // Toggles the modal visibility
     this.showDeleteModal = show;
-    this.chatbotToDeleteId = null; 
+    this.chatbotToDeleteId = null;
   }
 
   confirmDelete() {
-    
     if (this.chatbotToDeleteId) {
       this.apiService.deleteChatbot(this.chatbotToDeleteId).subscribe({
         next: () => {

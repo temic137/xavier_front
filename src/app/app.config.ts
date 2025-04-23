@@ -16,6 +16,8 @@ import { provideHttpClient, withFetch} from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideClientHydration } from '@angular/platform-browser';
 import { routes } from './app.routes';
+// Firebase will be initialized directly in the service
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,5 +25,6 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideClientHydration(),
     provideHttpClient(withFetch()),
+    // Firebase is initialized in the service
   ],
 };
