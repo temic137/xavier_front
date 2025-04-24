@@ -63,8 +63,8 @@ export interface DashboardData {
 export class ApiService {
 
 
-  public apiUrl ='https://xavieraiback.onrender.com';
-  // public apiUrl = 'http://127.0.0.1:5000';
+  // public apiUrl ='https://xavieraiback.onrender.com';
+  public apiUrl = 'https://xavieraiback-production.up.railway.app';
 
 
   constructor(private http: HttpClient) { }
