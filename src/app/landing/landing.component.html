@@ -185,59 +185,51 @@
         </div>
 
         <!-- Right Side: Floating Chatbot Icon -->
-        <div class="md:w-1/2 flex justify-center md:justify-end items-center order-1 md:order-2 mb-10 md:mb-0">
-          <div class="w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 animate-float-chatbot relative">
-            <!-- Simple Shadow and Glow -->
-            <div class="absolute inset-0 bg-blue-500 rounded-full opacity-15 blur-lg transform scale-95 animate-pulse-slow"></div>
-            <div class="absolute inset-0 flex items-center justify-center">
-              <svg class="w-full h-full" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Simple Chatbot Design in Blue -->
-
-                <!-- Robot Head -->
-                <rect x="80" y="80" width="80" height="80" rx="8" fill="#3B82F6" stroke="#1E40AF" stroke-width="4"/>
-
-                <!-- Eyes -->
-                <rect x="95" y="100" width="15" height="15" rx="2" fill="white"/>
-                <rect x="130" y="100" width="15" height="15" rx="2" fill="white"/>
-
-                <!-- Mouth -->
-                <rect x="105" y="130" width="30" height="5" rx="2" fill="white"/>
-
-                <!-- Antennas -->
-                <circle cx="90" cy="70" r="6" fill="#3B82F6" stroke="#1E40AF" stroke-width="2"/>
-                <circle cx="150" cy="70" r="6" fill="#3B82F6" stroke="#1E40AF" stroke-width="2"/>
-                <line x1="90" y1="70" x2="90" y2="80" stroke="#1E40AF" stroke-width="3" stroke-linecap="round"/>
-                <line x1="150" y1="70" x2="150" y2="80" stroke="#1E40AF" stroke-width="3" stroke-linecap="round"/>
-
-                <!-- Chat Bubbles -->
-                <g class="animate-pulse-slow">
-                  <path d="M170 70H190C195 70 200 75 200 80V90C200 95 195 100 190 100H180L170 110V70Z" fill="white" stroke="#1E40AF" stroke-width="2"/>
-                </g>
-
-                <g class="animate-pulse-slow-reverse">
-                  <path d="M70 70H50C45 70 40 75 40 80V90C40 95 45 100 50 100H60L70 110V70Z" fill="white" stroke="#1E40AF" stroke-width="2"/>
-                </g>
-
-                <!-- Ears/Headphones -->
-                <rect x="65" y="100" width="10" height="30" rx="5" fill="#3B82F6" stroke="#1E40AF" stroke-width="2"/>
-                <rect x="165" y="100" width="10" height="30" rx="5" fill="#3B82F6" stroke="#1E40AF" stroke-width="2"/>
-
-                <!-- Simple Body -->
-                <path d="M100 160H140C145 160 150 165 150 170V180H90V170C90 165 95 160 100 160Z" fill="#3B82F6" stroke="#1E40AF" stroke-width="2"/>
-
-                <!-- Connection Line -->
-                <line x1="120" y1="160" x2="120" y2="180" stroke="#1E40AF" stroke-width="2" stroke-dasharray="4 2"/>
-              </svg>
-            </div>
-
-            <!-- Simple floating elements around the chatbot -->
-            <div class="absolute -top-4 -right-4 w-6 h-6 bg-blue-200 rounded-full animate-float opacity-70"></div>
-            <div class="absolute -bottom-4 -left-4 w-6 h-6 bg-blue-300 rounded-full animate-float opacity-70" style="animation-delay: 1s"></div>
-
-            <!-- Simple data indicator -->
-            <div class="absolute top-1/4 -right-8 text-xs font-mono text-blue-700 opacity-60 animate-float" style="animation-delay: 0.5s">AI</div>
-          </div>
+<div class="md:w-1/2 flex justify-center md:justify-end items-center order-1 md:order-2 mb-10 md:mb-0">
+    <div class="w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 animate-float-chatbot relative">
+        <div class="absolute inset-0 bg-blue-500 rounded-full opacity-15 blur-lg transform scale-95 animate-pulse-slow"></div>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <svg class="w-full h-full" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="80" y="80" width="80" height="80" rx="8" fill="#3B82F6" stroke="#1E40AF" stroke-width="4"/>
+        
+            <rect x="95" y="100" width="15" height="15" rx="2" fill="white"/>
+            <rect x="130" y="100" width="15" height="15" rx="2" fill="white"/>
+        
+            <rect x="105" y="130" width="30" height="5" rx="2" fill="white"/>
+        
+            <circle cx="90" cy="70" r="6" fill="#3B82F6" stroke="#1E40AF" stroke-width="2"/>
+            <circle cx="150" cy="70" r="6" fill="#3B82F6" stroke="#1E40AF" stroke-width="2"/>
+            <line x1="90" y1="70" x2="90" y2="80" stroke="#1E40AF" stroke-width="3" stroke-linecap="round"/>
+            <line x1="150" y1="70" x2="150" y2="80" stroke="#1E40AF" stroke-width="3" stroke-linecap="round"/>
+        
+            <rect x="65" y="100" width="10" height="30" rx="5" fill="#3B82F6" stroke="#1E40AF" stroke-width="2"/>
+            <rect x="165" y="100" width="10" height="30" rx="5" fill="#3B82F6" stroke="#1E40AF" stroke-width="2"/>
+        
+            <g>
+              <path d="M 20 140 C 17 140 15 142 15 145 L 15 165 C 15 168 17 170 20 170 L 60 170 C 63 170 65 168 65 165 L 65 160 L 75 155 L 65 150 L 65 145 C 65 142 63 140 60 140 Z" 
+                    fill="white" stroke="#3B82F6" stroke-width="2"/>
+              <circle cx="30" cy="155" r="2" fill="#3B82F6"/>
+              <circle cx="40" cy="155" r="2" fill="#3B82F6"/>
+              <circle cx="50" cy="155" r="2" fill="#3B82F6"/>
+            </g>
+        
+            <g>
+              <path d="M 220 70 C 223 70 225 72 225 75 L 225 95 C 225 98 223 100 220 100 L 180 100 C 177 100 175 98 175 95 L 175 90 L 165 85 L 175 80 L 175 75 C 175 72 177 70 180 70 Z" 
+                    fill="white" stroke="#3B82F6" stroke-width="2"/>
+              <circle cx="190" cy="85" r="2" fill="#3B82F6"/>
+              <circle cx="200" cy="85" r="2" fill="#3B82F6"/>
+              <circle cx="210" cy="85" r="2" fill="#3B82F6"/>
+              </g>
+        
+        </svg>
         </div>
+
+        <div class="absolute -top-4 -right-4 w-6 h-6 bg-blue-200 rounded-full animate-float opacity-70"></div>
+        <div class="absolute -bottom-4 -left-4 w-6 h-6 bg-blue-300 rounded-full animate-float opacity-70" style="animation-delay: 1s"></div>
+
+        <div class="absolute top-1/4 -right-8 text-xs font-mono text-blue-700 opacity-60 animate-float" style="animation-delay: 0.5s">AI</div>
+    </div>
+</div>
       </div>
     </div>
 
