@@ -113,6 +113,18 @@ export const routes: Routes = [
 
     ]
   },
+  {
+    path: 'terms-of-service',
+    title: 'Terms of Service - XavierAI',
+    component: null,
+    data: { 
+      template: `
+        <div style="padding: 20px;">
+          <iframe src="/assets/terms-of-service.html" style="width: 100%; height: 100vh; border: none;"></iframe>
+        </div>
+      `
+    }
+  },
 ];
 
 export const routeProviders = [
